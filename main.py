@@ -15,6 +15,7 @@ server_access_secret_code = os.getenv('BYBIT_SECRET_CODE')
 # display(server_access_api_key)
 # display(server_access_secret_code)
 
+
 def load_hour_values(symbol_str, begin_utc):
 
     req = requests.get(
@@ -28,7 +29,7 @@ def load_hour_values(symbol_str, begin_utc):
     )
 
     if req.ok:
-        df = pd.DataFrame()
+        df = pd.DataFrame(columns=['dt', 'open', 'high', 'low', 'close', 'volume', 'turnover'])
         json_data = json.loads(req.text)
         json_rows = json_data['result']
         for item in json_rows:
@@ -38,15 +39,29 @@ def load_hour_values(symbol_str, begin_utc):
 
     return df
 
-def save_values_to_storage(symbol_str, begin_utc):
 
-    filename = '/data/'
+def merge_and_save_to_cache(symbol_str, new_df):
 
+    df = pd.DataFrame(columns=['dt', 'open', 'high', 'low', 'close', 'volume', 'turnover'])
+    filename = r'data/' + symbol_str.lower() + '.csv'
+
+    # if exists load cached data
+    if os.path.exists(filename):
+       df = pd.read_csv(filename)
+
+    # insert new data and remove doubles by dt
+    df = df.append(new_df, ignore_index=True)
+    df.drop_duplicates(subset='dt', keep='first', inplace=True)
+
+    df.to_csv(filename, index = False, header=True)
+
+    return df
 
 
 print( '--------------------------------------')
-dt = load_hour_values('BTCUSD',1611360000)
-display(dt)
+new_df = load_hour_values('BTCUSD',1607648220)
+res_df = merge_and_save_to_cache('BTCUSD', new_df)
+display(res_df)
 
 
 print( '--------------------------------------')
