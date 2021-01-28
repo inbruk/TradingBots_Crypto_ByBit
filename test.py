@@ -16,14 +16,14 @@ print(client.Market.Market_openInterest(symbol="BTCUSDT", limit=2, period="5min"
 # Get market's long-short ratio
 print(client.Market.Market_accountRatio(symbol="BTCUSDT", limit=2, period="5min").result())
 # Get latest big deals
-print(client.Market.Market_bigDeal(symbol="BTCUSDT", limit=2).result())
+#print(client.Market.Market_bigDeal(symbol="BTCUSDT", limit=2).result())
 
 # Get leverage
-print(client.Positions.Positions_userLeverage().result())
+#print(client.Positions.Positions_userLeverage().result())
 # Change account user leverage
-print(client.Positions.Positions_saveLeverage(symbol="BTCUSD", leverage="14").result())
+#print(client.Positions.Positions_saveLeverage(symbol="BTCUSD", leverage="14").result())
 # Query account positions
-print(client.Positions.Positions_myPosition(symbol="BTCUSD").result())
+#print(client.Positions.Positions_myPosition(symbol="BTCUSD").result())
 # Place an Active Order
 print(client.Order.Order_new(side="Buy",symbol="BTCUSD",order_type="Limit",qty=1,price=8300,time_in_force="GoodTillCancel").result())
 # Get Active Orders
