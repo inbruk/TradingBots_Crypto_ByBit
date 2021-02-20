@@ -3,9 +3,14 @@ import json
 import requests
 import time
 import datetime
+import numpy as np
 import pandas as pd
 from pconst import const
 from IPython.core.display import display
+from matplotlib import pylab
+
+%pylab
+
 
 const.SUFFIX = 'equations'
 
@@ -43,7 +48,7 @@ def update_eq_value(in_df):
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                    const.avg181_col_name, const.avg8641_col_name])
 
-    for item in in_df:
+    for index, item in in_df.iterrows():
         new_value = ( item['open'] + item['close'] ) / 2.0
         new_row = {
             const.dt_col_name: item[const.dt_col_name],
@@ -113,10 +118,7 @@ def update_eq_avg(out_df, hwnd_size, col_name):
 def update_equations(symbol_str):
 
     in_file_name = get_cache_filename(symbol_str)
-    in_df = pd.read_csv(in_file_name, header=None)
-    print('.', end='')
-
-    in_df.sort_values(by=[const.dt_col_name])
+    in_df = pd.read_csv(in_file_name)
     print('.', end='')
 
     out_df = update_eq_value(in_df)
@@ -142,21 +144,21 @@ def update_equations(symbol_str):
 
     out_file_name = get_output_filename(symbol_str)
     out_df.to_csv(out_file_name, index=False, header=True)
-    print('!', end='')
+    print('.')
 
 
 print( ' Full update equations for data from cache *.csv --------------------------------------')
 
-print('BTCUSD calculating')
+print('BTCUSD calculating', end='')
 update_equations(const.BTCUSD)
 
-print('ETHUSD calculating')
+print('ETHUSD calculating', end='')
 update_equations(const.ETHUSD)
 
-print('EOSUSD calculating')
+print('EOSUSD calculating', end='')
 update_equations(const.EOSUSD)
 
-print('XRPUSD calculating')
+print('XRPUSD calculating', end='')
 update_equations(const.XRPUSD)
 
-print( ' See result in /data/*_equations.csv--------------------------------------')
+print( ' See result in /data/*_equations.csv --------------------------------------------------')
