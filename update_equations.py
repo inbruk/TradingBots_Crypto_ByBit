@@ -3,14 +3,9 @@ import json
 import requests
 import time
 import datetime
-import numpy as np
 import pandas as pd
 from pconst import const
 from IPython.core.display import display
-from matplotlib import pylab
-
-%pylab
-
 
 const.SUFFIX = 'equations'
 
@@ -19,10 +14,10 @@ const.ETHUSD = 'ETHUSD'
 const.EOSUSD = 'EOSUSD'
 const.XRPUSD = 'XRPUSD'
 
-const.avg7_hwnd    = 3
-const.avg31_hwnd   = 15
-const.avg181_hwnd  = 90
-const.avg8641_count = 4320
+const.avg7_hwnd = 3
+const.avg31_hwnd = 15
+const.avg181_hwnd = 90
+const.avg1441_hwnd = 720
 
 const.dt_col_name = 'dt'
 const.value_col_name = 'value'
@@ -31,7 +26,7 @@ const.delta2_col_name = 'delta2'
 const.avg7_col_name = 'avg7'
 const.avg31_col_name = 'avg31'
 const.avg181_col_name = 'avg181'
-const.avg8641_col_name = 'avg8641'
+const.avg1441_col_name = 'avg1441'
 
 
 def get_cache_filename(symbol_str):
@@ -46,7 +41,7 @@ def update_eq_value(in_df):
 
     out_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
-                                   const.avg181_col_name, const.avg8641_col_name])
+                                   const.avg181_col_name, const.avg1441_col_name])
 
     for index, item in in_df.iterrows():
         new_value = ( item['open'] + item['close'] ) / 2.0
@@ -58,7 +53,7 @@ def update_eq_value(in_df):
             const.avg7_col_name: 0,
             const.avg31_col_name: 0,
             const.avg181_col_name: 0,
-            const.avg8641_col_name: 0
+            const.avg1441_col_name: 0
         }
         out_df = out_df.append(new_row, ignore_index=True)
 
@@ -90,19 +85,21 @@ def update_eq_delta2(out_df):
 
 def calc_avg_value(out_df, index, hwnd_size, full_length):
     sumv = 0.0
-    count = hwnd_size*2 + 1
 
     start_idx = index - hwnd_size
-    if start_idx<0.0:
-        start_idx = 0.0
+    if start_idx<0:
+        start_idx = 0
 
-    end_idx = index + hwnd_size + 1
+    end_idx = index + hwnd_size + 2
     if end_idx>full_length:
         end_idx = full_length
 
+    count = 0
     for x in range(start_idx, end_idx):
         sumv += out_df.at[x, const.value_col_name]
-    return sumv / count
+        count += 1
+
+    return sumv/count
 
 
 def update_eq_avg(out_df, hwnd_size, col_name):
@@ -130,16 +127,16 @@ def update_equations(symbol_str):
     out_df = update_eq_delta2(out_df)
     print('.', end='')
 
-    out_df = update_eq_avg(out_df, const.avg7_hwnd)
+    out_df = update_eq_avg(out_df, const.avg7_hwnd, const.avg7_col_name)
     print('.', end='')
 
-    out_df = update_eq_avg(out_df, const.avg31_hwnd)
+    out_df = update_eq_avg(out_df, const.avg31_hwnd, const.avg31_col_name)
     print('.', end='')
 
-    out_df = update_eq_avg(out_df, const.avg181_hwnd)
+    out_df = update_eq_avg(out_df, const.avg181_hwnd, const.avg181_col_name)
     print('.', end='')
 
-    out_df = update_eq_avg(out_df, const.avg8641_count)
+    out_df = update_eq_avg(out_df, const.avg1441_hwnd, const.avg1441_col_name)
     print('.', end='')
 
     out_file_name = get_output_filename(symbol_str)
