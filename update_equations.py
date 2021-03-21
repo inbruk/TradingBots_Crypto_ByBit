@@ -75,6 +75,8 @@ def update_eq_delta1(old_df, out_df):
 
     out_len = out_df[const.dt_col_name].size
     old_len = old_df[const.dt_col_name].size
+    if old_len < 1:
+        old_len = 1
 
     out_df.at[0, const.delta1_col_name] = 0.0
 
@@ -91,6 +93,8 @@ def update_eq_delta2(old_df, out_df):
 
     out_len = out_df[const.dt_col_name].size
     old_len = old_df[const.dt_col_name].size
+    if old_len < 2:
+        old_len = 2
 
     out_df.at[0, const.delta2_col_name] = 0.0
     out_df.at[1, const.delta2_col_name] = 0.0
@@ -142,11 +146,27 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
     return out_df
 
 
+def update_eq_purify(old_df, out_df, hwnd_size, col_name, prev_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    full_wnd_size = (2*hwnd_size+1)
+    if old_len < full_wnd_size:
+        old_len = 0
+    else:
+        old_len -= hwnd_size
+
+    for x in range(old_len, out_len):
+        out_df.at[x, col_name] = out_df.at[x, col_name] - out_df.at[x, prev_col_name]
+
+    return out_df
+
+
 def update_equations(symbol_str):
 
     in_file_name = get_cache_filename(symbol_str)
     in_df = pd.read_csv(in_file_name)
-    print('.', end='')
+    print('..l.', end='')
 
     out_file_name = get_output_filename(symbol_str)
     if os.path.exists(out_file_name):
@@ -155,31 +175,40 @@ def update_equations(symbol_str):
         old_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                        const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                        const.avg181_col_name, const.avg1441_col_name])
-    print('.', end='')
+    print('..c.', end='')
 
     out_df = update_eq_value(in_df, old_df)
-    print('.', end='')
+    print('..v.', end='')
 
     out_df = update_eq_delta1(old_df, out_df)
-    print('.', end='')
+    print('..d1.', end='')
 
     out_df = update_eq_delta2(old_df, out_df)
-    print('.', end='')
+    print('..d2.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg7_hwnd, const.avg7_col_name)
-    print('.', end='')
+    print('..a7.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg31_hwnd, const.avg31_col_name)
-    print('.', end='')
+    print('..a31.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg181_hwnd, const.avg181_col_name)
-    print('.', end='')
+    print('..a181.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg1441_hwnd, const.avg1441_col_name)
-    print('.', end='')
+    print('..a1441.', end='')
+
+    out_df = update_eq_purify(old_df, out_df, const.avg7_hwnd, const.avg7_col_name, const.avg31_col_name)
+    print('..p7.', end='')
+
+    out_df = update_eq_purify(old_df, out_df, const.avg31_hwnd, const.avg31_col_name, const.avg181_col_name)
+    print('..p31.', end='')
+
+    out_df = update_eq_purify(old_df, out_df, const.avg181_hwnd, const.avg181_col_name, const.avg1441_col_name)
+    print('..p181.', end='')
 
     out_df.to_csv(out_file_name, index=False, header=True)
-    print('.')
+    print('..s!')
 
 
 print( ' Full update equations for data from cache *.csv --------------------------------------')
