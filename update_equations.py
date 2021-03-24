@@ -28,6 +28,13 @@ const.avg31_col_name = 'avg31'
 const.avg181_col_name = 'avg181'
 const.avg1441_col_name = 'avg1441'
 
+const.linearize_perc = 1.0
+
+const.avg7l_col_name = 'avg7l'
+const.avg31l_col_name = 'avg31l'
+const.avg181l_col_name = 'avg181l'
+const.avg1441l_col_name = 'avg1441l'
+
 const.open_col_name = 'open'
 const.close_col_name = 'close'
 
@@ -44,7 +51,9 @@ def update_eq_value(in_df, old_df):
 
     out_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
-                                   const.avg181_col_name, const.avg1441_col_name])
+                                   const.avg181_col_name, const.avg1441_col_name,
+                                   const.avg7l_col_name, const.avg31l_col_name,
+                                   const.avg181l_col_name, const.avg1441l_col_name])
 
     for index, item in in_df.iterrows():
         new_row = {
@@ -55,7 +64,11 @@ def update_eq_value(in_df, old_df):
             const.avg7_col_name: 0.0,
             const.avg31_col_name: 0.0,
             const.avg181_col_name: 0.0,
-            const.avg1441_col_name: 0.0
+            const.avg1441_col_name: 0.0,
+            const.avg7l_col_name: 0.0,
+            const.avg31l_col_name: 0.0,
+            const.avg181l_col_name: 0.0,
+            const.avg1441l_col_name: 0.0
         }
         out_df = out_df.append(new_row, ignore_index=True)
 
@@ -143,6 +156,10 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
     for x in range(old_len, out_len):
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
+    # второй проход фильтра для сглаживания
+    for x in range(old_len, out_len):
+        out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
+
     return out_df
 
 
@@ -162,6 +179,48 @@ def update_eq_purify(old_df, out_df, hwnd_size, col_name, prev_col_name):
     return out_df
 
 
+def update_eq_linearize(out_df, col_name, new_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    start_x = 0
+    start_v = out_df.at[start_x, col_name]
+    end_x = 1
+    end_v = out_df.at[end_x, col_name]
+    if end_v >= start_v:
+        it_rised = True
+    else:
+        it_rised = False
+
+    out_df.at[0, new_col_name] = start_v
+    out_df.at[1, new_col_name] = end_v
+
+    for x in range(2, out_len):
+
+        if abs(out_df.at[x, col_name] - start_v) <= const.linearize_perc:
+            new_rised = it_rised
+        else:
+            if out_df.at[x, col_name] >= start_v:
+                new_rised = True
+            else:
+                new_rised = False
+
+        if (it_rised != new_rised) | (x >= out_len-1):   # draw line
+
+            delta = (end_v-start_v)/(end_x - start_x)
+            for xx in range(start_x, end_x):
+                ix = xx - start_x
+                curr_val = start_v + ix * delta
+                out_df.at[xx, new_col_name] = curr_val
+
+        it_rised = new_rised
+        start_x = end_x
+        start_v = end_v
+        end_x = x
+        end_v = out_df.at[end_x, col_name]
+
+    return out_df
+
+
 def update_equations(symbol_str):
 
     in_file_name = get_cache_filename(symbol_str)
@@ -174,7 +233,9 @@ def update_equations(symbol_str):
     else:
         old_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                        const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
-                                       const.avg181_col_name, const.avg1441_col_name])
+                                       const.avg181_col_name, const.avg1441_col_name,
+                                       const.avg7l_col_name, const.avg31l_col_name,
+                                       const.avg181l_col_name, const.avg1441l_col_name])
     print('..c.', end='')
 
     out_df = update_eq_value(in_df, old_df)
@@ -206,6 +267,18 @@ def update_equations(symbol_str):
 
     out_df = update_eq_purify(old_df, out_df, const.avg181_hwnd, const.avg181_col_name, const.avg1441_col_name)
     print('..p181.', end='')
+
+    out_df = update_eq_linearize(out_df, const.avg7_col_name, const.avg7l_col_name)
+    print('..l7.', end='')
+
+    out_df = update_eq_linearize(out_df, const.avg31_col_name, const.avg31l_col_name)
+    print('..l31.', end='')
+
+    out_df = update_eq_linearize(out_df, const.avg181_col_name, const.avg181l_col_name)
+    print('..l181.', end='')
+
+    out_df = update_eq_linearize(out_df, const.avg1441_col_name, const.avg1441l_col_name)
+    print('..l1441.', end='')
 
     out_df.to_csv(out_file_name, index=False, header=True)
     print('..s!')
