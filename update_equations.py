@@ -35,6 +35,8 @@ const.avg31l_col_name = 'avg31l'
 const.avg181l_col_name = 'avg181l'
 const.avg1441l_col_name = 'avg1441l'
 
+const.order_col_name = 'order'
+
 const.open_col_name = 'open'
 const.close_col_name = 'close'
 
@@ -53,7 +55,8 @@ def update_eq_value(in_df, old_df):
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                    const.avg181_col_name, const.avg1441_col_name,
                                    const.avg7l_col_name, const.avg31l_col_name,
-                                   const.avg181l_col_name, const.avg1441l_col_name])
+                                   const.avg181l_col_name, const.avg1441l_col_name,
+                                   const.order_col_name])
 
     for index, item in in_df.iterrows():
         new_row = {
@@ -68,7 +71,8 @@ def update_eq_value(in_df, old_df):
             const.avg7l_col_name: 0.0,
             const.avg31l_col_name: 0.0,
             const.avg181l_col_name: 0.0,
-            const.avg1441l_col_name: 0.0
+            const.avg1441l_col_name: 0.0,
+            const.order_col_name: 0.0
         }
         out_df = out_df.append(new_row, ignore_index=True)
 
@@ -140,6 +144,25 @@ def calc_avg_value(out_df, index, hwnd_size, full_length):
     return sumv/count
 
 
+def smooth_filter(out_df, index, hwnd_size, full_length, col_name):
+    sumv = 0.0
+
+    start_idx = index - hwnd_size
+    if start_idx<0:
+        start_idx = 0
+
+    end_idx = index + hwnd_size + 2
+    if end_idx>full_length:
+        end_idx = full_length
+
+    count = 0
+    for x in range(start_idx, end_idx):
+        sumv += out_df.at[x, col_name]
+        count += 1
+
+    return sumv/count
+
+
 def update_eq_avg(old_df, out_df, hwnd_size, col_name):
 
     out_len = out_df[const.dt_col_name].size
@@ -156,10 +179,10 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
     for x in range(old_len, out_len):
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
-    # 3 прохода фильтра для сглаживания
-    for i in range(0, 3):
-        for x in range(old_len, out_len):
-            out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
+    # фильтр для сглаживания
+    filter_hwnd_size = round(hwnd_size/6.0)
+    for x in range(old_len, out_len):
+        out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
 
     return out_df
 
@@ -225,6 +248,63 @@ def update_eq_linearize(out_df, col_name, new_col_name):
     return out_df
 
 
+def check_order_start(out_df, x, o_now, o_buy):
+
+    delta1441l = out_df[x, const.delta1441l] - out_df[x-1, const.delta1441l]
+    delta181l = out_df[x, const.delta181l] - out_df[x-1, const.delta181l]
+    delta31l = out_df[x, const.delta31l] - out_df[x-1, const.delta31l]
+    delta7l = out_df[x, const.delta7l] - out_df[x-1, const.delta7l]
+
+    if not o_now:
+        if delta1441l>0 and delta181l>0 and delta31l>0 and delta7l>0:
+            o_now = True
+            o_buy = True
+
+        if delta1441l<0 and delta181l<0 and delta31l<0 and delta7l<0:
+            o_now = True
+            o_buy = False
+    else:
+        if o_buy:
+            if delta1441l < 0 and delta181l < 0 and delta31l < 0 and delta7l < 0:
+                o_now = False
+        else:
+            if delta1441l > 0 and delta181l > 0 and delta31l > 0 and delta7l > 0:
+                o_now = False
+
+    return o_now, o_buy
+
+
+def fill_order_values(out_df, x, o_now, o_buy, mean_value, min_value, max_value):
+
+    if o_now:
+        if o_buy:
+            out_df[x, const.order_col_name] = max_value
+        else:
+            out_df[x, const.order_col_name] = min_value
+    else:
+        out_df[x, const.order_col_name] = mean_value
+
+    return out_df
+
+
+def update_eq_order(out_df):
+
+    order_now = False
+    order_buy = True
+
+    mean_value = out_df[const.value_col_name].mean()
+    min_value = out_df[const.value_col_name].min()
+    max_value = out_df[const.value_col_name].max()
+
+    out_len = out_df[const.dt_col_name].size
+
+    for x in range(3, out_len-1):
+        order_now, order_buy = check_order_start(out_df, x, order_now, order_buy)
+        out_df = fill_order_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
+
+    return out_df
+
+
 def update_equations(symbol_str):
 
     in_file_name = get_cache_filename(symbol_str)
@@ -239,7 +319,8 @@ def update_equations(symbol_str):
                                        const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                        const.avg181_col_name, const.avg1441_col_name,
                                        const.avg7l_col_name, const.avg31l_col_name,
-                                       const.avg181l_col_name, const.avg1441l_col_name])
+                                       const.avg181l_col_name, const.avg1441l_col_name,
+                                       const.order_col_name])
     print('..c.', end='')
 
     out_df = update_eq_value(in_df, old_df)
@@ -283,6 +364,9 @@ def update_equations(symbol_str):
 
     out_df = update_eq_linearize(out_df, const.avg1441_col_name, const.avg1441l_col_name)
     print('..l1441.', end='')
+
+    out_df = update_eq_order(out_df)
+    print('..order.', end='')
 
     out_df.to_csv(out_file_name, index=False, header=True)
     print('..s!')
