@@ -250,26 +250,32 @@ def update_eq_linearize(out_df, col_name, new_col_name):
 
 def check_order_start(out_df, x, o_now, o_buy):
 
-    delta1441l = out_df[x, const.delta1441l] - out_df[x-1, const.delta1441l]
-    delta181l = out_df[x, const.delta181l] - out_df[x-1, const.delta181l]
-    delta31l = out_df[x, const.delta31l] - out_df[x-1, const.delta31l]
-    delta7l = out_df[x, const.delta7l] - out_df[x-1, const.delta7l]
+    delta1441 = out_df.at[x, const.avg1441l_col_name] - out_df.at[x-1, const.avg1441l_col_name]
+    delta181 = out_df.at[x, const.avg181l_col_name] - out_df.at[x-1, const.avg181l_col_name]
+    delta31 = out_df.at[x, const.avg31l_col_name] - out_df.at[x-1, const.avg31l_col_name]
+    delta7 = out_df.at[x, const.avg7l_col_name] - out_df.at[x-1, const.avg7l_col_name]
+    dt = out_df.at[x, const.dt_col_name]
+    price = out_df.at[x, const.value_col_name]
 
     if not o_now:
-        if delta1441l>0 and delta181l>0 and delta31l>0 and delta7l>0:
+        if delta1441 > 0 and delta181 > 0 and delta31 > 0 and delta7 > 0:
             o_now = True
             o_buy = True
+            print('Open buy order at ', dt, ', price ', price)
 
-        if delta1441l<0 and delta181l<0 and delta31l<0 and delta7l<0:
+        if delta1441 < 0 and delta181 < 0 and delta31 < 0 and delta7 < 0:
             o_now = True
             o_buy = False
+            print('Open sell order at ', dt, ', price ', price)
     else:
         if o_buy:
-            if delta1441l < 0 and delta181l < 0 and delta31l < 0 and delta7l < 0:
+            if delta1441 < 0 or delta181 < 0:
                 o_now = False
+                print('Close buy order at ', dt, ', price ', price)
         else:
-            if delta1441l > 0 and delta181l > 0 and delta31l > 0 and delta7l > 0:
+            if delta1441 > 0 or delta181 > 0:
                 o_now = False
+                print('Close sell order at ', dt, ', price ', price)
 
     return o_now, o_buy
 
@@ -278,11 +284,11 @@ def fill_order_values(out_df, x, o_now, o_buy, mean_value, min_value, max_value)
 
     if o_now:
         if o_buy:
-            out_df[x, const.order_col_name] = max_value
+            out_df.at[x, const.order_col_name] = max_value
         else:
-            out_df[x, const.order_col_name] = min_value
+            out_df.at[x, const.order_col_name] = min_value
     else:
-        out_df[x, const.order_col_name] = mean_value
+        out_df.at[x, const.order_col_name] = mean_value
 
     return out_df
 

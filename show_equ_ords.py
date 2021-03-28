@@ -83,5 +83,5 @@ def draw_one_symbol(symbol_str, start_dt, end_dt):
 
 curr_symbol = const.ETHUSD
 start_dt_utc = 1616476204
-end_dt_utc = 1616735678
+end_dt_utc = 1616848821
 draw_one_symbol(curr_symbol, start_dt_utc, end_dt_utc)
