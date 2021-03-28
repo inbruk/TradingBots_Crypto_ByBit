@@ -28,8 +28,6 @@ const.avg31_col_name = 'avg31'
 const.avg181_col_name = 'avg181'
 const.avg1441_col_name = 'avg1441'
 
-const.linearize_perc = 0.01
-
 const.avg7l_col_name = 'avg7l'
 const.avg31l_col_name = 'avg31l'
 const.avg181l_col_name = 'avg181l'
@@ -222,13 +220,10 @@ def update_eq_linearize(out_df, col_name, new_col_name):
 
         curr_v = out_df.at[curr_x, col_name]
 
-        if abs(curr_v - end_v) <= const.linearize_perc:
-            new_rised = it_rised
+        if curr_v >= end_v:
+            new_rised = True
         else:
-            if curr_v >= end_v:
-                new_rised = True
-            else:
-                new_rised = False
+            new_rised = False
 
         if (it_rised != new_rised) | (curr_x >= out_len-1):   # draw line
 
@@ -269,11 +264,11 @@ def check_order_start(out_df, x, o_now, o_buy):
             print('Open sell order at ', dt, ', price ', price)
     else:
         if o_buy:
-            if delta1441 < 0 or delta181 < 0:
+            if (delta1441 + delta181) < 0:
                 o_now = False
                 print('Close buy order at ', dt, ', price ', price)
         else:
-            if delta1441 > 0 or delta181 > 0:
+            if (delta1441 + delta181) > 0:
                 o_now = False
                 print('Close sell order at ', dt, ', price ', price)
 
@@ -304,7 +299,10 @@ def update_eq_order(out_df):
 
     out_len = out_df[const.dt_col_name].size
 
-    for x in range(3, out_len-1):
+    out_df.at[0, const.order_col_name] = mean_value
+    out_df.at[1, const.order_col_name] = mean_value
+
+    for x in range(2, out_len):
         order_now, order_buy = check_order_start(out_df, x, order_now, order_buy)
         out_df = fill_order_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
@@ -369,7 +367,7 @@ def update_equations(symbol_str):
     print('..l181.', end='')
 
     out_df = update_eq_linearize(out_df, const.avg1441_col_name, const.avg1441l_col_name)
-    print('..l1441.', end='')
+    print('..l1441.')
 
     out_df = update_eq_order(out_df)
     print('..order.', end='')

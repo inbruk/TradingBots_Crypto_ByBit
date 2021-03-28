@@ -81,7 +81,7 @@ def draw_one_symbol(symbol_str, start_dt, end_dt):
     print('..drawed !')
 
 
-curr_symbol = const.ETHUSD
+curr_symbol = const.BTCUSD
 start_dt_utc = 1616476204
 end_dt_utc = 1616848821
 draw_one_symbol(curr_symbol, start_dt_utc, end_dt_utc)
