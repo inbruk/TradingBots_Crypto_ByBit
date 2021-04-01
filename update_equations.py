@@ -5,38 +5,8 @@ import time
 import datetime
 import pandas as pd
 from pconst import const
+from consts import *
 from IPython.core.display import display
-
-const.SUFFIX = 'equations'
-
-const.BTCUSD = 'BTCUSD'
-const.ETHUSD = 'ETHUSD'
-const.EOSUSD = 'EOSUSD'
-const.XRPUSD = 'XRPUSD'
-
-const.avg7_hwnd = 3
-const.avg31_hwnd = 15
-const.avg181_hwnd = 90
-const.avg1441_hwnd = 720
-
-const.dt_col_name = 'dt'
-const.value_col_name = 'value'
-const.delta1_col_name = 'delta1'
-const.delta2_col_name = 'delta2'
-const.avg7_col_name = 'avg7'
-const.avg31_col_name = 'avg31'
-const.avg181_col_name = 'avg181'
-const.avg1441_col_name = 'avg1441'
-
-const.avg7l_col_name = 'avg7l'
-const.avg31l_col_name = 'avg31l'
-const.avg181l_col_name = 'avg181l'
-const.avg1441l_col_name = 'avg1441l'
-
-const.order_col_name = 'order'
-
-const.open_col_name = 'open'
-const.close_col_name = 'close'
 
 
 def get_cache_filename(symbol_str):

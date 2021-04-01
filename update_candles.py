@@ -5,26 +5,8 @@ import time
 import datetime
 import pandas as pd
 from pconst import const
+from consts import *
 from IPython.core.display import display
-
-const.PUBLIC_API_URL = 'https://api.bybit.com/v2/public/'
-
-const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
-const.SERVER_ACCESS_API_KEY = os.getenv('BYBIT_API_KEY')
-const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
-
-const.START_UTC = 1616476204
-
-const.BTCUSD = 'BTCUSD'
-const.ETHUSD = 'ETHUSD'
-const.EOSUSD = 'EOSUSD'
-const.XRPUSD = 'XRPUSD'
-
-
-# display(server_access_name)
-# display(server_access_api_key)
-# display(server_access_secret_code)
-
 
 def load_hour_values_from_server(symbol_str, begin_utc):
 
@@ -98,25 +80,49 @@ def get_values_and_update_cache(symbol_str):
     return df
 
 
-print( ' Load data from Bybit and store to cache *.csv --------------------------------------')
-print( ' Work until -1 minute from now ')
+def update_candles():
 
-print('BTCUSD loading...')
-res_df = get_values_and_update_cache(const.BTCUSD)
-print('BTCUSD data in cache ' + str(len(res_df)))
+    print( ' UPDATE CANDLES ------------------------------------------------------------------START')
+    print( ' Load data from Bybit and store to cache *.csv ')
+    print( ' Work until -1 minute from now ')
 
-print('ETHUSD loading...')
-res_df = get_values_and_update_cache(const.ETHUSD)
-print('ETHUSD data in cache ' + str(len(res_df)))
+    print('BTCUSDT loading...')
+    res_df = get_values_and_update_cache(const.BTCUSDT)
+    print('BTCUSDT data in cache ' + str(len(res_df)))
 
-print('EOSUSD loading...')
-res_df = get_values_and_update_cache(const.EOSUSD)
-print('EOSUSD data in cache ' + str(len(res_df)))
+    print('BCHUSDT loading...')
+    res_df = get_values_and_update_cache(const.BCHUSDT)
+    print('BCHUSDT data in cache ' + str(len(res_df)))
 
-print('XRPUSD loading...')
-res_df = get_values_and_update_cache(const.XRPUSD)
-print('XRPUSD data in cache ' + str(len(res_df)))
+    print('ETHUSDT loading...')
+    res_df = get_values_and_update_cache(const.ETHUSDT)
+    print('ETHUSDT data in cache ' + str(len(res_df)))
 
-print( ' See result in /data/*.csv--------------------------------------')
+    print('LTCUSDT loading...')
+    res_df = get_values_and_update_cache(const.LTCUSDT)
+    print('LTCUSDT data in cache ' + str(len(res_df)))
+
+    print('LINKUSDT loading...')
+    res_df = get_values_and_update_cache(const.LINKUSDT)
+    print('LINKUSDT data in cache ' + str(len(res_df)))
+
+    print('XTZUSDT loading...')
+    res_df = get_values_and_update_cache(const.XTZUSDT)
+    print('XTZUSDT data in cache ' + str(len(res_df)))
+
+    print('ADAUSDT loading...')
+    res_df = get_values_and_update_cache(const.ADAUSDT)
+    print('ADAUSDT data in cache ' + str(len(res_df)))
+
+    print('DOTUSDT loading...')
+    res_df = get_values_and_update_cache(const.DOTUSDT)
+    print('DOTUSDT data in cache ' + str(len(res_df)))
+
+    print('UNIUSDT loading...')
+    res_df = get_values_and_update_cache(const.UNIUSDT)
+    print('UNIUSDT data in cache ' + str(len(res_df)))
+
+    print( ' See result in /data/*.csv')
+    print( ' UPDATE CANDLES ------------------------------------------------------------------START')
 
 
