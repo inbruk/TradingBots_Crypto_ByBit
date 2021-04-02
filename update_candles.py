@@ -11,7 +11,7 @@ from IPython.core.display import display
 def load_hour_values_from_server(symbol_str, begin_utc):
 
     req = requests.get(
-        const.PUBLIC_API_URL + 'kline/list',
+        const.PUBLIC_API_URL + 'kline',
         {
             'symbol':symbol_str,
             'interval':1,
@@ -73,7 +73,7 @@ def get_values_and_update_cache(symbol_str):
         if current_end_utc >= curr_utc:
             break
         else:
-            current_start_utc = current_end_utc
+            current_start_utc = round(current_end_utc)
 
     filename = get_cache_filename(symbol_str)
     df.to_csv(filename, index=False, header=True)
@@ -123,6 +123,6 @@ def update_candles():
     print('UNIUSDT data in cache ' + str(len(res_df)))
 
     print( ' See result in /data/*.csv')
-    print( ' UPDATE CANDLES ------------------------------------------------------------------START')
+    print( ' UPDATE CANDLES ------------------------------------------------------------------STOP')
 
 

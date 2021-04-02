@@ -1,13 +1,13 @@
 import os
 from pconst import const
 
-const.PUBLIC_API_URL = 'https://api.bybit.com/linear/public/'
+const.PUBLIC_API_URL = 'https://api.bybit.com/public/linear/'
 
 const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
 const.SERVER_ACCESS_API_KEY = os.getenv('BYBIT_API_KEY')
 const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
 
-const.START_UTC = 1609515482
+const.START_UTC = 1616976000
 
 const.BTCUSDT = 'BTCUSDT'
 const.BCHUSDT = 'BCHUSDT'
