@@ -4,8 +4,8 @@ from update_orders import *
 
 
 #update_candles()
-update_equations()
-#update_orders()
+#update_equations()
+update_orders()
 
 
 

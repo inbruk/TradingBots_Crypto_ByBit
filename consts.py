@@ -40,7 +40,6 @@ const.avg181_col_name = 'avg181'
 const.avg1441_col_name = 'avg1441'
 const.order_col_name = 'order'
 
-const.action_col_name = 'action'
 const.type_col_name = 'type'
 const.open_dt_col_name = 'open_dt'
 const.open_price_col_name = 'open_price'
