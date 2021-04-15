@@ -110,26 +110,41 @@ def fill_order_values(ord_df, o_buy, beg_dt, beg_val, end_dt, end_val):
     return ord_df
 
 
+def get_curr_prev_minute_utc():
+    curr_datetime = datetime.datetime.now()
+    curr_datetime = datetime.datetime(
+        curr_datetime.year, curr_datetime.month, curr_datetime.day, curr_datetime.hour, curr_datetime.minute, 0)
+    prev_datetime = curr_datetime - datetime.timedelta(minutes=1)
+    c_utc = curr_datetime.timestamp()
+    p_utc = prev_datetime.timestamp()
+    return c_utc, p_utc
+
+
 def update_eq_order(out_df, ord_df):
 
-    order_now = False
-    ord_open = False
-    order_buy = True
-    ord_change = False
-
-    mean_value = out_df[const.value_col_name].mean()
-    min_value = out_df[const.value_col_name].min()
-    max_value = out_df[const.value_col_name].max()
-
     out_len = out_df[const.dt_col_name].size
+    x = out_len - 1
 
-    out_df.at[0, const.order_col_name] = mean_value
-    out_df.at[1, const.order_col_name] = mean_value
+    curr_min_utc, prev_min_utc = get_curr_prev_minute_utc()
+    last_dt_utc = out_df.at[x, const.dt_col_name]
 
-    beg_dt = 0.0
-    beg_val = 0.0
+    if (last_dt_utc >= prev_min_utc) & (last_dt_utc <= curr_min_utc):
 
-    for x in range(2, out_len):
+        order_now = False
+        ord_open = False
+        order_buy = True
+        ord_change = False
+
+        mean_value = out_df[const.value_col_name].mean()
+        min_value = out_df[const.value_col_name].min()
+        max_value = out_df[const.value_col_name].max()
+
+        out_df.at[0, const.order_col_name] = mean_value
+        out_df.at[1, const.order_col_name] = mean_value
+
+        beg_dt = 0.0
+        beg_val = 0.0
+
         order_now, order_buy, ord_open, ord_change = check_order_open_close(
             out_df, x, order_now, order_buy, ord_open, ord_change)
 
