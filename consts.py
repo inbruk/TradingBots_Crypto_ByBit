@@ -13,12 +13,12 @@ const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 const.BCHUSDT = 'BCHUSDT'
 const.DOTUSDT = 'DOTUSDT'
+const.LINKUSDT = 'LINKUSDT'
 const.LTCUSDT = 'LTCUSDT'
 const.XTZUSDT = 'XTZUSDT'
 
 # const.BTCUSDT = 'BTCUSDT'
 # const.ETHUSDT = 'ETHUSDT'
-# const.LINKUSDT = 'LINKUSDT'
 # const.ADAUSDT = 'ADAUSDT'
 # const.UNIUSDT = 'UNIUSDT'
 

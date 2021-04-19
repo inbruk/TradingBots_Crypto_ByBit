@@ -54,7 +54,7 @@ def load_values_from_cache(symbol_str):
 def get_prev_minute_utc():
     curr_datetime = datetime.datetime.now()
     curr_datetime = datetime.datetime(curr_datetime.year, curr_datetime.month, curr_datetime.day, curr_datetime.hour, curr_datetime.minute, 0)
-    curr_datetime -= datetime.timedelta(minutes=1)
+    curr_datetime = curr_datetime - datetime.timedelta(minutes=1)
     curr_utc = curr_datetime.timestamp()
     return curr_utc
 
@@ -70,8 +70,7 @@ def get_values_and_update_cache(symbol_str):
        current_start_utc = const.START_UTC
 
     curr_utc = get_prev_minute_utc()
-    while True:
-        time.sleep(0.1)
+    while 1 == 1:
         new_df = load_hour_values_from_server(symbol_str, current_start_utc)
         df = df.append(new_df, ignore_index=True)
         df.drop_duplicates(subset='dt', keep='first', inplace=True)
