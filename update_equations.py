@@ -18,26 +18,24 @@ def get_output_filename(symbol_str):
 
 
 def update_eq_value(in_df, old_df):
-
-    out_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
+    num_rows = in_df[const.dt_col_name].size
+    out_df = pd.DataFrame(index=range(num_rows),
+                          columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                    const.avg181_col_name, const.avg1441_col_name,
                                    const.order_col_name])
 
     for index, item in in_df.iterrows():
         dt = round(item[const.dt_col_name])
-        new_row = {
-            const.dt_col_name: dt,
-            const.value_col_name: 0.0,
-            const.delta1_col_name: 0.0,
-            const.delta2_col_name: 0.0,
-            const.avg7_col_name: 0.0,
-            const.avg31_col_name: 0.0,
-            const.avg181_col_name: 0.0,
-            const.avg1441_col_name: 0.0,
-            const.order_col_name: 0.0
-        }
-        out_df = out_df.append(new_row, ignore_index=True)
+        out_df.at[index,const.dt_col_name] = dt
+        out_df.at[index,const.value_col_name] = 0.0,
+        out_df.at[index,const.delta1_col_name] = 0.0,
+        out_df.at[index,const.delta2_col_name] = 0.0,
+        out_df.at[index,const.avg7_col_name] = 0.0,
+        out_df.at[index,const.avg31_col_name] = 0.0,
+        out_df.at[index,const.avg181_col_name] = 0.0,
+        out_df.at[index,const.avg1441_col_name] = 0.0,
+        out_df.at[index,const.order_col_name] = 0.0
 
     in_len = in_df[const.dt_col_name].size
     old_len = old_df[const.dt_col_name].size
@@ -170,6 +168,8 @@ def update_eq_purify(old_df, out_df, hwnd_size, col_name, prev_col_name):
 
 def update_equations_by_symbol(symbol_str):
 
+    print('Update equations ' + symbol_str + ' ', end='')
+
     in_file_name = get_cache_filename(symbol_str)
     in_df = pd.read_csv(in_file_name)
     print('..l.', end='')
@@ -215,40 +215,6 @@ def update_equations_by_symbol(symbol_str):
     print('..p181.', end='')
 
     out_df.to_csv(out_file_name, index=False, header=True)
-    print('..s!')
+    print('..s.', end='')
 
-
-def update_equations():
-
-    print( ' UPDATE EQUATIONS ------------------------------------------------------------------START')
-    print( ' Full update equations for data from cache *.csv ')
-
-    print('BTCUSDT calculating', end='')
-    update_equations_by_symbol(const.BTCUSDT)
-
-    print('BCHUSDT calculating', end='')
-    update_equations_by_symbol(const.BCHUSDT)
-
-    print('ETHUSDT calculating', end='')
-    update_equations_by_symbol(const.ETHUSDT)
-
-    print('LTCUSDT calculating', end='')
-    update_equations_by_symbol(const.LTCUSDT)
-
-    print('LINKUSDT calculating', end='')
-    update_equations_by_symbol(const.LINKUSDT)
-
-    print('XTZUSDT calculating', end='')
-    update_equations_by_symbol(const.XTZUSDT)
-
-    print('ADAUSDT calculating', end='')
-    update_equations_by_symbol(const.ADAUSDT)
-
-    print('DOTUSDT calculating', end='')
-    update_equations_by_symbol(const.DOTUSDT)
-
-    print('UNIUSDT calculating', end='')
-    update_equations_by_symbol(const.UNIUSDT)
-
-    print( ' See result in /data/*_equations.csv ')
-    print(' UPDATE EQUATIONS ------------------------------------------------------------------STOP')
+    print('Completed !')

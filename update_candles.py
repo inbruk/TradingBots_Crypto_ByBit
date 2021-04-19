@@ -61,6 +61,8 @@ def get_prev_minute_utc():
 
 def get_values_and_update_cache(symbol_str):
 
+    print('Loaded to cache ' + symbol_str + ' ...', end='')
+
     df = load_values_from_cache(symbol_str)
     if len(df) > 0:
         current_start_utc = round(df['dt'].max())
@@ -69,7 +71,7 @@ def get_values_and_update_cache(symbol_str):
 
     curr_utc = get_prev_minute_utc()
     while True:
-        time.sleep(1)
+        time.sleep(0.1)
         new_df = load_hour_values_from_server(symbol_str, current_start_utc)
         df = df.append(new_df, ignore_index=True)
         df.drop_duplicates(subset='dt', keep='first', inplace=True)
@@ -81,52 +83,10 @@ def get_values_and_update_cache(symbol_str):
 
     filename = get_cache_filename(symbol_str)
     df.to_csv(filename, index=False, header=True)
-    return df
+
+    print(' Complete!')
 
 
-def update_candles():
 
-    print( ' UPDATE CANDLES ------------------------------------------------------------------START')
-    print( ' Load data from Bybit and store to cache *.csv ')
-    print( ' Work until -1 minute from now ')
-
-    print('BTCUSDT loading...')
-    res_df = get_values_and_update_cache(const.BTCUSDT)
-    print('BTCUSDT data in cache ' + str(len(res_df)))
-
-    print('BCHUSDT loading...')
-    res_df = get_values_and_update_cache(const.BCHUSDT)
-    print('BCHUSDT data in cache ' + str(len(res_df)))
-
-    print('ETHUSDT loading...')
-    res_df = get_values_and_update_cache(const.ETHUSDT)
-    print('ETHUSDT data in cache ' + str(len(res_df)))
-
-    print('LTCUSDT loading...')
-    res_df = get_values_and_update_cache(const.LTCUSDT)
-    print('LTCUSDT data in cache ' + str(len(res_df)))
-
-    print('LINKUSDT loading...')
-    res_df = get_values_and_update_cache(const.LINKUSDT)
-    print('LINKUSDT data in cache ' + str(len(res_df)))
-
-    print('XTZUSDT loading...')
-    res_df = get_values_and_update_cache(const.XTZUSDT)
-    print('XTZUSDT data in cache ' + str(len(res_df)))
-
-    print('ADAUSDT loading...')
-    res_df = get_values_and_update_cache(const.ADAUSDT)
-    print('ADAUSDT data in cache ' + str(len(res_df)))
-
-    print('DOTUSDT loading...')
-    res_df = get_values_and_update_cache(const.DOTUSDT)
-    print('DOTUSDT data in cache ' + str(len(res_df)))
-
-    print('UNIUSDT loading...')
-    res_df = get_values_and_update_cache(const.UNIUSDT)
-    print('UNIUSDT data in cache ' + str(len(res_df)))
-
-    print( ' See result in /data/*.csv')
-    print( ' UPDATE CANDLES ------------------------------------------------------------------STOP')
 
 

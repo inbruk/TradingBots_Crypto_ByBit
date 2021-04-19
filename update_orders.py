@@ -118,11 +118,11 @@ def fill_order_values(ord_df, o_open, o_buy, beg_dt, beg_val, end_dt, end_val):
     return ord_df
 
 
-def get_curr_prev_minute_utc():
+def get_curr_prev5_minute_utc():
     curr_datetime = datetime.datetime.now()
     curr_datetime = datetime.datetime(
         curr_datetime.year, curr_datetime.month, curr_datetime.day, curr_datetime.hour, curr_datetime.minute, 0)
-    prev_datetime = curr_datetime - datetime.timedelta(minutes=1)
+    prev_datetime = curr_datetime - datetime.timedelta(minutes=5)
     c_utc = curr_datetime.timestamp()
     p_utc = prev_datetime.timestamp()
     return c_utc, p_utc
@@ -131,23 +131,29 @@ def get_curr_prev_minute_utc():
 def check_for_order_open(ord_df):
 
     len = ord_df[const.type_col_name].size
-    pos = len - 1
-
-    close_dt = ord_df.at[pos, const.close_dt_col_name]
-    ord_type = ord_df.at[pos, const.type_col_name]
-    if close_dt == 0.0: # last order not closed
-        order_now = True
-        if ord_type==const.order_type_buy:
-            order_buy = True
-        else:
-            order_buy = False
-        beg_dt = ord_df.at[pos, const.open_dt_col_name]
-        beg_val = ord_df.at[pos, const.open_price_col_name]
-    else:
+    if len <= 0:
         order_now = False
         order_buy = False
         beg_dt = 0.0
         beg_val = 0.0
+    else:
+        pos = len - 1
+
+        close_dt = ord_df.at[pos, const.close_dt_col_name]
+        ord_type = ord_df.at[pos, const.type_col_name]
+        if close_dt == 0.0: # last order not closed
+            order_now = True
+            if ord_type==const.order_type_buy:
+                order_buy = True
+            else:
+                order_buy = False
+            beg_dt = ord_df.at[pos, const.open_dt_col_name]
+            beg_val = ord_df.at[pos, const.open_price_col_name]
+        else:
+            order_now = False
+            order_buy = False
+            beg_dt = 0.0
+            beg_val = 0.0
 
     return order_now, order_buy, beg_dt, beg_val
 
@@ -157,10 +163,15 @@ def update_eq_order(out_df, ord_df):
     out_len = out_df[const.dt_col_name].size
     x = out_len - 1
 
-    curr_min_utc, prev_min_utc = get_curr_prev_minute_utc()
+    curr_min_utc, prev5_min_utc = get_curr_prev5_minute_utc()
     last_dt_utc = out_df.at[x, const.dt_col_name]
 
-    if (last_dt_utc >= prev_min_utc) & (last_dt_utc <= curr_min_utc):
+    last_dt = datetime.datetime(last_dt_utc)
+    curr_min_dt = datetime.datetime(prev5_min_utc)
+
+    print('..[' + last_dt + ',' + curr_min_dt + '].', end='')
+
+    if (last_dt_utc >= prev5_min_utc) & (last_dt_utc <= curr_min_utc):
 
         ord_change = False
         order_now, order_buy, beg_dt, beg_val = check_for_order_open(ord_df)
@@ -172,7 +183,7 @@ def update_eq_order(out_df, ord_df):
         out_df.at[0, const.order_col_name] = mean_value
         out_df.at[1, const.order_col_name] = mean_value
 
-        order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy, ord_change)
+        order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
         out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
         if ord_change:
@@ -190,6 +201,8 @@ def update_eq_order(out_df, ord_df):
 
 def update_orders_by_symbol(symbol_str):
 
+    print('Update equations ' + symbol_str + ' ', end='')
+
     eq_file_name = get_equations_filename(symbol_str)
     eq_df = pd.read_csv(eq_file_name)
     print('..load eq.', end='')
@@ -204,47 +217,15 @@ def update_orders_by_symbol(symbol_str):
                                        const.sum_profit, const.sum_profit_prc])
     print('..load ord.', end='')
 
-    out_df, ord_df = update_eq_order(eq_df, ord_df)
+    eq_df, ord_df = update_eq_order(eq_df, ord_df)
     print('..update ord.', end='')
 
     ord_df.to_csv(ord_file_name, index=False, header=True)
-    print('..save ord.')
+    print('..save ord.', end='')
 
     eq_df.to_csv(eq_file_name, index=False, header=True)
-    print('..save eq !')
+    print('..save eq.', end='')
+
+    print('Completed !')
 
 
-def update_orders():
-
-    print( ' UPDATE EQUATIONS ------------------------------------------------------------------START')
-    print( ' Full update equations for data from cache *.csv ')
-
-    print('BTCUSDT calculating', end='')
-    update_orders_by_symbol(const.BTCUSDT)
-
-    print('BCHUSDT calculating', end='')
-    update_orders_by_symbol(const.BCHUSDT)
-
-    print('ETHUSDT calculating', end='')
-    update_orders_by_symbol(const.ETHUSDT)
-
-    print('LTCUSDT calculating', end='')
-    update_orders_by_symbol(const.LTCUSDT)
-
-    print('LINKUSDT calculating', end='')
-    update_orders_by_symbol(const.LINKUSDT)
-
-    print('XTZUSDT calculating', end='')
-    update_orders_by_symbol(const.XTZUSDT)
-
-    print('ADAUSDT calculating', end='')
-    update_orders_by_symbol(const.ADAUSDT)
-
-    print('DOTUSDT calculating', end='')
-    update_orders_by_symbol(const.DOTUSDT)
-
-    print('UNIUSDT calculating', end='')
-    update_orders_by_symbol(const.UNIUSDT)
-
-    print( ' See result in /data/*_orders.csv ')
-    print(' UPDATE EQUATIONS ------------------------------------------------------------------STOP')

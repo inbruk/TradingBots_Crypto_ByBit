@@ -29,18 +29,29 @@ def get_next_minute_utc():
     return n_utc
 
 
-while True:
+while 1 == 1:
 
     next_utc = get_next_minute_utc()
 
-    update_candles()
-    update_equations()
-    update_orders()
+    get_values_and_update_cache(const.BCHUSDT)
+    update_equations_by_symbol(const.BCHUSDT)
+    update_orders_by_symbol(const.BCHUSDT)
+
+    get_values_and_update_cache(const.DOTUSDT)
+    update_equations_by_symbol(const.DOTUSDT)
+    update_orders_by_symbol(const.DOTUSDT)
+
+    get_values_and_update_cache(const.LTCUSDT)
+    update_equations_by_symbol(const.LTCUSDT)
+    update_orders_by_symbol(const.LTCUSDT)
+
+    get_values_and_update_cache(const.XTZUSDT)
+    update_equations_by_symbol(const.XTZUSDT)
+    update_orders_by_symbol(const.XTZUSDT)
 
     curr_utc = get_curr_minute_utc()
 
     while curr_utc < next_utc:
-        time.sleep(1)
         curr_utc = get_curr_minute_utc()
 
 

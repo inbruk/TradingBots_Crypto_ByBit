@@ -7,17 +7,18 @@ const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
 const.SERVER_ACCESS_API_KEY = os.getenv('BYBIT_API_KEY')
 const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
 
-const.START_UTC = 1617235200
+const.START_UTC = 1618174101
 
-const.BTCUSDT = 'BTCUSDT'
 const.BCHUSDT = 'BCHUSDT'
-const.ETHUSDT = 'ETHUSDT'
-const.LTCUSDT = 'LTCUSDT'
-const.LINKUSDT = 'LINKUSDT'
-const.XTZUSDT = 'XTZUSDT'
-const.ADAUSDT = 'ADAUSDT'
 const.DOTUSDT = 'DOTUSDT'
-const.UNIUSDT = 'UNIUSDT'
+const.LTCUSDT = 'LTCUSDT'
+const.XTZUSDT = 'XTZUSDT'
+
+# const.BTCUSDT = 'BTCUSDT'
+# const.ETHUSDT = 'ETHUSDT'
+# const.LINKUSDT = 'LINKUSDT'
+# const.ADAUSDT = 'ADAUSDT'
+# const.UNIUSDT = 'UNIUSDT'
 
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
