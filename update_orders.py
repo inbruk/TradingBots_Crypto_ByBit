@@ -166,35 +166,35 @@ def update_eq_order(out_df, ord_df):
     curr_min_utc, prev5_min_utc = get_curr_prev5_minute_utc()
     last_dt_utc = out_df.at[x, const.dt_col_name]
 
-    last_dt = datetime.datetime(last_dt_utc)
-    curr_min_dt = datetime.datetime(prev5_min_utc)
+    last_dt = datetime.datetime.fromtimestamp(last_dt_utc).strftime(const.TIME_FORMAT)
+    curr_min_dt = datetime.datetime.fromtimestamp(curr_min_utc).strftime(const.TIME_FORMAT)
 
     print('..[' + last_dt + ',' + curr_min_dt + '].', end='')
 
-    if (last_dt_utc >= prev5_min_utc) & (last_dt_utc <= curr_min_utc):
+#  if (last_dt_utc >= prev5_min_utc) & (last_dt_utc <= curr_min_utc):
 
-        ord_change = False
-        order_now, order_buy, beg_dt, beg_val = check_for_order_open(ord_df)
+    ord_change = False
+    order_now, order_buy, beg_dt, beg_val = check_for_order_open(ord_df)
 
-        mean_value = out_df[const.value_col_name].mean()
-        min_value = out_df[const.value_col_name].min()
-        max_value = out_df[const.value_col_name].max()
+    mean_value = out_df[const.value_col_name].mean()
+    min_value = out_df[const.value_col_name].min()
+    max_value = out_df[const.value_col_name].max()
 
-        out_df.at[0, const.order_col_name] = mean_value
-        out_df.at[1, const.order_col_name] = mean_value
+    out_df.at[0, const.order_col_name] = mean_value
+    out_df.at[1, const.order_col_name] = mean_value
 
-        order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
-        out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
+    order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
+    out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
-        if ord_change:
-            if order_now:
-                beg_dt = out_df.at[x, const.dt_col_name]
-                beg_val = out_df.at[x, const.value_col_name]
-                ord_df = fill_order_values(ord_df, order_now, order_buy, beg_dt, beg_val, 0.0, 0.0)
-            else:
-                end_dt = out_df.at[x, const.dt_col_name]
-                end_val = out_df.at[x, const.value_col_name]
-                ord_df = fill_order_values(ord_df, order_now, order_buy, beg_dt, beg_val, end_dt, end_val)
+    if ord_change:
+        if order_now:
+            beg_dt = out_df.at[x, const.dt_col_name]
+            beg_val = out_df.at[x, const.value_col_name]
+            ord_df = fill_order_values(ord_df, order_now, order_buy, beg_dt, beg_val, 0.0, 0.0)
+        else:
+            end_dt = out_df.at[x, const.dt_col_name]
+            end_val = out_df.at[x, const.value_col_name]
+            ord_df = fill_order_values(ord_df, order_now, order_buy, beg_dt, beg_val, end_dt, end_val)
 
     return out_df, ord_df
 

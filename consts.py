@@ -9,6 +9,8 @@ const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
 
 const.START_UTC = 1618174101
 
+const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
+
 const.BCHUSDT = 'BCHUSDT'
 const.DOTUSDT = 'DOTUSDT'
 const.LTCUSDT = 'LTCUSDT'
