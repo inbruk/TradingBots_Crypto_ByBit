@@ -143,7 +143,7 @@ def check_for_order_open(ord_df):
         ord_type = ord_df.at[pos, const.type_col_name]
         if close_dt == 0.0: # last order not closed
             order_now = True
-            if ord_type==const.order_type_buy:
+            if ord_type == const.order_type_buy:
                 order_buy = True
             else:
                 order_buy = False
