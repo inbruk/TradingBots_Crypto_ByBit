@@ -59,7 +59,7 @@ def draw_one_symbol(symbol_str, start_dt, end_dt):
 
 curr_symbol = const.XTZUSDT
 start_dt_utc = 1618174101
-end_dt_utc = 1618778973
+end_dt_utc = 1618948320
 draw_one_symbol(curr_symbol, start_dt_utc, end_dt_utc)
 
 

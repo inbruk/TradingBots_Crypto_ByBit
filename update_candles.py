@@ -6,34 +6,8 @@ import datetime
 import pandas as pd
 from pconst import const
 from consts import *
+from client_bybit import *
 from IPython.core.display import display
-
-
-def load_hour_values_from_server(symbol_str, begin_utc):
-
-    begin_utc_int = round(begin_utc)
-
-    req = requests.get(
-        const.PUBLIC_API_URL + 'kline',
-        {
-            'symbol':symbol_str,
-            'interval':1,
-            'from':begin_utc_int,
-            'limit':60
-        }
-    )
-
-    if req.ok:
-        df = pd.DataFrame(columns=['dt', 'open', 'high', 'low', 'close', 'volume', 'turnover'])
-        json_data = json.loads(req.text)
-        json_rows = json_data['result']
-        for item in json_rows:
-            dt = round(item['open_time'])
-            new_row = { 'dt':dt, 'open':item['open'], 'high':item['high'], 'low':item['low'],
-                        'close':item['close'], 'volume':item['volume'], 'turnover':item['turnover']  }
-            df = df.append(new_row, ignore_index=True)
-
-    return df
 
 
 def get_cache_filename(symbol_str):
@@ -71,7 +45,7 @@ def get_values_and_update_cache(symbol_str):
 
     curr_utc = get_prev_minute_utc()
     while 1 == 1:
-        new_df = load_hour_values_from_server(symbol_str, current_start_utc)
+        new_df = client_load_hour_prices(symbol_str, current_start_utc)
         df = df.append(new_df, ignore_index=True)
         df.drop_duplicates(subset='dt', keep='first', inplace=True)
         current_end_utc = round(df['dt'].max())

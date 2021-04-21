@@ -1,12 +1,6 @@
 import os
 from pconst import const
 
-const.PUBLIC_API_URL = 'https://api.bybit.com/public/linear/'
-
-const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
-const.SERVER_ACCESS_API_KEY = os.getenv('BYBIT_API_KEY')
-const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
-
 const.START_UTC = 1618174101
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
