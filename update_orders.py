@@ -73,9 +73,9 @@ def fill_order_values(ord_df, o_open, o_buy, beg_dt, beg_val, end_dt, end_val):
         pos = len - 1 # insert values into last row
 
     if o_buy:
-        ord_df.at[pos,const.type_col_name] = const.order_type_buy
+        ord_df.at[pos,const.type_col_name] = const.order_side_buy
     else:
-        ord_df.at[pos,const.type_col_name] = const.order_type_sell
+        ord_df.at[pos,const.type_col_name] = const.order_side_sell
 
     ord_df.at[pos,const.open_dt_col_name] = beg_dt
     ord_df.at[pos,const.open_price_col_name] = beg_val
@@ -143,7 +143,7 @@ def check_for_order_open(ord_df):
         ord_type = ord_df.at[pos, const.type_col_name]
         if close_dt == 0.0: # last order not closed
             order_now = True
-            if ord_type == const.order_type_buy:
+            if ord_type == const.order_side_buy:
                 order_buy = True
             else:
                 order_buy = False

@@ -49,9 +49,28 @@ const.profit_prc = 'profit_prc'
 const.sum_profit = 'sum_profit'
 const.sum_profit_prc = 'sum_profit_prc'
 
-const.order_action_open = 'OPEN'
-const.order_action_close = 'CLOSE'
+const.order_status_created = 'Created'
+const.order_status_rejected = 'Rejected'
+const.order_status_new = 'New'
+const.order_status_partially_filled = 'PartiallyFilled'
+const.order_status_filled = 'Filled'
+const.order_status_cancelled = 'Cancelled'
+const.order_status_pendingCancel = 'PendingCancel'
 
-const.order_type_buy = 'BUY'
-const.order_type_sell = 'SELL'
+const.order_type_limit = 'Limit'
+const.order_type_market = 'Market'
+
+const.order_side_buy = 'Buy'
+const.order_side_sell = 'Sell'
+
+const.order_time_in_force_good_till_cancel = 'GoodTillCancel'
+const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
+const.order_time_in_force_fill_or_kill = 'FillOrKill'
+const.order_time_in_force_post_only = 'PostOnly'
+
+const.order_stop_lost_koef_buy = 0.99
+const.order_stop_lost_koef_sell = 1.01
+
+const.order_take_profit_koef_buy = 1.1
+const.order_take_profit_koef_sell = 0.9
 
