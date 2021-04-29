@@ -1,6 +1,8 @@
 import os
 import json
 import requests
+import hashlib
+import hmac
 import time
 import datetime
 import pandas as pd
@@ -53,11 +55,28 @@ def client_load_hour_prices(symbol_str, begin_utc):
     return df
 
 
-def client_order_create(side:str, symbol:str, qty_in_usd:int, price:float):
+def client_calculate_sign(params):
+    params_str = ''
+    for key in sorted(params.keys()):
+        v = params[key]
+        if isinstance(params[key], bool):
+            if params[key]:
+                v = 'true'
+            else :
+                v = 'false'
+        params_str += key + '=' + v + '&'
+    params_str = params_str[:-1]
+    params_hash = hmac.new(const.SERVER_ACCESS_SECRET_CODE, params_str.encode("utf-8"), hashlib.sha256)
+    params_sign = params_hash.hexdigest()
+
+    return params_sign
+
+
+def client_order_create(side: str, symbol: str, qty: int, price: float):
 
     order_type:str = const.order_type_market
     time_in_force:str = const.order_time_in_force_good_till_cancel
-    qty:float = qty_in_usd / price
+    # qty:float = qty_in_usd / price
 
     if side == const.order_side_buy:
         stop_loss:float = price * const.order_stop_lost_koef_buy
@@ -73,16 +92,22 @@ def client_order_create(side:str, symbol:str, qty_in_usd:int, price:float):
     close_on_trigger:bool = False
 
     req_data = {
+        'api_key': const.SERVER_ACCESS_API_KEY,
+        'timestamp': datetime.datetime.now().timestamp(),
         'side': side,
         'symbol': symbol,
         'order_type': order_type,
         'qty': qty,
-        'time_in_force': time_in_force,
-        'take_profit': take_profit,
         'stop_loss': stop_loss,
         'reduce_only': reduce_only,
-        'close_on_trigger': close_on_trigger
+        'close_on_trigger': close_on_trigger,
+        'take_profit': take_profit,
+        'time_in_force': time_in_force,
     }
+
+    sign = client_calculate_sign(req_data)
+    req_data['sign'] = sign
+
     req = requests.post(const.PRIVATE_API_ORDER_CREATE, json=req_data)
 
     if req.ok:
@@ -99,15 +124,19 @@ def client_order_create(side:str, symbol:str, qty_in_usd:int, price:float):
     return False, 0, 0, 0.0, 0.0
 
 
-def client_order_get_status(order_id:str, symbol:str):
+def client_order_get_status(order_id: str, symbol: str):
 
-    req = requests.get(
-        const.PRIVATE_API_ORDER_LIST,
-        {
-            'order_id': order_id,
-            'symbol': symbol
-        }
-    )
+    req_data = {
+        'api_key': const.SERVER_ACCESS_API_KEY,
+        'timestamp': datetime.datetime.now().timestamp(),
+        'order_id': order_id,
+        'symbol': symbol
+    }
+
+    sign = client_calculate_sign(req_data)
+    req_data['sign'] = sign
+
+    req = requests.get(const.PRIVATE_API_ORDER_LIST, params=req_data)
 
     if req.ok:
         json_data = json.loads(req.text)
@@ -121,14 +150,18 @@ def client_order_get_status(order_id:str, symbol:str):
     return False, const.order_status_rejected
 
 
-def client_position_read(symbol:str):
+def client_position_read(symbol: str):
 
-    req = requests.get(
-        const.PRIVATE_API_POSITION_LIST,
-        {
-            'symbol': symbol
-        }
-    )
+    req_data = {
+        'api_key': const.SERVER_ACCESS_API_KEY,
+        'timestamp': datetime.datetime.now().timestamp(),
+        'symbol': symbol
+    }
+
+    sign = client_calculate_sign(req_data)
+    req_data['sign'] = sign
+
+    req = requests.get(const.PRIVATE_API_POSITION_LIST, params=req_data)
 
     if req.ok:
         json_data = json.loads(req.text)
@@ -143,5 +176,3 @@ def client_position_read(symbol:str):
             return True, side, size, position_value, entry_price
 
     return False, '', float, float, float
-
-
