@@ -13,14 +13,14 @@ from IPython.core.display import display
 
 const.COMMON_API_URL = 'https://api.bybit.com/'
 
-const.PUBLIC_API_ORDER = const.COMMON_URL + 'public/linear/'
+const.PUBLIC_API_ORDER = const.COMMON_API_URL + 'public/linear/'
 const.PUBLIC_API_ORDER_KLINE = const.PUBLIC_API_ORDER + 'kline'
 
-const.PRIVATE_API_ORDER = const.COMMON_URL + 'private/linear/order/'
+const.PRIVATE_API_ORDER = const.COMMON_API_URL + 'private/linear/order/'
 const.PRIVATE_API_ORDER_CREATE = const.PRIVATE_API_ORDER + 'create'
 const.PRIVATE_API_ORDER_LIST = const.PRIVATE_API_ORDER + 'list'
 
-const.PRIVATE_API_POSITION = const.COMMON_URL + 'private/linear/position/'
+const.PRIVATE_API_POSITION = const.COMMON_API_URL + 'private/linear/position/'
 const.PRIVATE_API_POSITION_LIST = const.PRIVATE_API_POSITION + 'list'
 
 const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
@@ -64,12 +64,19 @@ def client_calculate_sign(params):
                 v = 'true'
             else :
                 v = 'false'
-        params_str += key + '=' + v + '&'
+        params_str += key + '=' + str(v) + '&'
     params_str = params_str[:-1]
-    params_hash = hmac.new(const.SERVER_ACCESS_SECRET_CODE, params_str.encode("utf-8"), hashlib.sha256)
+    params_bytes = params_str.encode("utf-8")
+    key_bytes = const.SERVER_ACCESS_SECRET_CODE.encode("utf-8")
+    params_hash = hmac.new(key_bytes, params_bytes, hashlib.sha256)
     params_sign = params_hash.hexdigest()
 
     return params_sign
+
+
+def current_time_ms():
+    res = str(int(time.time() * 1000))
+    return res
 
 
 def client_order_create(side: str, symbol: str, qty: int, price: float):
@@ -78,30 +85,31 @@ def client_order_create(side: str, symbol: str, qty: int, price: float):
     time_in_force:str = const.order_time_in_force_good_till_cancel
     # qty:float = qty_in_usd / price
 
-    if side == const.order_side_buy:
-        stop_loss:float = price * const.order_stop_lost_koef_buy
-    else:
-        stop_loss:float = price * const.order_stop_lost_koef_sell
-
-    if side == const.order_side_buy:
-        take_profit:float = price * const.order_take_profit_koef_buy
-    else:
-        take_profit:float = price * const.order_take_profit_koef_sell
+    # if side == const.order_side_buy:
+    #     stop_loss:float = price * const.order_stop_lost_koef_buy
+    # else:
+    #     stop_loss:float = price * const.order_stop_lost_koef_sell
+    #
+    # if side == const.order_side_buy:
+    #     take_profit:float = price * const.order_take_profit_koef_buy
+    # else:
+    #     take_profit:float = price * const.order_take_profit_koef_sell
 
     reduce_only:bool = False
     close_on_trigger:bool = False
+    tsms_str = current_time_ms
 
     req_data = {
         'api_key': const.SERVER_ACCESS_API_KEY,
-        'timestamp': datetime.datetime.now().timestamp(),
+        'timestamp': tsms_str,
         'side': side,
         'symbol': symbol,
         'order_type': order_type,
         'qty': qty,
-        'stop_loss': stop_loss,
+      #  'stop_loss': stop_loss,
         'reduce_only': reduce_only,
         'close_on_trigger': close_on_trigger,
-        'take_profit': take_profit,
+      #  'take_profit': take_profit,
         'time_in_force': time_in_force,
     }
 
@@ -113,7 +121,7 @@ def client_order_create(side: str, symbol: str, qty: int, price: float):
     if req.ok:
         json_data = json.loads(req.text)
         ret_code = json_data['ret_code']
-        if ret_code==0:
+        if ret_code == 0:
             time_now = json_data['time_now']
             result = json_data['result']
             order_id = result['order_id']
