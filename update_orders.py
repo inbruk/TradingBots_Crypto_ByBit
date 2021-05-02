@@ -143,6 +143,7 @@ def get_curr_prev5_minute_utc():
 
 def check_for_order_open(ord_df):
 
+    open_order_id = ''
     len = ord_df[const.type_col_name].size
     if len <= 0:
         order_now = False
@@ -154,7 +155,7 @@ def check_for_order_open(ord_df):
 
         close_dt = ord_df.at[pos, const.close_dt_col_name]
         ord_type = ord_df.at[pos, const.type_col_name]
-        if close_dt == 0.0: # last order not closed
+        if close_dt == 0.0:  # last order not closed
             order_now = True
             if ord_type == const.order_side_buy:
                 order_buy = True
@@ -244,7 +245,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
 def update_orders_by_symbol(symbol_str, qty_in_usd):
 
-    print('Update equations ' + symbol_str + ' ', end='')
+    print('Update orders ' + symbol_str + ' ', end='')
 
     eq_file_name = get_equations_filename(symbol_str)
     eq_df = pd.read_csv(eq_file_name)

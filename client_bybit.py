@@ -33,7 +33,7 @@ def client_load_hour_prices(symbol_str, begin_utc):
     begin_utc_int = round(begin_utc)
 
     req = requests.get(
-        const.PUBLIC_API_KLINE,
+        const.PUBLIC_API_ORDER_KLINE,
         {
             'symbol':symbol_str,
             'interval':1,
