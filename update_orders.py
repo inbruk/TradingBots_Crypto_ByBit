@@ -65,7 +65,12 @@ def fill_equation_values(out_df, x, o_now, o_buy, mean_value, min_value, max_val
     return out_df
 
 
-def fill_order_values(ord_df, o_open, o_buy, beg_dt, beg_val, end_dt, end_val):
+def fill_order_values(
+        ord_df, o_open, o_buy,
+        open_order_id, beg_dt, beg_val,
+        close_order_id, end_dt, end_val,
+        qty, qty_in_usd
+):
 
     len = ord_df[const.type_col_name].size
     if o_open:
@@ -78,21 +83,28 @@ def fill_order_values(ord_df, o_open, o_buy, beg_dt, beg_val, end_dt, end_val):
     else:
         ord_df.at[pos,const.type_col_name] = const.order_side_sell
 
+    ord_df.at[pos,const.open_ord_id_col_name] = open_order_id
     ord_df.at[pos,const.open_dt_col_name] = beg_dt
     ord_df.at[pos,const.open_price_col_name] = beg_val
 
     if o_open:
+        ord_df.at[pos, const.close_ord_id_col_name] = close_order_id
         ord_df.at[pos, const.close_dt_col_name] = 0.0
         ord_df.at[pos, const.close_price_col_name] = 0.0
-        ord_df.at[pos, const.delta_price] = 0.0
-        ord_df.at[pos, const.delta_price_prc] = 0.0
-        ord_df.at[pos, const.profit] = 0.0
-        ord_df.at[pos, const.profit_prc] = 0.0
-        ord_df.at[pos, const.sum_profit] = 0.0
-        ord_df.at[pos, const.sum_profit_prc] = 0.0
+        ord_df.at[pos, const.delta_price_col_name] = 0.0
+        ord_df.at[pos, const.delta_price_prc_col_name] = 0.0
+        ord_df.at[pos, const.profit_col_name] = 0.0
+        ord_df.at[pos, const.profit_prc_col_name] = 0.0
+        ord_df.at[pos, const.sum_profit_col_name] = 0.0
+        ord_df.at[pos, const.sum_profit_prc_col_name] = 0.0
+        ord_df.at[pos, const.sum_profit_qty_col_name] = 0.0
+        ord_df.at[pos, const.sum_profit_qty_in_usd_col_name] = 0.0
     else:
+        ord_df.at[pos, const.close_ord_id_col_name] = close_order_id
         ord_df.at[pos,const.close_dt_col_name] = end_dt
         ord_df.at[pos,const.close_price_col_name] = end_val
+        ord_df.at[pos, const.sum_profit_qty_col_name] = qty
+        ord_df.at[pos, const.sum_profit_qty_in_usd_col_name] = qty_in_usd
 
         if o_buy:
             d_price = end_val - beg_val
@@ -148,18 +160,20 @@ def check_for_order_open(ord_df):
                 order_buy = True
             else:
                 order_buy = False
+            open_order_id = ord_df.at[pos, const.open_ord_id_col_name]
             beg_dt = ord_df.at[pos, const.open_dt_col_name]
             beg_val = ord_df.at[pos, const.open_price_col_name]
         else:
             order_now = False
             order_buy = False
+            open_order_id = ''
             beg_dt = 0.0
             beg_val = 0.0
 
-    return order_now, order_buy, beg_dt, beg_val
+    return order_now, order_buy, open_order_id, beg_dt, beg_val
 
 
-def update_eq_order(out_df, ord_df):
+def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     out_len = out_df[const.dt_col_name].size
     x = out_len - 1
@@ -172,10 +186,8 @@ def update_eq_order(out_df, ord_df):
 
     print('..[' + last_dt + ',' + curr_min_dt + '].', end='')
 
-#  if (last_dt_utc >= prev5_min_utc) & (last_dt_utc <= curr_min_utc):
-
     ord_change = False
-    order_now, order_buy, beg_dt, beg_val = check_for_order_open(ord_df)
+    order_now, order_buy, open_order_id, beg_dt, beg_val = check_for_order_open(ord_df)
 
     mean_value = out_df[const.value_col_name].mean()
     min_value = out_df[const.value_col_name].min()
@@ -185,22 +197,52 @@ def update_eq_order(out_df, ord_df):
     out_df.at[1, const.order_col_name] = mean_value
 
     order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
+
+    if ord_change and order_now:
+        if order_buy:
+            ord_change = order_now = client_position_check(const.order_side_buy, symbol)
+        else:
+            ord_change = order_now = client_position_check(const.order_side_sell, const.XTZUSDT)
+
     out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
     if ord_change:
         if order_now:
-            beg_dt = out_df.at[x, const.dt_col_name]
+            if order_buy:
+                order_buy_str = const.order_side_buy
+            else:
+                order_buy_str = const.order_side_sell
+
             beg_val = out_df.at[x, const.value_col_name]
-            ord_df = fill_order_values(ord_df, order_now, order_buy, beg_dt, beg_val, 0.0, 0.0)
+
+            success_open, open_order_id, beg_dt, qty, qty_in_usd, beg_val = \
+                client_position_open(order_buy_str, symbol, qty_in_usd, beg_val)
+
+            if success_open:
+                ord_df = fill_order_values(
+                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, 0.0, 0.0, qty, qty_in_usd
+                )
         else:
-            end_dt = out_df.at[x, const.dt_col_name]
+            if order_buy:
+                order_buy_str = const.order_side_buy
+            else:
+                order_buy_str = const.order_side_sell
+
             end_val = out_df.at[x, const.value_col_name]
-            ord_df = fill_order_values(ord_df, order_now, order_buy, beg_dt, beg_val, end_dt, end_val)
+
+            success_close, close_order_id, end_dt, qty, qty_in_usd, end_val = \
+                client_position_close(order_buy_str, symbol, qty_in_usd, end_val)
+
+            if success_close:
+                ord_df = fill_order_values(
+                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
+                    close_order_id, end_dt, end_val, qty, qty_in_usd
+                )
 
     return out_df, ord_df
 
 
-def update_orders_by_symbol(symbol_str):
+def update_orders_by_symbol(symbol_str, qty_in_usd):
 
     print('Update equations ' + symbol_str + ' ', end='')
 
@@ -212,13 +254,16 @@ def update_orders_by_symbol(symbol_str):
     if os.path.exists(ord_file_name):
         ord_df = pd.read_csv(ord_file_name)
     else:
-        ord_df = pd.DataFrame(columns=[const.type_col_name, const.open_dt_col_name, const.open_price_col_name,
-                                       const.close_dt_col_name, const.close_price_col_name,
-                                       const.delta_price, const.delta_price_prc, const.profit, const.profit_prc,
-                                       const.sum_profit, const.sum_profit_prc])
+        ord_df = pd.DataFrame(columns=[const.type_col_name,
+                                       const.open_ord_id_col_name, const.open_dt_col_name, const.open_price_col_name,
+                                       const.close_ord_id_col_name, const.close_dt_col_name, const.close_price_col_name,
+                                       const.qty_col_name, const.qty_in_usd_col_name,
+                                       const.delta_price_col_name, const.delta_price_prc_col_name,
+                                       const.profit_col_name, const.profit_prc_col_name,
+                                       const.sum_profit_col_name, const.sum_profit_prc_col_name])
     print('..load ord.', end='')
 
-    eq_df, ord_df = update_eq_order(eq_df, ord_df)
+    eq_df, ord_df = update_eq_order(eq_df, ord_df, symbol_str, qty_in_usd)
     print('..update ord.', end='')
 
     ord_df.to_csv(ord_file_name, index=False, header=True)
