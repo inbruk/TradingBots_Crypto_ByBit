@@ -5,16 +5,16 @@ const.START_UTC = 1619812891
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-const.BCHUSDT = 'BCHUSDT'
-const.ETHUSDT = 'ETHUSDT'
-const.DOTUSDT = 'DOTUSDT'
+const.ADAUSDT = 'ADAUSDT'
 const.XTZUSDT = 'XTZUSDT'
-const.UNIUSDT = 'UNIUSDT'
 
+# const.ETHUSDT = 'ETHUSDT'
+# const.BCHUSDT = 'BCHUSDT'
+# const.DOTUSDT = 'DOTUSDT'
 # const.LINKUSDT = 'LINKUSDT'
 # const.LTCUSDT = 'LTCUSDT'
 # const.BTCUSDT = 'BTCUSDT'
-# const.ADAUSDT = 'ADAUSDT'
+# const.UNIUSDT = 'UNIUSDT'
 
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'

@@ -221,7 +221,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
             if success_open:
                 ord_df = fill_order_values(
-                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, 0.0, 0.0, qty, qty_in_usd
+                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, '', 0.0, 0.0, qty, qty_in_usd
                 )
         else:
             if order_buy:

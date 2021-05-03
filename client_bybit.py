@@ -27,7 +27,7 @@ const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
 const.SERVER_ACCESS_API_KEY = os.getenv('BYBIT_API_KEY')
 const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
 
-const.SERVER_RECV_WINDOW = 500000
+const.SERVER_RECV_WINDOW = 5000000
 
 
 def client_load_hour_prices(symbol_str, begin_utc):
