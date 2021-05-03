@@ -23,6 +23,7 @@ def update_eq_value(in_df, old_df):
                           columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                    const.avg181_col_name, const.avg1441_col_name,
+                                   const.avg7p_col_name, const.avg31p_col_name, const.avg181p_col_name,
                                    const.order_col_name])
 
     for index, item in in_df.iterrows():
@@ -35,6 +36,9 @@ def update_eq_value(in_df, old_df):
         out_df.at[index,const.avg31_col_name] = 0.0,
         out_df.at[index,const.avg181_col_name] = 0.0,
         out_df.at[index,const.avg1441_col_name] = 0.0,
+        out_df.at[index,const.avg7p_col_name] = 0.0,
+        out_df.at[index,const.avg31p_col_name] = 0.0,
+        out_df.at[index,const.avg181p_col_name] = 0.0,
         out_df.at[index,const.order_col_name] = 0.0
 
     in_len = in_df[const.dt_col_name].size
@@ -150,18 +154,30 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
     return out_df
 
 
-def update_eq_purify(old_df, out_df, hwnd_size, col_name, prev_col_name):
+def update_eq_purify(old_df, out_df, pcol_name, col_name, prev_col_name):
 
     out_len = out_df[const.dt_col_name].size
     old_len = old_df[const.dt_col_name].size
-    full_wnd_size = (2*hwnd_size+1)
-    if old_len < full_wnd_size:
-        old_len = 0
-    else:
-        old_len -= hwnd_size
+
+    for x in range(0, old_len):
+        out_df.at[x, pcol_name] = old_df.at[x, pcol_name]
 
     for x in range(old_len, out_len):
-        out_df.at[x, col_name] = out_df.at[x, col_name] - out_df.at[x, prev_col_name]
+        curr_val = out_df.at[x, col_name]
+        prev_val = out_df.at[x, prev_col_name]
+        out_df.at[x, pcol_name] = curr_val - prev_val
+
+    return out_df
+
+
+def update_eq_initial_order(old_df, out_df):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    mean_value = out_df[const.value_col_name].mean()
+
+    for x in range(old_len, out_len):
+        out_df.at[x, const.order_col_name] = mean_value
 
     return out_df
 
@@ -181,6 +197,7 @@ def update_equations_by_symbol(symbol_str):
         old_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                        const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                        const.avg181_col_name, const.avg1441_col_name,
+                                       const.avg7p_col_name, const.avg31p_col_name, const.avg181p_col_name,
                                        const.order_col_name])
     print('..c.', end='')
 
@@ -205,14 +222,17 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg1441_hwnd, const.avg1441_col_name)
     print('..a1441.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg7_hwnd, const.avg7_col_name, const.avg31_col_name)
+    out_df = update_eq_purify(old_df, out_df, const.avg7p_col_name, const.avg7_col_name, const.avg31_col_name)
     print('..p7.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg31_hwnd, const.avg31_col_name, const.avg181_col_name)
+    out_df = update_eq_purify(old_df, out_df, const.avg31p_col_name, const.avg31_col_name, const.avg181_col_name)
     print('..p31.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg181_hwnd, const.avg181_col_name, const.avg1441_col_name)
+    out_df = update_eq_purify(old_df, out_df, const.avg181p_col_name, const.avg181_col_name, const.avg1441_col_name)
     print('..p181.', end='')
+
+    out_df = update_eq_initial_order(old_df, out_df)
+    print('..ini_ord.', end='')
 
     out_df.to_csv(out_file_name, index=False, header=True)
     print('..s.', end='')

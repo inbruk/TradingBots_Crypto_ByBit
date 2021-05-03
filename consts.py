@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1619457260
+const.START_UTC = 1619812891
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -35,6 +35,9 @@ const.avg7_col_name = 'avg7'
 const.avg31_col_name = 'avg31'
 const.avg181_col_name = 'avg181'
 const.avg1441_col_name = 'avg1441'
+const.avg7p_col_name = 'avg7p'
+const.avg31p_col_name = 'avg31p'
+const.avg181p_col_name = 'avg181p'
 const.order_col_name = 'order'
 
 const.type_col_name = 'type'

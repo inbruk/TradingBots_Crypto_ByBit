@@ -27,6 +27,8 @@ const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
 const.SERVER_ACCESS_API_KEY = os.getenv('BYBIT_API_KEY')
 const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
 
+const.SERVER_RECV_WINDOW = 500000
+
 
 def client_load_hour_prices(symbol_str, begin_utc):
 
@@ -104,6 +106,7 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
     req_data = {
         'api_key': const.SERVER_ACCESS_API_KEY,
         'timestamp': tsms_str,
+        'recv_window': const.SERVER_RECV_WINDOW,
         'side': side,
         'symbol': symbol,
         'order_type': order_type,
@@ -112,7 +115,7 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
         'reduce_only': reduce_only,
         'close_on_trigger': close_on_trigger,
         'take_profit': take_profit_str,
-        'time_in_force': time_in_force,
+        'time_in_force': time_in_force
     }
 
     sign = client_calculate_sign(req_data)
@@ -140,6 +143,7 @@ def client_order_get_status(order_id: str, symbol: str):
     req_data = {
         'api_key': const.SERVER_ACCESS_API_KEY,
         'timestamp': tsms_str,
+        'recv_window': const.SERVER_RECV_WINDOW,
         'order_id': order_id,
         'symbol': symbol
     }
@@ -202,6 +206,7 @@ def client_position_check(side: str, symbol: str):
     req_data = {
         'api_key': const.SERVER_ACCESS_API_KEY,
         'timestamp': tsms_str,
+        'recv_window': const.SERVER_RECV_WINDOW,
         'symbol': symbol
     }
 

@@ -21,11 +21,11 @@ def get_orders_filename(symbol_str):
 def check_order_open_close(out_df, x, o_now, o_buy):
 
     delta1441 = out_df.at[x, const.avg1441_col_name] - out_df.at[x-1, const.avg1441_col_name]
-    delta181 = out_df.at[x, const.avg181_col_name] - out_df.at[x-1, const.avg181_col_name]
-    delta31 = out_df.at[x, const.avg31_col_name] - out_df.at[x-1, const.avg31_col_name]
-    delta7 = out_df.at[x, const.avg7_col_name] - out_df.at[x-1, const.avg7_col_name]
-    dt = round(out_df.at[x, const.dt_col_name])
-    price = out_df.at[x, const.value_col_name]
+    delta181 = out_df.at[x, const.avg181p_col_name] - out_df.at[x-1, const.avg181p_col_name]
+    delta31 = out_df.at[x, const.avg31p_col_name] - out_df.at[x-1, const.avg31p_col_name]
+    delta7 = out_df.at[x, const.avg7p_col_name] - out_df.at[x-1, const.avg7p_col_name]
+    # dt = round(out_df.at[x, const.dt_col_name])
+    # price = out_df.at[x, const.value_col_name]
 
     o_change = False
 
@@ -199,11 +199,11 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
 
-    if ord_change and order_now:
+    if ord_change and not order_now:
         if order_buy:
-            ord_change = order_now = client_position_check(const.order_side_buy, symbol)
+            ord_change = client_position_check(const.order_side_buy, symbol)
         else:
-            ord_change = order_now = client_position_check(const.order_side_sell, const.XTZUSDT)
+            ord_change = client_position_check(const.order_side_sell, symbol)
 
     out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
