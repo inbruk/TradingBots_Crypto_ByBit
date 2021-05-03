@@ -97,14 +97,14 @@ def fill_order_values(
         ord_df.at[pos, const.profit_prc_col_name] = 0.0
         ord_df.at[pos, const.sum_profit_col_name] = 0.0
         ord_df.at[pos, const.sum_profit_prc_col_name] = 0.0
-        ord_df.at[pos, const.sum_profit_qty_col_name] = 0.0
-        ord_df.at[pos, const.sum_profit_qty_in_usd_col_name] = 0.0
+        ord_df.at[pos, const.qty_col_name] = 0.0
+        ord_df.at[pos, const.qty_in_usd_col_name] = 0.0
     else:
         ord_df.at[pos, const.close_ord_id_col_name] = close_order_id
         ord_df.at[pos,const.close_dt_col_name] = end_dt
         ord_df.at[pos,const.close_price_col_name] = end_val
-        ord_df.at[pos, const.sum_profit_qty_col_name] = qty
-        ord_df.at[pos, const.sum_profit_qty_in_usd_col_name] = qty_in_usd
+        ord_df.at[pos, const.qty_col_name] = qty
+        ord_df.at[pos, const.qty_in_usd_col_name] = qty_in_usd
 
         if o_buy:
             d_price = end_val - beg_val
