@@ -10,7 +10,6 @@ from pconst import const
 from consts import *
 from IPython.core.display import display
 
-
 const.COMMON_API_URL = 'https://api.bybit.com/'
 
 const.PUBLIC_API_ORDER = const.COMMON_API_URL + 'public/linear/'
@@ -31,16 +30,15 @@ const.SERVER_RECV_WINDOW = 5000000
 
 
 def client_load_hour_prices(symbol_str, begin_utc):
-
     begin_utc_int = round(begin_utc)
 
     req = requests.get(
         const.PUBLIC_API_ORDER_KLINE,
         {
-            'symbol':symbol_str,
-            'interval':1,
-            'from':begin_utc_int,
-            'limit':60
+            'symbol': symbol_str,
+            'interval': 1,
+            'from': begin_utc_int,
+            'limit': 60
         }
     )
 
@@ -50,8 +48,8 @@ def client_load_hour_prices(symbol_str, begin_utc):
         json_rows = json_data['result']
         for item in json_rows:
             dt = round(item['open_time'])
-            new_row = { 'dt':dt, 'open':item['open'], 'high':item['high'], 'low':item['low'],
-                        'close':item['close'], 'volume':item['volume'], 'turnover':item['turnover']  }
+            new_row = {'dt': dt, 'open': item['open'], 'high': item['high'], 'low': item['low'],
+                       'close': item['close'], 'volume': item['volume'], 'turnover': item['turnover']}
             df = df.append(new_row, ignore_index=True)
 
     return df
@@ -64,7 +62,7 @@ def client_calculate_sign(params):
         if isinstance(params[key], bool):
             if params[key]:
                 v = 'true'
-            else :
+            else:
                 v = 'false'
         params_str += key + '=' + str(v) + '&'
     params_str = params_str[:-1]
@@ -81,25 +79,24 @@ def current_time_ms():
     return res
 
 
-def client_order_create(side: str, symbol: str, qty: float, price: float, reduce_only:bool):
-
-    order_type:str = const.order_type_market
-    time_in_force:str = const.order_time_in_force_good_till_cancel
-
-    if side == const.order_side_buy:
-        stop_loss:float = round(price * const.order_stop_lost_koef_buy,4)
-    else:
-        stop_loss:float = round(price * const.order_stop_lost_koef_sell,4)
+def client_order_create(side: str, symbol: str, qty: float, price: float, reduce_only: bool):
+    order_type: str = const.order_type_market
+    time_in_force: str = const.order_time_in_force_good_till_cancel
 
     if side == const.order_side_buy:
-        take_profit:float = round(price * const.order_take_profit_koef_buy,4)
+        stop_loss: float = round(price * const.order_stop_lost_koef_buy, 4)
     else:
-        take_profit:float = round(price * const.order_take_profit_koef_sell,4)
+        stop_loss: float = round(price * const.order_stop_lost_koef_sell, 4)
+
+    if side == const.order_side_buy:
+        take_profit: float = round(price * const.order_take_profit_koef_buy, 4)
+    else:
+        take_profit: float = round(price * const.order_take_profit_koef_sell, 4)
 
     stop_loss_str = str(stop_loss)
     take_profit_str = str(take_profit)
 
-    close_on_trigger:bool = False
+    close_on_trigger: bool = False
     tsms_str = current_time_ms()
     qty_str = str(round(qty, 4))
 
@@ -138,7 +135,6 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
 
 
 def client_order_get_status(order_id: str, symbol: str):
-
     tsms_str = current_time_ms()
     req_data = {
         'api_key': const.SERVER_ACCESS_API_KEY,
@@ -159,19 +155,20 @@ def client_order_get_status(order_id: str, symbol: str):
         if ret_code == 0:
             result = json_data['result']
             res_data = result['data']
-
-            if len(res_data) < 1:
+            try:
+                if len(res_data) > 1:
+                    order_data = res_data[0]
+                    order_status = order_data['order_status']
+                    return True, order_status
+                else:
+                    return False, const.order_status_new
+            except:
                 return False, const.order_status_new
-
-            order_data = res_data[0]
-            order_status = order_data['order_status']
-            return True, order_status
 
     return False, const.order_status_rejected
 
 
-def client_position_oc(side: str,symbol: str, qty_in_usd: float, price: float, reduce_only:bool):
-
+def client_position_oc(side: str, symbol: str, qty_in_usd: float, price: float, reduce_only: bool):
     qty: float = round(qty_in_usd / price, 4)
     success_create, order_id, time_now, price, qty = \
         client_order_create(side, symbol, qty, price, reduce_only)
@@ -196,7 +193,6 @@ def client_position_open(side: str, symbol: str, qty_in_usd: float, price: float
 
 
 def client_position_close(side: str, symbol: str, qty_in_usd: float, price: float):
-
     if side == const.order_side_buy:
         side = const.order_side_sell
     else:
@@ -206,7 +202,6 @@ def client_position_close(side: str, symbol: str, qty_in_usd: float, price: floa
 
 
 def client_position_check(side: str, symbol: str):
-
     tsms_str = current_time_ms()
     req_data = {
         'api_key': const.SERVER_ACCESS_API_KEY,
@@ -229,7 +224,7 @@ def client_position_check(side: str, symbol: str):
             if result_len < 1:
                 return False
 
-            for x in range(0,result_len):
+            for x in range(0, result_len):
                 position_data = result[x]
                 size = position_data['size']
                 if size > 0.0:
@@ -240,4 +235,3 @@ def client_position_check(side: str, symbol: str):
                 return True
 
     return False
-
