@@ -115,18 +115,18 @@ def fill_order_values(
         p_prc = d_price_prc - 0.4
         p = (p_prc/100.0)*beg_val
 
-        ord_df.at[pos,const.delta_price] = d_price
-        ord_df.at[pos,const.delta_price_prc] = d_price_prc
-        ord_df.at[pos,const.profit] = p
-        ord_df.at[pos,const.profit_prc] = p_prc
+        ord_df.at[pos,const.delta_price_col_name] = d_price
+        ord_df.at[pos,const.delta_price_prc_col_name] = d_price_prc
+        ord_df.at[pos,const.profit_col_name] = p
+        ord_df.at[pos,const.profit_prc_col_name] = p_prc
 
         prev = pos - 1
         if prev >= 0:
-            ord_df.at[pos, const.sum_profit] = ord_df.at[prev, const.sum_profit] + p
-            ord_df.at[pos, const.sum_profit_prc] = ord_df.at[prev, const.sum_profit_prc] + p_prc
+            ord_df.at[pos, const.sum_profit_col_name] = ord_df.at[prev, const.sum_profit_col_name] + p
+            ord_df.at[pos, const.sum_profit_prc_col_name] = ord_df.at[prev, const.sum_profit_prc_col_name] + p_prc
         else:
-            ord_df.at[pos, const.sum_profit] = p
-            ord_df.at[pos, const.sum_profit_prc] = p_prc
+            ord_df.at[pos, const.sum_profit_col_name] = p
+            ord_df.at[pos, const.sum_profit_prc_col_name] = p_prc
 
     return ord_df
 

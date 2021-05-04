@@ -35,12 +35,12 @@ while 1 == 1:
 
     get_values_and_update_cache(const.ADAUSDT)
     update_equations_by_symbol(const.ADAUSDT)
-    update_orders_by_symbol(const.ADAUSDT, 5.0)
+    update_orders_by_symbol(const.ADAUSDT, 6.0)
     print()
 
     get_values_and_update_cache(const.XTZUSDT)
     update_equations_by_symbol(const.XTZUSDT)
-    update_orders_by_symbol(const.XTZUSDT, 5.0)
+    update_orders_by_symbol(const.XTZUSDT, 6.0)
     print()
 
     curr_utc = get_curr_minute_utc()
