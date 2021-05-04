@@ -88,7 +88,7 @@ def fill_order_values(
     ord_df.at[pos,const.open_price_col_name] = beg_val
 
     if o_open:
-        ord_df.at[pos, const.close_ord_id_col_name] = close_order_id
+        ord_df.at[pos, const.close_ord_id_col_name] = ' '
         ord_df.at[pos, const.close_dt_col_name] = 0.0
         ord_df.at[pos, const.close_price_col_name] = 0.0
         ord_df.at[pos, const.delta_price_col_name] = 0.0
@@ -101,8 +101,8 @@ def fill_order_values(
         ord_df.at[pos, const.qty_in_usd_col_name] = 0.0
     else:
         ord_df.at[pos, const.close_ord_id_col_name] = close_order_id
-        ord_df.at[pos,const.close_dt_col_name] = end_dt
-        ord_df.at[pos,const.close_price_col_name] = end_val
+        ord_df.at[pos, const.close_dt_col_name] = end_dt
+        ord_df.at[pos, const.close_price_col_name] = end_val
         ord_df.at[pos, const.qty_col_name] = qty
         ord_df.at[pos, const.qty_in_usd_col_name] = qty_in_usd
 
@@ -221,7 +221,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
             if success_open:
                 ord_df = fill_order_values(
-                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, '', 0.0, 0.0, qty, qty_in_usd
+                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty, qty_in_usd
                 )
         else:
             if order_buy:

@@ -27,7 +27,7 @@ const.SERVER_ACCESS_NAME = os.getenv('BYBIT_NAME')
 const.SERVER_ACCESS_API_KEY = os.getenv('BYBIT_API_KEY')
 const.SERVER_ACCESS_SECRET_CODE = os.getenv('BYBIT_SECRET_CODE')
 
-const.SERVER_RECV_WINDOW = 1000000
+const.SERVER_RECV_WINDOW = 5000000
 
 
 def client_load_hour_prices(symbol_str, begin_utc):
@@ -220,11 +220,17 @@ def client_position_check(side: str, symbol: str):
         ret_code = json_data['ret_code']
         if ret_code == 0:
             result = json_data['result']
-            if len(result) < 1:
+            result_len = len(result)
+            if result_len < 1:
                 return False
-            position_data = result[0]
+
+            for x in range(0,result_len):
+                position_data = result[x]
+                size = position_data['size']
+                if size > 0.0:
+                    break
+
             side_val = position_data['side']
-            size = position_data['size']
             if (side_val == side) and (size > 0):
                 return True
 
