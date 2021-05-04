@@ -136,7 +136,7 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
     if old_len < full_wnd_size:
         old_len = 0
     else:
-        old_len -= hwnd_size
+        old_len -= full_wnd_size
 
     for x in range(0, old_len):
         out_df.at[x, col_name] = old_df.at[x, col_name]
@@ -145,11 +145,16 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
     # фильтр для сглаживания
+    old_len = old_df[const.dt_col_name].size
+    filter_hwnd_size = hwnd_size
+    count = 3
+
     if hwnd_size >= 80:
         filter_hwnd_size = round(hwnd_size/6.0)
-        for t in range(0, 3):
-            for x in range(old_len, out_len):
-                out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
+
+    for t in range(0, count):
+        for x in range(old_len, out_len):
+            out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
 
     return out_df
 
