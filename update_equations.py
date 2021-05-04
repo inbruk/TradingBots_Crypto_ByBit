@@ -97,8 +97,8 @@ def calc_avg_value(out_df, index, hwnd_size, full_length):
     if start_idx<0:
         start_idx = 0
 
-    end_idx = index + hwnd_size + 2
-    if end_idx>full_length:
+    end_idx = index + hwnd_size + 1
+    if end_idx > full_length:
         end_idx = full_length
 
     count = 0
@@ -147,10 +147,11 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
     # фильтр для сглаживания
     old_len = old_df[const.dt_col_name].size
     filter_hwnd_size = hwnd_size
-    count = 3
+    count = 2
 
     if hwnd_size >= 80:
         filter_hwnd_size = round(hwnd_size/6.0)
+        count = 3
 
     for t in range(0, count):
         for x in range(old_len, out_len):
