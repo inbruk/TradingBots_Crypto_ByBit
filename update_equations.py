@@ -116,7 +116,7 @@ def smooth_filter(out_df, index, hwnd_size, full_length, col_name):
     if start_idx<0:
         start_idx = 0
 
-    end_idx = index + hwnd_size + 2
+    end_idx = index + hwnd_size + 1
     if end_idx>full_length:
         end_idx = full_length
 
@@ -142,19 +142,23 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
         out_df.at[x, col_name] = old_df.at[x, col_name]
 
     for x in range(old_len, out_len):
+        # if x >= out_len-2:
+        #     sss = 0.0
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
     # фильтр для сглаживания
-    old_len = old_df[const.dt_col_name].size
-    filter_hwnd_size = hwnd_size
-    count = 3
-
-    if hwnd_size >= 80:
-        filter_hwnd_size = round(hwnd_size/6.0)
-
-    for t in range(0, count):
-        for x in range(old_len, out_len):
-            out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
+    #if hwnd_size < 200:
+        # old_len = old_df[const.dt_col_name].size
+    # filter_hwnd_size = hwnd_size
+    # count = 2
+    #
+    # if hwnd_size >= 60:
+    #     filter_hwnd_size = round(hwnd_size/6.0)
+    #     count = 3
+    #
+    # for t in range(0, count):
+    #     for x in range(old_len, out_len):
+    #         out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
 
     return out_df
 

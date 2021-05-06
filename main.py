@@ -35,29 +35,28 @@ while 1 == 1:
 
     get_values_and_update_cache(const.ADAUSDT)
     update_equations_by_symbol(const.ADAUSDT)
-    update_orders_by_symbol(const.ADAUSDT, 30.0)
+    # update_orders_by_symbol(const.ADAUSDT, 3.0)
     print()
 
     get_values_and_update_cache(const.DOTUSDT)
     update_equations_by_symbol(const.DOTUSDT)
-    update_orders_by_symbol(const.DOTUSDT, 50.0)
+    # update_orders_by_symbol(const.DOTUSDT, 5.0)
     print()
 
     get_values_and_update_cache(const.LINKUSDT)
     update_equations_by_symbol(const.LINKUSDT)
-    update_orders_by_symbol(const.LINKUSDT, 50.0)
+    # update_orders_by_symbol(const.LINKUSDT, 5.0)
     print()
 
     get_values_and_update_cache(const.XTZUSDT)
     update_equations_by_symbol(const.XTZUSDT)
-    update_orders_by_symbol(const.XTZUSDT, 30.0)
+    # update_orders_by_symbol(const.XTZUSDT, 3.0)
     print()
 
     get_values_and_update_cache(const.UNIUSDT)
     update_equations_by_symbol(const.UNIUSDT)
-    update_orders_by_symbol(const.UNIUSDT, 50.0)
+    # update_orders_by_symbol(const.UNIUSDT, 5.0)
     print()
-
 
     curr_utc = get_curr_minute_utc()
 
