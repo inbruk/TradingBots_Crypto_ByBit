@@ -146,7 +146,7 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
         #     sss = 0.0
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
-    # фильтр для сглаживания
+    # фильтр для сглаживания (создает искажения)
     #if hwnd_size < 200:
         # old_len = old_df[const.dt_col_name].size
     # filter_hwnd_size = hwnd_size

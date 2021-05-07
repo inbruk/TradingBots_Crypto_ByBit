@@ -156,7 +156,7 @@ def client_order_get_status(order_id: str, symbol: str):
             result = json_data['result']
             res_data = result['data']
             try:
-                if len(res_data) > 1:
+                if len(res_data) > 0:
                     order_data = res_data[0]
                     order_status = order_data['order_status']
                     return True, order_status
