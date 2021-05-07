@@ -23,7 +23,7 @@ const.ORDERS = 'orders'
 const.avg7_hwnd = 8
 const.avg31_hwnd = 32
 const.avg181_hwnd = 128
-const.avg1441_hwnd = 512
+const.avg1441_hwnd = 720
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -79,5 +79,5 @@ const.order_time_in_force_post_only = 'PostOnly'
 const.order_stop_lost_koef_buy = 0.95
 const.order_stop_lost_koef_sell = 1.05
 
-const.order_take_profit_koef_buy = 1.02
-const.order_take_profit_koef_sell = 0.98
+const.order_take_profit_koef_buy = 1.1
+const.order_take_profit_koef_sell = 0.9
