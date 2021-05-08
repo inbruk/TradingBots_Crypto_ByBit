@@ -7,7 +7,6 @@ const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 const.ADAUSDT = 'ADAUSDT'
 const.DOTUSDT = 'DOTUSDT'
-const.LINKUSDT = 'LINKUSDT'
 const.XTZUSDT = 'XTZUSDT'
 const.UNIUSDT = 'UNIUSDT'
 
@@ -16,6 +15,7 @@ const.UNIUSDT = 'UNIUSDT'
 # const.BCHUSDT = 'BCHUSDT'
 # const.LTCUSDT = 'LTCUSDT'
 
+#const.LINKUSDT = 'LINKUSDT' # model not allowed
 
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
