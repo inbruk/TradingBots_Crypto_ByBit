@@ -94,7 +94,7 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
     #     take_profit: float = round(price * const.order_take_profit_koef_sell, 4)
 
     stop_loss_str = str(stop_loss)
-    take_profit_str = str(take_profit)
+    # take_profit_str = str(take_profit)
 
     close_on_trigger: bool = False
     tsms_str = current_time_ms()
