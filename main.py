@@ -50,7 +50,7 @@ while 1 == 1:
 
     get_values_and_update_cache(const.XTZUSDT)
     update_equations_by_symbol(const.XTZUSDT)
-    update_orders_by_symbol(const.XTZUSDT, 30.0)
+    update_orders_by_symbol(const.XTZUSDT, 40.0)
     print()
 
     get_values_and_update_cache(const.UNIUSDT)

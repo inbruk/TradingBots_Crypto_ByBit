@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1619703312
+const.START_UTC = 1620172800
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -79,5 +79,5 @@ const.order_time_in_force_post_only = 'PostOnly'
 const.order_stop_lost_koef_buy = 0.95
 const.order_stop_lost_koef_sell = 1.05
 
-const.order_take_profit_koef_buy = 1.1
-const.order_take_profit_koef_sell = 0.9
+# const.order_take_profit_koef_buy = 1.1
+# const.order_take_profit_koef_sell = 0.9

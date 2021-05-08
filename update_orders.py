@@ -78,16 +78,16 @@ def fill_order_values(
     else:
         pos = len - 1 # insert values into last row
 
-    if o_buy:
-        ord_df.at[pos,const.type_col_name] = const.order_side_buy
-    else:
-        ord_df.at[pos,const.type_col_name] = const.order_side_sell
-
-    ord_df.at[pos,const.open_ord_id_col_name] = open_order_id
-    ord_df.at[pos,const.open_dt_col_name] = beg_dt
-    ord_df.at[pos,const.open_price_col_name] = beg_val
-
     if o_open:
+        if o_buy:
+            ord_df.at[pos, const.type_col_name] = const.order_side_buy
+        else:
+            ord_df.at[pos, const.type_col_name] = const.order_side_sell
+
+        ord_df.at[pos, const.open_ord_id_col_name] = open_order_id
+        ord_df.at[pos, const.open_dt_col_name] = beg_dt
+        ord_df.at[pos, const.open_price_col_name] = beg_val
+
         ord_df.at[pos, const.close_ord_id_col_name] = ' '
         ord_df.at[pos, const.close_dt_col_name] = 0.0
         ord_df.at[pos, const.close_price_col_name] = 0.0

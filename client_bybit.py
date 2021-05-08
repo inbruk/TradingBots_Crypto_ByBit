@@ -87,11 +87,11 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
         stop_loss: float = round(price * const.order_stop_lost_koef_buy, 4)
     else:
         stop_loss: float = round(price * const.order_stop_lost_koef_sell, 4)
-
-    if side == const.order_side_buy:
-        take_profit: float = round(price * const.order_take_profit_koef_buy, 4)
-    else:
-        take_profit: float = round(price * const.order_take_profit_koef_sell, 4)
+    #
+    # if side == const.order_side_buy:
+    #     take_profit: float = round(price * const.order_take_profit_koef_buy, 4)
+    # else:
+    #     take_profit: float = round(price * const.order_take_profit_koef_sell, 4)
 
     stop_loss_str = str(stop_loss)
     take_profit_str = str(take_profit)
@@ -111,7 +111,7 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
         'stop_loss': stop_loss_str,
         'reduce_only': reduce_only,
         'close_on_trigger': close_on_trigger,
-        'take_profit': take_profit_str,
+        # 'take_profit': take_profit_str,
         'time_in_force': time_in_force
     }
 
