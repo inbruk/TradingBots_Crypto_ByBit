@@ -22,7 +22,7 @@ const.ORDERS = 'orders'
 
 const.avg7_hwnd = 8
 const.avg31_hwnd = 32
-const.avg181_hwnd = 128
+const.avg181_hwnd = 256
 const.avg1441_hwnd = 1024
 
 const.open_col_name = 'open'
@@ -81,3 +81,10 @@ const.order_stop_lost_koef_sell = 1.05
 
 # const.order_take_profit_koef_buy = 1.1
 # const.order_take_profit_koef_sell = 0.9
+
+# |d3+d4| must be > (1% of price per 4 hours) = (1/4)*(price/100)
+# 1% - useful min price change
+# 1% per 6 hours, 6 hours - one part of d3 changes (line like)
+# 1% per 6 = 4% per day
+# abs(d3 + d4) > price * 0.0025
+const.d3_d4_useful_koef = 0.0025
