@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1620172800
+const.START_UTC = 1620518400
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -20,10 +20,10 @@ const.UNIUSDT = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 8
-const.avg31_hwnd = 32
-const.avg181_hwnd = 256
-const.avg1441_hwnd = 1024
+const.avg7_hwnd = 4
+const.avg31_hwnd = 16
+const.avg181_hwnd = 128
+const.avg1441_hwnd = 256
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -82,9 +82,13 @@ const.order_stop_lost_koef_sell = 1.05
 # const.order_take_profit_koef_buy = 1.1
 # const.order_take_profit_koef_sell = 0.9
 
-# |d3+d4| must be > (1% of price per 4 hours) = (1/4)*(price/100)
+# |d3+d4| must be > (1% of price per 4 hour) = (1/(4*60))*(price/100) = price * (1/24000))
 # 1% - useful min price change
 # 1% per 6 hours, 6 hours - one part of d3 changes (line like)
 # 1% per 6 = 4% per day
-# abs(d3 + d4) > price * 0.0025
-const.d3_d4_useful_koef = 0.0025
+# 2 hours horizontal line, 6-2 = 4 hours
+# 1% per 4 hours = 1/4h,
+# delta calulates by minute
+# 1% per 4 hours = 1/(4*60)
+# abs(d3 + d4) > price * 0.000047
+const.d3_d4_useful_koef = 0.000047

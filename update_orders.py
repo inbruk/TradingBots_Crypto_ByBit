@@ -18,19 +18,21 @@ def get_orders_filename(symbol_str):
     return r'data/' + symbol_str.lower() + '_' + const.ORDERS + '.csv'
 
 
-def check_order_open_close(out_df, x, o_now, o_buy, price):
+def check_order_open_close(out_df, x, o_now, o_buy):
 
     delta1441 = out_df.at[x, const.avg1441_col_name] - out_df.at[x-1, const.avg1441_col_name]
     delta181 = out_df.at[x, const.avg181p_col_name] - out_df.at[x-1, const.avg181p_col_name]
     delta31 = out_df.at[x, const.avg31p_col_name] - out_df.at[x-1, const.avg31p_col_name]
     delta7 = out_df.at[x, const.avg7p_col_name] - out_df.at[x-1, const.avg7p_col_name]
     # dt = round(out_df.at[x, const.dt_col_name])
-    # price = out_df.at[x, const.value_col_name]
+    price = out_df.at[x, const.value_col_name]
 
     o_change = False
 
     if not o_now:
-        if abs(delta1441 + delta181) > price * const.d3_d4_useful_koef:  # see const.py for details
+        ad3d4 = abs(delta1441 + delta181)
+        kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
+        if ad3d4 > kd3d4:
 
             if delta1441 > 0 and delta181 > 0 and delta31 > 0 and delta7 > 0:
                 o_change = True
@@ -199,7 +201,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
     out_df.at[0, const.order_col_name] = mean_value
     out_df.at[1, const.order_col_name] = mean_value
 
-    order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy, beg_val)
+    order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
 
     if ord_change and not order_now:
         if order_buy:
