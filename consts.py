@@ -1,12 +1,13 @@
 import os
 from pconst import const
 
-const.START_UTC = 1620518400
+const.START_UTC = 1620613178
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 const.ADAUSDT = 'ADAUSDT'
 const.DOTUSDT = 'DOTUSDT'
+const.LINKUSDT = 'LINKUSDT'
 const.XTZUSDT = 'XTZUSDT'
 const.UNIUSDT = 'UNIUSDT'
 
@@ -15,7 +16,6 @@ const.UNIUSDT = 'UNIUSDT'
 # const.BCHUSDT = 'BCHUSDT'
 # const.LTCUSDT = 'LTCUSDT'
 
-#const.LINKUSDT = 'LINKUSDT' # model not allowed
 
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
@@ -76,19 +76,14 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.order_stop_lost_koef_buy = 0.95
-const.order_stop_lost_koef_sell = 1.05
+const.order_stop_lost_koef_buy = 0.98
+const.order_stop_lost_koef_sell = 1.02
 
-# const.order_take_profit_koef_buy = 1.1
-# const.order_take_profit_koef_sell = 0.9
+const.order_take_profit_koef_buy = 1.01
+const.order_take_profit_koef_sell = 0.99
 
-# |d3+d4| must be > (1% of price per 4 hour) = (1/(4*60))*(price/100) = price * (1/24000))
-# 1% - useful min price change
-# 1% per 6 hours, 6 hours - one part of d3 changes (line like)
-# 1% per 6 = 4% per day
-# 2 hours horizontal line, 6-2 = 4 hours
-# 1% per 4 hours = 1/4h,
-# delta calulates by minute
-# 1% per 4 hours = 1/(4*60)
-# abs(d3 + d4) > price * 0.000047
-const.d3_d4_useful_koef = 0.000047
+# |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
+# delta calulates per minute
+# 1% per 1 hour = 1/60
+# abs(d3 + d4) > price * 0.000167
+const.d3_d4_useful_koef = 0.000167
