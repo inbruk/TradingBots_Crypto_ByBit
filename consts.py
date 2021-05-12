@@ -5,14 +5,14 @@ const.START_UTC = 1620613178
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-const.ADAUSDT = 'ADAUSDT'
+# const.ADAUSDT = 'ADAUSDT'
 const.DOTUSDT = 'DOTUSDT'
+const.ETHUSDT = 'ETHUSDT'
 const.LINKUSDT = 'LINKUSDT'
-const.XTZUSDT = 'XTZUSDT'
 const.UNIUSDT = 'UNIUSDT'
 
 # const.BTCUSDT = 'BTCUSDT'
-# const.ETHUSDT = 'ETHUSDT'
+# const.XTZUSDT = 'XTZUSDT'
 # const.BCHUSDT = 'BCHUSDT'
 # const.LTCUSDT = 'LTCUSDT'
 
@@ -86,4 +86,4 @@ const.order_take_profit_koef_sell = 0.99
 # delta calulates per minute
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
-const.d3_d4_useful_koef = 0.000167
+const.d3_d4_useful_koef = 0.000047
