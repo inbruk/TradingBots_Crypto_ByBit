@@ -5,14 +5,14 @@ const.START_UTC = 1620613178
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-# const.ADAUSDT = 'ADAUSDT'
+const.ADAUSDT = 'ADAUSDT'
 const.DOTUSDT = 'DOTUSDT'
 const.ETHUSDT = 'ETHUSDT'
 const.LINKUSDT = 'LINKUSDT'
+const.XTZUSDT = 'XTZUSDT'
 const.UNIUSDT = 'UNIUSDT'
 
 # const.BTCUSDT = 'BTCUSDT'
-# const.XTZUSDT = 'XTZUSDT'
 # const.BCHUSDT = 'BCHUSDT'
 # const.LTCUSDT = 'LTCUSDT'
 
