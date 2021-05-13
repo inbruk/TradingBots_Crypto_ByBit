@@ -178,6 +178,26 @@ def check_for_order_open(ord_df):
     return order_now, order_buy, open_order_id, beg_dt, beg_val
 
 
+def check_and_close_when_autoclosed(out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x):
+
+    if order_buy:
+        position_exists = client_position_check(const.order_side_buy, symbol)
+    else:
+        position_exists = client_position_check(const.order_side_sell, symbol)
+
+    if not position_exists:
+        end_dt = out_df.at[x, const.dt_col_name]
+        end_val = out_df.at[x, const.value_col_name]
+
+        ord_df = fill_order_values(
+            ord_df, False, order_buy, open_order_id, beg_dt, beg_val,
+            '1.1', end_dt, end_val, 1.1, 1.1
+        )
+        return True, ord_df
+
+    return False, ord_df
+
+
 def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     out_len = out_df[const.dt_col_name].size
@@ -203,24 +223,14 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
 
-    if ord_change and not order_now:
-        if order_buy:
-            position_exists = client_position_check(const.order_side_buy, symbol)
-        else:
-            position_exists = client_position_check(const.order_side_sell, symbol)
+    auto_closed = True
+    if ord_change and not order_now: # not close if closed
+        auto_closed, ord_df = check_and_close_when_autoclosed(
+            out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x)
 
-        if not position_exists:
-            end_dt = out_df.at[x, const.dt_col_name]
-            end_val = out_df.at[x, const.value_col_name]
+    ord_change = not auto_closed
 
-            ord_df = fill_order_values(
-                ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
-                '1.1', end_dt, end_val, 1.1, 1.1
-            )
-
-            ord_change = False
-
-    out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
+ #   out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
     if ord_change:
         if order_now:
