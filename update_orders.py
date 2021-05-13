@@ -205,9 +205,20 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     if ord_change and not order_now:
         if order_buy:
-            ord_change = client_position_check(const.order_side_buy, symbol)
+            position_exists = client_position_check(const.order_side_buy, symbol)
         else:
-            ord_change = client_position_check(const.order_side_sell, symbol)
+            position_exists = client_position_check(const.order_side_sell, symbol)
+
+        if not position_exists:
+            end_dt = out_df.at[x, const.dt_col_name]
+            end_val = out_df.at[x, const.value_col_name]
+
+            ord_df = fill_order_values(
+                ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
+                '1.1', end_dt, end_val, 1.1, 1.1
+            )
+
+            ord_change = False
 
     out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
