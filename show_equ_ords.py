@@ -56,7 +56,7 @@ def draw_one_symbol(symbol_str, start_dt):
     print('..drawed !')
 
 
-curr_symbol = const.ETHUSDT
+curr_symbol = const.ADAUSDT
 start_dt_utc = 1620613178
 draw_one_symbol(curr_symbol, start_dt_utc)
 

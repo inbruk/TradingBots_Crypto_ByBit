@@ -223,12 +223,10 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
 
-    auto_closed = True
     if ord_change and not order_now: # not close if closed
         auto_closed, ord_df = check_and_close_when_autoclosed(
             out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x)
-
-    ord_change = not auto_closed
+        ord_change = not auto_closed
 
  #   out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
