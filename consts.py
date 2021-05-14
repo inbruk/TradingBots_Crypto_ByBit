@@ -22,7 +22,7 @@ const.ORDERS = 'orders'
 const.avg7_hwnd = 4
 const.avg31_hwnd = 16
 const.avg181_hwnd = 128
-const.avg1441_hwnd = 300
+const.avg1441_hwnd = 512
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
