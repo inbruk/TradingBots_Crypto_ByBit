@@ -78,8 +78,8 @@ const.order_time_in_force_post_only = 'PostOnly'
 const.order_stop_lost_koef_buy = 0.99
 const.order_stop_lost_koef_sell = 1.01
 
-const.order_take_profit_koef_buy = 1.01
-const.order_take_profit_koef_sell = 0.99
+const.order_take_profit_koef_buy = 1.015
+const.order_take_profit_koef_sell = 0.985
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute
