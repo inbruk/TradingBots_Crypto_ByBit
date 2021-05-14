@@ -1,0 +1,1 @@
+del /Q "O:/Prog_Experiments/TradingBots/Crypto/ByBit/\data\*_orders.csv"
