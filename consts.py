@@ -75,8 +75,8 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.order_stop_lost_koef_buy = 0.99
-const.order_stop_lost_koef_sell = 1.01
+const.order_stop_lost_koef_buy = 0.98
+const.order_stop_lost_koef_sell = 1.02
 
 const.order_take_profit_koef_buy = 1.01
 const.order_take_profit_koef_sell = 0.99
@@ -85,4 +85,4 @@ const.order_take_profit_koef_sell = 0.99
 # delta calulates per minute
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
-const.d3_d4_useful_koef = 0.000047
+const.d3_d4_useful_koef = 0.0000047
