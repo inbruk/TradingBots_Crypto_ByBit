@@ -29,9 +29,9 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     o_change = False
 
+    kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
     if not o_now:
-        kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
-        if abs(delta1441) > kd3d4 and abs(delta181) > kd3d4:
+        if abs(delta1441) > kd3d4:
 
             if delta1441 > 0 and delta181 > 0 and delta31 > 0 and delta7 > 0:
                 o_change = True
@@ -44,11 +44,11 @@ def check_order_open_close(out_df, x, o_now, o_buy):
                 o_buy = False
     else:
         if o_buy:
-            if delta1441 < 0:  # (delta1441 + delta181) < 0:
+            if delta1441 < kd3d4:  # (delta1441 + delta181) < 0:
                 o_change = True
                 o_now = False
         else:
-            if delta1441 > 0:  # (delta1441 + delta181) > 0:
+            if delta1441 > (-1.0) * kd3d4:  # (delta1441 + delta181) > 0:
                 o_change = True
                 o_now = False
 
