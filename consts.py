@@ -19,7 +19,7 @@ const.UNIUSDT = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 8
+const.avg7_hwnd = 4
 const.avg31_hwnd = 32
 const.avg181_hwnd = 128
 const.avg1441_hwnd = 512
