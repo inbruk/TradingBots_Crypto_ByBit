@@ -231,14 +231,14 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg1441_hwnd, const.avg1441_col_name)
     print('..a1441.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg7p_col_name, const.avg7_col_name, const.avg31_col_name)
-    print('..p7.', end='')
-
-    out_df = update_eq_purify(old_df, out_df, const.avg31p_col_name, const.avg31_col_name, const.avg181_col_name)
-    print('..p31.', end='')
-
-    out_df = update_eq_purify(old_df, out_df, const.avg181p_col_name, const.avg181_col_name, const.avg1441_col_name)
-    print('..p181.', end='')
+    # out_df = update_eq_purify(old_df, out_df, const.avg7p_col_name, const.avg7_col_name, const.avg31_col_name)
+    # print('..p7.', end='')
+    #
+    # out_df = update_eq_purify(old_df, out_df, const.avg31p_col_name, const.avg31_col_name, const.avg181_col_name)
+    # print('..p31.', end='')
+    #
+    # out_df = update_eq_purify(old_df, out_df, const.avg181p_col_name, const.avg181_col_name, const.avg1441_col_name)
+    # print('..p181.', end='')
 
     out_df = update_eq_initial_order(old_df, out_df)
     print('..ini_ord.', end='')

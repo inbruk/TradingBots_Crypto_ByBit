@@ -19,11 +19,10 @@ def get_orders_filename(symbol_str):
 
 
 def check_order_open_close(out_df, x, o_now, o_buy):
-
-    delta1441 = out_df.at[x, const.avg1441_col_name] - out_df.at[x-1, const.avg1441_col_name]
-    delta181 = out_df.at[x, const.avg181p_col_name] - out_df.at[x-1, const.avg181p_col_name]
-    delta31 = out_df.at[x, const.avg31p_col_name] - out_df.at[x-1, const.avg31p_col_name]
-    delta7 = out_df.at[x, const.avg7p_col_name] - out_df.at[x-1, const.avg7p_col_name]
+    delta1441 = out_df.at[x, const.avg1441_col_name] - out_df.at[x - 1, const.avg1441_col_name]
+    delta181 = out_df.at[x, const.avg181_col_name] - out_df.at[x - 1, const.avg181_col_name]
+    delta31 = out_df.at[x, const.avg31_col_name] - out_df.at[x - 1, const.avg31_col_name]
+    delta7 = out_df.at[x, const.avg7_col_name] - out_df.at[x - 1, const.avg7_col_name]
     # dt = round(out_df.at[x, const.dt_col_name])
     price = out_df.at[x, const.value_col_name]
 
@@ -31,27 +30,26 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
     if not o_now:
-        if abs(delta1441) > kd3d4:
+        # if abs(delta1441+delta181) > kd3d4:
+        if delta1441 > 0 and delta181 > 0 and delta31 > 0 and delta7 > 0:
+            o_change = True
+            o_now = True
+            o_buy = True
+            return o_now, o_buy, o_change
 
-            if delta1441 > 0 and delta181 > 0:  # and delta31 > 0 and delta7 > 0:
-                o_change = True
-                o_now = True
-                o_buy = True
-                return o_now, o_buy, o_change
-
-            if delta1441 < 0 and delta181 < 0:  # and delta31 < 0 and delta7 < 0:
-                o_change = True
-                o_now = True
-                o_buy = False
-                return o_now, o_buy, o_change
+        if delta1441 < 0 and delta181 < 0 and delta31 < 0 and delta7 < 0:
+            o_change = True
+            o_now = True
+            o_buy = False
+            return o_now, o_buy, o_change
     else:
         if o_buy:
-            if delta1441 < 0:  # (delta1441 + delta181) < 0:
+            if delta1441 < 0 and delta181 < 0 and delta31 < 0 and delta7 < 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
         else:
-            if delta1441 > 0:  # (delta1441 + delta181) > 0:
+            if delta1441 > 0 and delta181 > 0 and delta31 > 0 and delta7 > 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
@@ -60,7 +58,6 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
 
 def fill_equation_values(out_df, x, o_now, o_buy, mean_value, min_value, max_value):
-
     if o_now:
         if o_buy:
             out_df.at[x, const.order_col_name] = max_value
@@ -78,12 +75,11 @@ def fill_order_values(
         close_order_id, end_dt, end_val,
         qty, qty_in_usd
 ):
-
     len = ord_df[const.type_col_name].size
     if o_open:
-        pos = len # add new row
+        pos = len  # add new row
     else:
-        pos = len - 1 # insert values into last row
+        pos = len - 1  # insert values into last row
 
     if o_open:
         if o_buy:
@@ -118,14 +114,14 @@ def fill_order_values(
         else:
             d_price = beg_val - end_val
 
-        d_price_prc = (d_price/beg_val)*100.0
+        d_price_prc = (d_price / beg_val) * 100.0
         p_prc = d_price_prc - 0.4
-        p = (p_prc/100.0)*beg_val
+        p = (p_prc / 100.0) * beg_val
 
-        ord_df.at[pos,const.delta_price_col_name] = d_price
-        ord_df.at[pos,const.delta_price_prc_col_name] = d_price_prc
-        ord_df.at[pos,const.profit_col_name] = p
-        ord_df.at[pos,const.profit_prc_col_name] = p_prc
+        ord_df.at[pos, const.delta_price_col_name] = d_price
+        ord_df.at[pos, const.delta_price_prc_col_name] = d_price_prc
+        ord_df.at[pos, const.profit_col_name] = p
+        ord_df.at[pos, const.profit_prc_col_name] = p_prc
 
         prev = pos - 1
         if prev >= 0:
@@ -149,7 +145,6 @@ def get_curr_prev5_minute_utc():
 
 
 def check_for_order_open(ord_df):
-
     open_order_id = ''
     len = ord_df[const.type_col_name].size
     if len <= 0:
@@ -182,7 +177,6 @@ def check_for_order_open(ord_df):
 
 
 def check_and_close_when_autoclosed(out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x):
-
     if order_buy:
         position_exists = client_position_check(const.order_side_buy, symbol)
     else:
@@ -202,7 +196,6 @@ def check_and_close_when_autoclosed(out_df, ord_df, symbol, order_buy, open_orde
 
 
 def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
-
     out_len = out_df[const.dt_col_name].size
     x = out_len - 1
 
@@ -226,12 +219,12 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
 
-    if ord_change and not order_now: # not close if closed
+    if ord_change and not order_now:  # not close if closed
         auto_closed, ord_df = check_and_close_when_autoclosed(
             out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x)
         ord_change = not auto_closed
 
- #   out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
+    #   out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
     if ord_change:
         if order_now:
@@ -270,7 +263,6 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
 
 def update_orders_by_symbol(symbol_str, qty_in_usd):
-
     print('Update orders ' + symbol_str + ' ', end='')
 
     eq_file_name = get_equations_filename(symbol_str)
@@ -300,5 +292,3 @@ def update_orders_by_symbol(symbol_str, qty_in_usd):
     print('..save eq.', end='')
 
     print('Completed !')
-
-

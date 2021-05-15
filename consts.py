@@ -19,10 +19,10 @@ const.UNIUSDT = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 4
-const.avg31_hwnd = 32
-const.avg181_hwnd = 128
-const.avg1441_hwnd = 300
+const.avg7_hwnd = 300
+const.avg31_hwnd = 500
+const.avg181_hwnd = 750
+const.avg1441_hwnd = 1000
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -78,11 +78,11 @@ const.order_time_in_force_post_only = 'PostOnly'
 const.order_stop_lost_koef_buy = 0.98
 const.order_stop_lost_koef_sell = 1.02
 
-const.order_take_profit_koef_buy = 1.01
-const.order_take_profit_koef_sell = 0.99
+const.order_take_profit_koef_buy = 1.02
+const.order_take_profit_koef_sell = 0.98
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
-const.d3_d4_useful_koef = 0.0000047
+const.d3_d4_useful_koef = 0.000047
