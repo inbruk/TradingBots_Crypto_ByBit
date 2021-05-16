@@ -6,14 +6,14 @@ const.START_UTC = 1620975893
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 
-const.AAVEUSDT = 'AAVEUSDT' #
-const.ADAUSDT = 'ADAUSDT'
-const.DOTUSDT = 'DOTUSDT'
+const.AAVEUSDT = 'AAVEUSDT'
+const.ADAUSDT  = 'ADAUSDT'
+const.DOTUSDT  = 'DOTUSDT'
 const.LINKUSDT = 'LINKUSDT'
-const.LTCUSDT = 'LTCUSDT'  #
-const.XRPUSDT = 'XRPUSDT'  #
-const.XTZUSDT = 'XTZUSDT'
-const.UNIUSDT = 'UNIUSDT'
+const.LTCUSDT  = 'LTCUSDT'
+const.XRPUSDT  = 'XRPUSDT'
+const.XTZUSDT  = 'XTZUSDT'
+const.UNIUSDT  = 'UNIUSDT'
 
 # const.BTCUSDT = 'BTCUSDT'
 # const.BCHUSDT = 'BCHUSDT'
@@ -25,8 +25,8 @@ const.ORDERS = 'orders'
 
 const.avg7_hwnd = 300
 const.avg31_hwnd = 500
-const.avg181_hwnd = 750
-const.avg1441_hwnd = 1000
+const.avg181_hwnd = 700
+const.avg1441_hwnd = 900
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
