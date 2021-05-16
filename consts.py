@@ -23,10 +23,10 @@ const.UNIUSDT  = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 300
+const.avg7_hwnd = 400
 const.avg31_hwnd = 500
-const.avg181_hwnd = 700
-const.avg1441_hwnd = 900
+const.avg181_hwnd = 600
+const.avg1441_hwnd = 700
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
