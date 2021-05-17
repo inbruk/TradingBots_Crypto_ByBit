@@ -23,10 +23,10 @@ const.UNIUSDT  = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 600
-const.avg31_hwnd = 700
-const.avg181_hwnd = 800
-const.avg1441_hwnd = 900
+const.avg7_hwnd = 300
+const.avg31_hwnd = 400
+const.avg181_hwnd = 500
+const.avg1441_hwnd = 600
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -79,8 +79,8 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.order_stop_lost_koef_buy = 0.9
-const.order_stop_lost_koef_sell = 1.1
+const.order_stop_lost_koef_buy = 0.98
+const.order_stop_lost_koef_sell = 1.02
 
 const.order_take_profit_koef_buy = 1.02
 const.order_take_profit_koef_sell = 0.98
