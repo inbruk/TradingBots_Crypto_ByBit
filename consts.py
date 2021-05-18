@@ -6,14 +6,15 @@ const.START_UTC = 1620672229
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
 
-const.AAVEUSDT = 'AAVEUSDT'
-const.ADAUSDT  = 'ADAUSDT'
-const.DOTUSDT  = 'DOTUSDT'
-const.LINKUSDT = 'LINKUSDT'
-const.LTCUSDT  = 'LTCUSDT'
-const.XRPUSDT  = 'XRPUSDT'
-const.XTZUSDT  = 'XTZUSDT'
-const.UNIUSDT  = 'UNIUSDT'
+const.AAVEUSDT   = 'AAVEUSDT'
+const.ADAUSDT    = 'ADAUSDT'
+const.DOTUSDT    = 'DOTUSDT'
+const.LINKUSDT   = 'LINKUSDT'
+const.LTCUSDT    = 'LTCUSDT'
+const.SUSHIUSDT  = 'SUSHIUSDT'
+const.XRPUSDT    = 'XRPUSDT'
+const.XTZUSDT    = 'XTZUSDT'
+const.UNIUSDT    = 'UNIUSDT'
 
 # const.BTCUSDT = 'BTCUSDT'
 # const.BCHUSDT = 'BCHUSDT'
@@ -25,8 +26,8 @@ const.ORDERS = 'orders'
 
 const.avg7_hwnd = 300
 const.avg31_hwnd = 400
-const.avg181_hwnd = 600
-const.avg1441_hwnd = 800
+const.avg181_hwnd = 500
+const.avg1441_hwnd = 600
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -79,8 +80,8 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.order_stop_lost_koef_buy = 0.98
-const.order_stop_lost_koef_sell = 1.02
+const.order_stop_lost_koef_buy = 0.95
+const.order_stop_lost_koef_sell = 1.05
 
 const.order_take_profit_koef_buy = 1.02
 const.order_take_profit_koef_sell = 0.98
