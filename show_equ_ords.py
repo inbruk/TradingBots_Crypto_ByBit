@@ -56,7 +56,7 @@ def draw_one_symbol(symbol_str, start_dt):
     print('..drawed !')
 
 
-curr_symbol = const.AAVEUSDT
+curr_symbol = const.UNIUSDT
 start_dt_utc = 1620672229
 draw_one_symbol(curr_symbol, start_dt_utc)
 
