@@ -35,17 +35,27 @@ while 1 == 1:
 
     get_values_and_update_cache(const.AAVEUSDT)
     update_equations_by_symbol(const.AAVEUSDT)
-    update_orders_by_symbol(const.AAVEUSDT, 50.0)
+    update_orders_by_symbol(const.AAVEUSDT, 100.0)
     print()
 
     get_values_and_update_cache(const.ADAUSDT)
     update_equations_by_symbol(const.ADAUSDT)
-    update_orders_by_symbol(const.ADAUSDT, 10.0)
+    update_orders_by_symbol(const.ADAUSDT, 50.0)
+    print()
+
+    get_values_and_update_cache(const.BCHUSDT)
+    update_equations_by_symbol(const.BCHUSDT)
+    update_orders_by_symbol(const.BCHUSDT, 50.0)
     print()
 
     get_values_and_update_cache(const.DOTUSDT)
     update_equations_by_symbol(const.DOTUSDT)
-    update_orders_by_symbol(const.DOTUSDT, 15.0)
+    update_orders_by_symbol(const.DOTUSDT, 50.0)
+    print()
+
+    get_values_and_update_cache(const.ETHUSDT)
+    update_equations_by_symbol(const.ETHUSDT)
+    update_orders_by_symbol(const.ETHUSDT, 50.0)
     print()
 
     get_values_and_update_cache(const.LTCUSDT)
@@ -55,27 +65,27 @@ while 1 == 1:
 
     get_values_and_update_cache(const.LINKUSDT)
     update_equations_by_symbol(const.LINKUSDT)
-    update_orders_by_symbol(const.LINKUSDT, 20.0)
+    update_orders_by_symbol(const.LINKUSDT, 100.0)
     print()
 
     get_values_and_update_cache(const.SUSHIUSDT)
     update_equations_by_symbol(const.SUSHIUSDT)
-    update_orders_by_symbol(const.SUSHIUSDT, 10.0)
+    update_orders_by_symbol(const.SUSHIUSDT, 100.0)
     print()
 
     get_values_and_update_cache(const.XRPUSDT)
     update_equations_by_symbol(const.XRPUSDT)
-    update_orders_by_symbol(const.XRPUSDT, 10.0)
+    update_orders_by_symbol(const.XRPUSDT, 50.0)
     print()
 
     get_values_and_update_cache(const.XTZUSDT)
     update_equations_by_symbol(const.XTZUSDT)
-    update_orders_by_symbol(const.XTZUSDT, 15.0)
+    update_orders_by_symbol(const.XTZUSDT, 100.0)
     print()
 
     get_values_and_update_cache(const.UNIUSDT)
     update_equations_by_symbol(const.UNIUSDT)
-    update_orders_by_symbol(const.UNIUSDT, 15.0)
+    update_orders_by_symbol(const.UNIUSDT, 50.0)
     print()
 
     curr_utc = get_curr_minute_utc()
