@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1620672229
+const.START_UTC = 1621382400
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -24,10 +24,10 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 300
-const.avg31_hwnd = 400
-const.avg181_hwnd = 500
-const.avg1441_hwnd = 600
+const.avg7_hwnd = 60  # 300
+const.avg31_hwnd = 80  # 400
+const.avg181_hwnd = 100  # 500
+const.avg1441_hwnd = 120  # 600
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
