@@ -35,6 +35,10 @@ while 1 == 1:
 
     next_utc = get_next_minute_utc()
 
+    get_values_and_update_cache(const.BTCUSDT)
+    update_equations_by_symbol(const.BTCUSDT)
+    print()
+
     get_values_and_update_cache(const.AAVEUSDT)
     update_equations_by_symbol(const.AAVEUSDT)
     if update_orders:

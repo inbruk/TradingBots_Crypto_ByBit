@@ -5,7 +5,7 @@ const.START_UTC = 1621382400
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-
+const.BTCUSDT    = 'BTCUSDT'
 const.AAVEUSDT   = 'AAVEUSDT'
 const.ADAUSDT    = 'ADAUSDT'
 const.BCHUSDT    = 'BCHUSDT'
@@ -17,9 +17,6 @@ const.SUSHIUSDT  = 'SUSHIUSDT'
 const.XRPUSDT    = 'XRPUSDT'
 const.XTZUSDT    = 'XTZUSDT'
 const.UNIUSDT    = 'UNIUSDT'
-
-# const.BTCUSDT = 'BTCUSDT'
-
 
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
