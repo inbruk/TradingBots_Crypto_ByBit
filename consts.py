@@ -25,9 +25,9 @@ const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
 const.avg7_hwnd = 60  # 300
-const.avg31_hwnd = 80  # 400
-const.avg181_hwnd = 100  # 500
-const.avg1441_hwnd = 120  # 600
+const.avg31_hwnd = 70  # 400
+const.avg181_hwnd = 80  # 500
+const.avg1441_hwnd = 90  # 600
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -85,6 +85,10 @@ const.order_stop_lost_koef_sell = 1.02
 
 const.order_take_profit_koef_buy = 1.02
 const.order_take_profit_koef_sell = 0.98
+
+const.order_create_plus_koef_buy = 1.002
+const.order_create_plus_koef_sell = 0.998
+
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute

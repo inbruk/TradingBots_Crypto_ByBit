@@ -80,18 +80,19 @@ def current_time_ms():
 
 
 def client_order_create(side: str, symbol: str, qty: float, price: float, reduce_only: bool):
-    order_type: str = const.order_type_market
+
+    order_type: str = const.order_type_limit
     time_in_force: str = const.order_time_in_force_good_till_cancel
 
     if side == const.order_side_buy:
         stop_loss: float = round(price * const.order_stop_lost_koef_buy, 4)
+        take_profit: float = round(price * const.order_take_profit_koef_buy, 4)
+        order_price = price * const.order_create_plus_koef_buy
     else:
         stop_loss: float = round(price * const.order_stop_lost_koef_sell, 4)
-
-    if side == const.order_side_buy:
-        take_profit: float = round(price * const.order_take_profit_koef_buy, 4)
-    else:
         take_profit: float = round(price * const.order_take_profit_koef_sell, 4)
+        order_price = price * const.order_create_plus_koef_sell
+
 
     stop_loss_str = str(stop_loss)
     take_profit_str = str(take_profit)
@@ -108,6 +109,7 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
         'symbol': symbol,
         'order_type': order_type,
         'qty': qty_str,
+        'price': order_price,
         'stop_loss': stop_loss_str,
         'reduce_only': reduce_only,
         'close_on_trigger': close_on_trigger,
