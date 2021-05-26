@@ -57,7 +57,7 @@ def draw_one_symbol(symbol_str, start_dt):
 
 
 curr_symbol = const.BTCUSDT
-start_dt_utc = 1621382400
+start_dt_utc = 1621565280
 draw_one_symbol(curr_symbol, start_dt_utc)
 
 
