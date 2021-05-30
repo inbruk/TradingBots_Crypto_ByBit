@@ -31,7 +31,7 @@ def get_next_minute_utc():
 
 while 1 == 1:
 
-    update_orders = False
+    update_orders = True
 
     next_utc = get_next_minute_utc()
 
@@ -42,20 +42,20 @@ while 1 == 1:
     get_values_and_update_cache(const.AAVEUSDT)
     update_equations_by_symbol(const.AAVEUSDT)
     if update_orders:
-        update_orders_by_symbol(const.AAVEUSDT, 100.0)
+        update_orders_by_symbol(const.AAVEUSDT, 50.0)
     print()
 
-    get_values_and_update_cache(const.ADAUSDT)
-    update_equations_by_symbol(const.ADAUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.ADAUSDT, 50.0)
-    print()
+    # get_values_and_update_cache(const.ADAUSDT)
+    # update_equations_by_symbol(const.ADAUSDT)
+    # if update_orders:
+    #     update_orders_by_symbol(const.ADAUSDT, 50.0)
+    # print()
 
-    get_values_and_update_cache(const.BCHUSDT)
-    update_equations_by_symbol(const.BCHUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.BCHUSDT, 50.0)
-    print()
+    # get_values_and_update_cache(const.BCHUSDT)
+    # update_equations_by_symbol(const.BCHUSDT)
+    # if update_orders:
+    #     update_orders_by_symbol(const.BCHUSDT, 50.0)
+    # print()
 
     get_values_and_update_cache(const.DOTUSDT)
     update_equations_by_symbol(const.DOTUSDT)
@@ -63,11 +63,11 @@ while 1 == 1:
         update_orders_by_symbol(const.DOTUSDT, 50.0)
     print()
 
-    get_values_and_update_cache(const.ETHUSDT)
-    update_equations_by_symbol(const.ETHUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.ETHUSDT, 50.0)
-    print()
+    # get_values_and_update_cache(const.ETHUSDT)
+    # update_equations_by_symbol(const.ETHUSDT)
+    # if update_orders:
+    #     update_orders_by_symbol(const.ETHUSDT, 50.0)
+    # print()
 
     get_values_and_update_cache(const.LTCUSDT)
     update_equations_by_symbol(const.LTCUSDT)
@@ -78,26 +78,26 @@ while 1 == 1:
     get_values_and_update_cache(const.LINKUSDT)
     update_equations_by_symbol(const.LINKUSDT)
     if update_orders:
-        update_orders_by_symbol(const.LINKUSDT, 100.0)
+        update_orders_by_symbol(const.LINKUSDT, 50.0)
     print()
 
-    get_values_and_update_cache(const.SUSHIUSDT)
-    update_equations_by_symbol(const.SUSHIUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.SUSHIUSDT, 100.0)
-    print()
+    # get_values_and_update_cache(const.SUSHIUSDT)
+    # update_equations_by_symbol(const.SUSHIUSDT)
+    # if update_orders:
+    #     update_orders_by_symbol(const.SUSHIUSDT, 50.0)
+    # print()
 
-    get_values_and_update_cache(const.XRPUSDT)
-    update_equations_by_symbol(const.XRPUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.XRPUSDT, 50.0)
-    print()
+    # get_values_and_update_cache(const.XRPUSDT)
+    # update_equations_by_symbol(const.XRPUSDT)
+    # if update_orders:
+    #     update_orders_by_symbol(const.XRPUSDT, 50.0)
+    # print()
 
-    get_values_and_update_cache(const.XTZUSDT)
-    update_equations_by_symbol(const.XTZUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.XTZUSDT, 100.0)
-    print()
+    # get_values_and_update_cache(const.XTZUSDT)
+    # update_equations_by_symbol(const.XTZUSDT)
+    # if update_orders:
+    #     update_orders_by_symbol(const.XTZUSDT, 50.0)
+    # print()
 
     get_values_and_update_cache(const.UNIUSDT)
     update_equations_by_symbol(const.UNIUSDT)
