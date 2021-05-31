@@ -60,7 +60,7 @@ def draw_one_symbol(symbol_str, start_dt):
     print('..drawed !')
 
 
-curr_symbol = const.BTCUSDT
+curr_symbol = const.AAVEUSDT
 start_dt_utc = 1621817269
 draw_one_symbol(curr_symbol, start_dt_utc)
 
