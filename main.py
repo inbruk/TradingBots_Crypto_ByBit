@@ -31,7 +31,7 @@ def get_next_minute_utc():
 
 while 1 == 1:
 
-    update_orders = True
+    update_orders = False
 
     next_utc = get_next_minute_utc()
 

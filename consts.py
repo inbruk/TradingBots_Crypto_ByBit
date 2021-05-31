@@ -23,8 +23,8 @@ const.ORDERS = 'orders'
 
 const.avg7_hwnd = 4  # 8  # 60  # 300
 const.avg31_hwnd = 32  # 32  # 70  # 400
-const.avg181_hwnd = 128  # 128  # 80  # 500
-const.avg1441_hwnd = 512  # 600  # 90  # 600
+const.avg181_hwnd = 64  # 128  # 80  # 500
+const.avg1441_hwnd = 300  # 600  # 90  # 600
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -77,8 +77,8 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.order_stop_lost_koef_buy = 0.98
-const.order_stop_lost_koef_sell = 1.02
+const.order_stop_lost_koef_buy = 0.97
+const.order_stop_lost_koef_sell = 1.03
 
 const.order_take_profit_koef_buy = 1.02
 const.order_take_profit_koef_sell = 0.98
