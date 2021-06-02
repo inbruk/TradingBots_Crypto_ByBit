@@ -18,6 +18,29 @@ def get_orders_filename(symbol_str):
     return r'data/' + symbol_str.lower() + '_' + const.ORDERS + '.csv'
 
 
+def check_for_extremum_in_wnd(out_df, index):
+    has_pos = False
+    has_neg = False
+    out_len = out_df[const.dt_col_name].size
+
+    start_idx = index - const.check_extremum_wnd
+    if start_idx < 0:
+        start_idx = 0
+
+    end_idx = index
+    if end_idx > out_len:
+        end_idx = out_len
+
+    for x in range(start_idx, end_idx):
+        delta = out_df.at[x+1,const.value_col_name] - out_df.at[x,const.value_col_name]
+        if delta > 0:
+            has_pos = True
+        if delta < 0:
+            has_neg = True
+
+    return has_pos, has_neg
+
+
 def check_order_open_close(out_df, x, o_now, o_buy):
     delta1441 = out_df.at[x, const.avg1441_col_name] - out_df.at[x - 1, const.avg1441_col_name]
     delta181 = out_df.at[x, const.avg181_col_name] - out_df.at[x - 1, const.avg181_col_name]
@@ -30,13 +53,14 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
     if not o_now:
+        has_pos, has_neg = check_for_extremum_in_wnd(out_df, x)
         if abs(delta1441) > kd3d4 and abs(delta181) > kd3d4:
-            if delta1441 > 0 and delta181 > 0:
+            if delta1441 > 0 and delta181 > 0 and has_neg:
                 o_change = True
                 o_now = True
                 o_buy = True
                 return o_now, o_buy, o_change
-            if delta1441 < 0 and delta181 < 0:
+            if delta1441 < 0 and delta181 < 0 and has_pos:
                 o_change = True
                 o_now = True
                 o_buy = False
