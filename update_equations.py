@@ -23,8 +23,7 @@ def update_eq_value(in_df, old_df):
                           columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                    const.avg181_col_name, const.avg1441_col_name,
-                                   const.avg7p_col_name, const.avg31p_col_name, const.avg181p_col_name,
-                                   const.avg1441p_col_name, const.order_col_name])
+                                   const.avg_cmn_col_name, const.order_col_name])
 
     for index, item in in_df.iterrows():
         dt = round(item[const.dt_col_name])
@@ -36,9 +35,7 @@ def update_eq_value(in_df, old_df):
         out_df.at[index,const.avg31_col_name] = 0.0,
         out_df.at[index,const.avg181_col_name] = 0.0,
         out_df.at[index,const.avg1441_col_name] = 0.0,
-        out_df.at[index,const.avg7p_col_name] = 0.0,
-        out_df.at[index,const.avg31p_col_name] = 0.0,
-        out_df.at[index,const.avg181p_col_name] = 0.0,
+        out_df.at[index,const.avg_cmn_col_name] = 0.0,
         out_df.at[index,const.order_col_name] = 0.0
 
     in_len = in_df[const.dt_col_name].size
@@ -176,9 +173,7 @@ def update_eq_purify(old_df, out_df, pcol_name, col_name, value_col_name):
         value = out_df.at[x, value_col_name]
         error = value - delta_val
         curr_max_error = value * const.max_error
-        if error > curr_max_error:
-            out_df.at[x, pcol_name] = 0.0
-        else:
+        if error < curr_max_error:
             out_df.at[x, pcol_name] = out_df.at[x, col_name]
 
     return out_df
@@ -211,8 +206,7 @@ def update_equations_by_symbol(symbol_str):
         old_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
                                        const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                        const.avg181_col_name, const.avg1441_col_name,
-                                       const.avg7p_col_name, const.avg31p_col_name, const.avg181p_col_name,
-                                       const.avg1441p_col_name, const.order_col_name])
+                                       const.avg_cmn_col_name, const.order_col_name])
     print('..c.', end='')
 
     out_df = update_eq_value(in_df, old_df)
@@ -236,13 +230,16 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg1441_hwnd, const.avg1441_col_name)
     print('..a1441.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg31p_col_name, const.avg31_col_name, const.value_col_name)
+    out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg7_col_name, const.value_col_name)
+    print('..p7.', end='')
+
+    out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg31_col_name, const.value_col_name)
     print('..p31.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg181p_col_name, const.avg181_col_name, const.value_col_name)
+    out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg181_col_name, const.value_col_name)
     print('..p181.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg1441p_col_name, const.avg1441p_col_name, const.value_col_name)
+    out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg1441p_col_name, const.value_col_name)
     print('..p1441.', end='')
 
     out_df = update_eq_initial_order(old_df, out_df)
