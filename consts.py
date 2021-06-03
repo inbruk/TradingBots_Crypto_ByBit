@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1621817269
+const.START_UTC = 1622164708
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -21,9 +21,9 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 4  # 8  # 60  # 300
-const.avg31_hwnd = 32  # 32  # 70  # 400
-const.avg181_hwnd = 64  # 128  # 80  # 500
+const.avg7_hwnd = 32  # 8  # 60  # 300
+const.avg31_hwnd = 64  # 32  # 70  # 400
+const.avg181_hwnd = 128  # 128  # 80  # 500
 const.avg1441_hwnd = 300  # 600  # 90  # 600
 
 const.check_extremum_wnd = 8  # (64/4)/2
@@ -81,6 +81,7 @@ const.order_time_in_force_post_only = 'PostOnly'
 
 const.order_stop_lost_koef_buy = 0.98
 const.order_stop_lost_koef_sell = 1.02
+const.max_error = 0.019
 
 const.order_take_profit_koef_buy = 1.1
 const.order_take_profit_koef_sell = 0.9

@@ -31,7 +31,7 @@ def get_next_minute_utc():
 
 while 1 == 1:
 
-    update_orders = True
+    update_orders = False
 
     next_utc = get_next_minute_utc()
 
@@ -102,7 +102,7 @@ while 1 == 1:
     get_values_and_update_cache(const.UNIUSDT)
     update_equations_by_symbol(const.UNIUSDT)
     if update_orders:
-        update_orders_by_symbol(const.UNIUSDT, 50.0)
+        update_orders_by_symbol(const.UNIUSDT, 25.0)
     print()
 
     curr_utc = get_curr_minute_utc()

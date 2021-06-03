@@ -49,21 +49,21 @@ def draw_one_symbol(symbol_str, start_dt):
     )
     axes[0].set_title('Price')
 
-    axes[1].plot(df[const.dt_col_name], df[const.avg1441_col_name],
-                 df[const.dt_col_name], df[const.avg181_col_name]
-#                 df[const.dt_col_name], df[const.avg31_col_name]
-#                 df[const.dt_col_name], df[const.avg7_col_name]
+    axes[1].plot(df[const.dt_col_name], df[const.avg1441p_col_name],
+                 df[const.dt_col_name], df[const.avg181p_col_name],
+                 df[const.dt_col_name], df[const.avg31p_col_name],
+                 df[const.dt_col_name], df[const.avg7p_col_name]
                 )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 
     plt.show()
     print('..drawed !')
 
-
+# curr_symbol = const.DOTUSDT
 curr_symbol = const.BTCUSDT
 # curr_symbol = const.AAVEUSDT
 # curr_symbol = const.SUSHIUSDT
-start_dt_utc = 1621817269
+start_dt_utc = 1622164708
 draw_one_symbol(curr_symbol, start_dt_utc)
 
 
