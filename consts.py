@@ -42,6 +42,7 @@ const.avg1441_col_name = 'avg1441'
 const.avg7p_col_name = 'avg7p'
 const.avg31p_col_name = 'avg31p'
 const.avg181p_col_name = 'avg181p'
+const.avg1441p_col_name = 'avg1441p'
 const.order_col_name = 'order'
 
 const.type_col_name = 'type'

@@ -24,7 +24,7 @@ def update_eq_value(in_df, old_df):
                                    const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                    const.avg181_col_name, const.avg1441_col_name,
                                    const.avg7p_col_name, const.avg31p_col_name, const.avg181p_col_name,
-                                   const.order_col_name])
+                                   const.avg1441p_col_name, const.order_col_name])
 
     for index, item in in_df.iterrows():
         dt = round(item[const.dt_col_name])
@@ -212,7 +212,7 @@ def update_equations_by_symbol(symbol_str):
                                        const.delta2_col_name, const.avg7_col_name, const.avg31_col_name,
                                        const.avg181_col_name, const.avg1441_col_name,
                                        const.avg7p_col_name, const.avg31p_col_name, const.avg181p_col_name,
-                                       const.order_col_name])
+                                       const.avg1441p_col_name, const.order_col_name])
     print('..c.', end='')
 
     out_df = update_eq_value(in_df, old_df)
