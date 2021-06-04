@@ -23,7 +23,7 @@ const.ORDERS = 'orders'
 
 const.avg7_hwnd = 32  # 8  # 60  # 300
 const.avg31_hwnd = 32  # 32  # 70  # 400
-const.avg181_hwnd = 64  # 128  # 80  # 500
+const.avg181_hwnd = 80  # 128  # 80  # 500
 const.avg1441_hwnd = 350  # 600  # 90  # 600
 
 const.check_extremum_wnd = 8  # (64/4)/2
