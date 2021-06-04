@@ -144,18 +144,12 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
     # фильтр для сглаживания (создает искажения)
-    #if hwnd_size < 200:
-        # old_len = old_df[const.dt_col_name].size
-    # filter_hwnd_size = hwnd_size
-    # count = 2
-    #
-    # if hwnd_size >= 60:
-    #     filter_hwnd_size = round(hwnd_size/6.0)
-    #     count = 3
-    #
-    # for t in range(0, count):
-    #     for x in range(old_len, out_len):
-    #         out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
+    if col_name == const.avg181_col_name:
+        filter_hwnd_size = 8
+        count = 1
+        for t in range(0, count):
+            for x in range(old_len, out_len):
+                out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
 
     return out_df
 
@@ -171,7 +165,7 @@ def update_eq_purify(old_df, out_df, pcol_name, col_name, value_col_name):
     for x in range(old_len, out_len):
         delta_val = out_df.at[x, col_name]
         value = out_df.at[x, value_col_name]
-        error = value - delta_val
+        error = abs(value - delta_val)
         curr_max_error = value * const.max_error
         if error < curr_max_error:
             out_df.at[x, pcol_name] = out_df.at[x, col_name]
@@ -230,17 +224,25 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg1441_hwnd, const.avg1441_col_name)
     print('..a1441.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg7_col_name, const.value_col_name)
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+
+    for x in range(0, old_len):
+        out_df.at[x, const.avg_cmn_col_name] = old_df.at[x, const.avg_cmn_col_name]
+
+    for x in range(old_len, out_len):
+        out_df.at[x, const.avg_cmn_col_name] = out_df.at[x, const.avg7_col_name]
+
     print('..p7.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg31_col_name, const.value_col_name)
-    print('..p31.', end='')
+    # out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg31_col_name, const.value_col_name)
+    # print('..p31.', end='')
 
     out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg181_col_name, const.value_col_name)
     print('..p181.', end='')
 
-    out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg1441p_col_name, const.value_col_name)
-    print('..p1441.', end='')
+    # out_df = update_eq_purify(old_df, out_df, const.avg_cmn_col_name, const.avg1441_col_name, const.value_col_name)
+    # print('..p1441.', end='')
 
     out_df = update_eq_initial_order(old_df, out_df)
     print('..ini_ord.', end='')
