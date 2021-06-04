@@ -144,7 +144,7 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
     # фильтр для сглаживания (создает искажения)
-    if col_name == const.avg181_col_name:
+    if col_name == const.avg1441_col_name or col_name == const.avg181_col_name:
         filter_hwnd_size = 8
         count = 1
         for t in range(0, count):

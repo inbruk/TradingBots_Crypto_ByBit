@@ -92,4 +92,5 @@ const.order_create_plus_koef_sell = 0.998
 # delta calulates per minute
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
-const.d3_d4_useful_koef = 0.000047
+# 0.000047
+const.d3_d4_useful_koef = 0.00001
