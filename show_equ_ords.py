@@ -59,9 +59,18 @@ def draw_one_symbol(symbol_str, start_dt):
     plt.show()
     print('..drawed !')
 
+
+# curr_symbol = const.BTCUSDT
+curr_symbol = const.AAVEUSDT
+# curr_symbol = const.ADAUSDT
+# curr_symbol = const.BCHUSDT
 # curr_symbol = const.DOTUSDT
-curr_symbol = const.BTCUSDT
-# curr_symbol = const.AAVEUSDT
+# curr_symbol = const.LINKUSDT
+# curr_symbol = const.LTCUSDT
+# curr_symbol = const.SUSHIUSDT
+# curr_symbol = const.XRPUSDT
+# curr_symbol = const.XTZUSDT
+# curr_symbol = const.UNIUSDT
 # curr_symbol = const.SUSHIUSDT
 start_dt_utc = 1622164708
 draw_one_symbol(curr_symbol, start_dt_utc)
