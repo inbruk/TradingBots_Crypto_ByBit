@@ -71,12 +71,12 @@ def check_order_open_close(out_df, x, o_now, o_buy):
         #     o_now = False
         #     return o_now, o_buy, o_change
         if o_buy:
-            if delta1441 < 0 or delta181 < 0:
+            if delta1441 < 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
         else:
-            if delta1441 > 0 or delta181 > 0:
+            if delta1441 > 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change

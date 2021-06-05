@@ -81,8 +81,8 @@ const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
 const.max_error = 0.025
 
-const.order_take_profit_koef_buy = 1.1
-const.order_take_profit_koef_sell = 0.9
+const.order_take_profit_koef_buy = 1.015
+const.order_take_profit_koef_sell = 0.985
 
 const.order_create_plus_koef_buy = 1.002
 const.order_create_plus_koef_sell = 0.998
