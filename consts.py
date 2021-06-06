@@ -15,6 +15,7 @@ const.LINKUSDT   = 'LINKUSDT'
 const.LTCUSDT    = 'LTCUSDT'
 const.SUSHIUSDT  = 'SUSHIUSDT'
 const.XRPUSDT    = 'XRPUSDT'
+const.XEMUSDT    = 'XEMUSDT'
 const.XTZUSDT    = 'XTZUSDT'
 const.UNIUSDT    = 'UNIUSDT'
 
@@ -81,8 +82,8 @@ const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
 const.max_error = 0.025
 
-const.order_take_profit_koef_buy = 1.01
-const.order_take_profit_koef_sell = 0.99
+const.order_take_profit_koef_buy = 1.02
+const.order_take_profit_koef_sell = 0.98
 
 const.order_create_plus_koef_buy = 1.002
 const.order_create_plus_koef_sell = 0.998

@@ -69,6 +69,7 @@ curr_symbol = const.BTCUSDT
 # curr_symbol = const.LTCUSDT
 # curr_symbol = const.SUSHIUSDT
 # curr_symbol = const.XRPUSDT
+# curr_symbol = const.XEMUSDT
 # curr_symbol = const.XTZUSDT
 # curr_symbol = const.UNIUSDT
 # curr_symbol = const.SUSHIUSDT
