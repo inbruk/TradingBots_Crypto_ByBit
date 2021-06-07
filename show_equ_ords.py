@@ -64,8 +64,8 @@ def draw_one_symbol(symbol_str, start_dt):
 # curr_symbol = const.AAVEUSDT
 # curr_symbol = const.ADAUSDT
 # curr_symbol = const.BCHUSDT
-curr_symbol = const.DOGEUSDT
-# curr_symbol = const.DOTUSDT
+# curr_symbol = const.DOGEUSDT
+curr_symbol = const.DOTUSDT
 # curr_symbol = const.ETHUSDT
 # curr_symbol = const.LINKUSDT
 # curr_symbol = const.LTCUSDT
