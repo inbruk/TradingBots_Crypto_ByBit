@@ -53,16 +53,17 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
     if not o_now:
-        has_pos, has_neg = check_for_extremum_in_wnd(out_df, x)
+        # has_pos, has_neg = check_for_extremum_in_wnd(out_df, x)
         # if abs(delta1441) > kd3d4 and abs(delta181) > kd3d4:
-        if delta1441 > 0 and delta181 > 0:
-            if delta1441 > 0 and delta181 > 0 and has_neg:
+        if abs(delta181) > kd3d4:
+            # if delta1441 > 0 and delta181 > 0 and has_neg:
+            if delta181 > 0 and delta31 > 0 and delta7 > 0:
                 o_change = True
                 o_now = True
                 o_buy = True
                 return o_now, o_buy, o_change
-        # if delta1441 < 0 and delta181 < 0 and has_pos:
-        if delta1441 < 0 and delta181 < 0:
+            # if delta1441 < 0 and delta181 < 0 and has_pos:
+            if delta181 < 0 and delta31 < 0 and delta7 < 0:
                 o_change = True
                 o_now = True
                 o_buy = False
@@ -73,12 +74,12 @@ def check_order_open_close(out_df, x, o_now, o_buy):
         #     o_now = False
         #     return o_now, o_buy, o_change
         if o_buy:
-            if delta1441 < 0:  # or delta181 < 0:
+            if delta181 < 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
         else:
-            if delta1441 > 0:  # or delta181 > 0:
+            if delta181 > 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
