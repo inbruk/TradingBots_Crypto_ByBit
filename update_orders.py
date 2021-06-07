@@ -55,14 +55,14 @@ def check_order_open_close(out_df, x, o_now, o_buy):
     if not o_now:
         has_pos, has_neg = check_for_extremum_in_wnd(out_df, x)
         if abs(delta1441) > kd3d4 and abs(delta181) > kd3d4:
-            if delta1441 > 0 and delta181 > 0 and has_neg:
             # if delta1441 > 0 and delta181 > 0:
+            if delta1441 > 0 and delta181 > 0 and has_neg:
                 o_change = True
                 o_now = True
                 o_buy = True
                 return o_now, o_buy, o_change
-            if delta1441 < 0 and delta181 < 0 and has_pos:
             # if delta1441 < 0 and delta181 < 0:
+            if delta1441 < 0 and delta181 < 0 and has_pos:
                 o_change = True
                 o_now = True
                 o_buy = False

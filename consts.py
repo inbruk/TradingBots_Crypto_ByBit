@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1622164708
+const.START_UTC = 1622773804
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
