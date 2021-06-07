@@ -87,11 +87,11 @@ while 1 == 1:
         update_orders_by_symbol(const.LINKUSDT, 25.0)
     print()
 
-    get_values_and_update_cache(const.SUSHIUSDT)
-    update_equations_by_symbol(const.SUSHIUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.SUSHIUSDT, 25.0)
-    print()
+    # get_values_and_update_cache(const.SUSHIUSDT)
+    # update_equations_by_symbol(const.SUSHIUSDT)
+    # if update_orders:
+    #     update_orders_by_symbol(const.SUSHIUSDT, 25.0)
+    # print()
 
     get_values_and_update_cache(const.XRPUSDT)
     update_equations_by_symbol(const.XRPUSDT)
