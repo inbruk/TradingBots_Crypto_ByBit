@@ -60,8 +60,8 @@ def draw_one_symbol(symbol_str, start_dt):
     print('..drawed !')
 
 
-curr_symbol = const.BTCUSDT
-# curr_symbol = const.AAVEUSDT
+# curr_symbol = const.BTCUSDT
+curr_symbol = const.AAVEUSDT
 # curr_symbol = const.ADAUSDT
 # curr_symbol = const.BCHUSDT
 # curr_symbol = const.DOTUSDT
