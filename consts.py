@@ -23,10 +23,10 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 3  # 8  # 60  # 300
-const.avg31_hwnd = 8  # 32  # 70  # 400
-const.avg181_hwnd = 15  # 128  # 80  # 500
-const.avg1441_hwnd = 63  # 600  # 90  # 600
+const.avg7_hwnd = 1  # 8  # 60  # 300
+const.avg31_hwnd = 7  # 32  # 70  # 400
+const.avg181_hwnd = 31  # 128  # 80  # 500
+const.avg1441_hwnd = 127  # 600  # 90  # 600
 
 const.check_extremum_wnd = 4  # (64/4)/2
 
