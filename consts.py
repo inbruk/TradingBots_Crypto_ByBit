@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1622773804
+const.START_UTC = 1622604750
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -23,10 +23,10 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 32  # 8  # 60  # 300
-const.avg31_hwnd = 32  # 32  # 70  # 400
-const.avg181_hwnd = 80  # 128  # 80  # 500
-const.avg1441_hwnd = 350  # 600  # 90  # 600
+const.avg7_hwnd = 3  # 8  # 60  # 300
+const.avg31_hwnd = 8  # 32  # 70  # 400
+const.avg181_hwnd = 15  # 128  # 80  # 500
+const.avg1441_hwnd = 63  # 600  # 90  # 600
 
 const.check_extremum_wnd = 8  # (64/4)/2
 
@@ -79,15 +79,15 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.order_stop_lost_koef_buy = 0.98
-const.order_stop_lost_koef_sell = 1.02
+const.order_stop_lost_koef_buy = 0.99
+const.order_stop_lost_koef_sell = 1.01
 const.max_error = 0.025
 
-const.order_take_profit_koef_buy = 1.008
-const.order_take_profit_koef_sell = 0.992
+const.order_take_profit_koef_buy = 1.002
+const.order_take_profit_koef_sell = 0.998
 
-const.order_create_plus_koef_buy = 1.002
-const.order_create_plus_koef_sell = 0.998
+const.order_create_plus_koef_buy = 1.001
+const.order_create_plus_koef_sell = 0.999
 
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))

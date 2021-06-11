@@ -50,9 +50,9 @@ def draw_one_symbol(symbol_str, start_dt):
     axes[0].set_title('Price')
 
     axes[1].plot(df[const.dt_col_name], df[const.avg1441_col_name],
-                 df[const.dt_col_name], df[const.avg181_col_name]
-                 # df[const.dt_col_name], df[const.avg31_col_name]
-                 # df[const.dt_col_name], df[const.avg7_col_name]
+                 df[const.dt_col_name], df[const.avg181_col_name],
+                 df[const.dt_col_name], df[const.avg31_col_name],
+                 df[const.dt_col_name], df[const.avg7_col_name]
                 )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 
@@ -75,7 +75,7 @@ curr_symbol = const.BTCUSDT
 # curr_symbol = const.XTZUSDT
 # curr_symbol = const.UNIUSDT
 # curr_symbol = const.SUSHIUSDT
-start_dt_utc = 1622773804
+start_dt_utc = 1622604750
 draw_one_symbol(curr_symbol, start_dt_utc)
 
 
