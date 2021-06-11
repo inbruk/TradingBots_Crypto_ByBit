@@ -28,7 +28,7 @@ const.avg31_hwnd = 8  # 32  # 70  # 400
 const.avg181_hwnd = 15  # 128  # 80  # 500
 const.avg1441_hwnd = 63  # 600  # 90  # 600
 
-const.check_extremum_wnd = 8  # (64/4)/2
+const.check_extremum_wnd = 4  # (64/4)/2
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'

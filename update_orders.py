@@ -32,7 +32,7 @@ def check_for_extremum_in_wnd(out_df, index):
         end_idx = out_len
 
     for x in range(start_idx, end_idx):
-        delta = out_df.at[x+1, const.avg31_col_name] - out_df.at[x, const.avg31_col_name]
+        delta = out_df.at[x+1, const.avg7_col_name] - out_df.at[x, const.avg7_col_name]
         if delta > 0:
             has_pos = True
         if delta < 0:
