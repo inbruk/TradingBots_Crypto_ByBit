@@ -32,7 +32,7 @@ def check_for_extremum_in_wnd(out_df, index):
         end_idx = out_len
 
     for x in range(start_idx, end_idx):
-        delta = out_df.at[x+1, const.avg181_col_name] - out_df.at[x, const.avg181_col_name]
+        delta = out_df.at[x+1, const.avg31_col_name] - out_df.at[x, const.avg31_col_name]
         if delta > 0:
             has_pos = True
         if delta < 0:
@@ -74,12 +74,12 @@ def check_order_open_close(out_df, x, o_now, o_buy):
         #     o_now = False
         #     return o_now, o_buy, o_change
         if o_buy:
-            if delta1441 < 0:
+            if delta181 < 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
         else:
-            if delta1441 > 0:
+            if delta181 > 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
