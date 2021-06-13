@@ -31,7 +31,7 @@ def get_next_minute_utc():
 
 while 1 == 1:
 
-    update_orders = True
+    update_orders = False
 
     next_utc = get_next_minute_utc()
 
@@ -63,11 +63,11 @@ while 1 == 1:
         update_orders_by_symbol(const.DOTUSDT, 30.0)
     print()
 
-    # get_values_and_update_cache(const.DOGEUSDT)
-    # update_equations_by_symbol(const.DOGEUSDT)
-    # if update_orders:
-    #     update_orders_by_symbol(const.DOGEUSDT, 25.0)
-    # print()
+    get_values_and_update_cache(const.DOGEUSDT)
+    update_equations_by_symbol(const.DOGEUSDT)
+    if update_orders:
+        update_orders_by_symbol(const.DOGEUSDT, 25.0)
+    print()
 
     get_values_and_update_cache(const.ETHUSDT)
     update_equations_by_symbol(const.ETHUSDT)

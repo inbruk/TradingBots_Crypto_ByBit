@@ -28,7 +28,7 @@ const.avg31_hwnd = 7  # 32  # 70  # 400
 const.avg181_hwnd = 31  # 128  # 80  # 500
 const.avg1441_hwnd = 127  # 600  # 90  # 600
 
-const.check_extremum_wnd = 4  # (64/4)/2
+const.check_extremum_wnd = 32
 
 const.open_col_name = 'open'
 const.close_col_name = 'close'
@@ -79,12 +79,12 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.order_stop_lost_koef_buy = 0.99
-const.order_stop_lost_koef_sell = 1.01
+const.order_stop_lost_koef_buy = 0.975
+const.order_stop_lost_koef_sell = 1.025
 const.max_error = 0.025
 
-const.order_take_profit_koef_buy = 1.002
-const.order_take_profit_koef_sell = 0.998
+const.order_take_profit_koef_buy = 1.1
+const.order_take_profit_koef_sell = 0.9
 
 const.order_create_plus_koef_buy = 1.001
 const.order_create_plus_koef_sell = 0.999
