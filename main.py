@@ -42,25 +42,25 @@ while 1 == 1:
     get_values_and_update_cache(const.AAVEUSDT)
     update_equations_by_symbol(const.AAVEUSDT)
     if update_orders:
-        update_orders_by_symbol(const.AAVEUSDT, 50.0)
+        update_orders_by_symbol(const.AAVEUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.ADAUSDT)
     update_equations_by_symbol(const.ADAUSDT)
     if update_orders:
-        update_orders_by_symbol(const.ADAUSDT, 30.0)
+        update_orders_by_symbol(const.ADAUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.BCHUSDT)
     update_equations_by_symbol(const.BCHUSDT)
     if update_orders:
-        update_orders_by_symbol(const.BCHUSDT, 50.0)
+        update_orders_by_symbol(const.BCHUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.DOTUSDT)
     update_equations_by_symbol(const.DOTUSDT)
     if update_orders:
-        update_orders_by_symbol(const.DOTUSDT, 30.0)
+        update_orders_by_symbol(const.DOTUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.DOGEUSDT)
@@ -72,19 +72,19 @@ while 1 == 1:
     get_values_and_update_cache(const.ETHUSDT)
     update_equations_by_symbol(const.ETHUSDT)
     if update_orders:
-       update_orders_by_symbol(const.ETHUSDT, 50.0)
+       update_orders_by_symbol(const.ETHUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.LTCUSDT)
     update_equations_by_symbol(const.LTCUSDT)
     if update_orders:
-        update_orders_by_symbol(const.LTCUSDT, 30.0)
+        update_orders_by_symbol(const.LTCUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.LINKUSDT)
     update_equations_by_symbol(const.LINKUSDT)
     if update_orders:
-        update_orders_by_symbol(const.LINKUSDT, 30.0)
+        update_orders_by_symbol(const.LINKUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.SUSHIUSDT)
@@ -93,13 +93,12 @@ while 1 == 1:
         update_orders_by_symbol(const.SUSHIUSDT, 30.0)
     print()
 
-    # get_values_and_update_cache(const.XRPUSDT)
-    # update_equations_by_symbol(const.XRPUSDT)
-    # if update_orders:
-    #     update_orders_by_symbol(const.XRPUSDT, 25.0)
-    # print()
+    get_values_and_update_cache(const.XRPUSDT)
+    update_equations_by_symbol(const.XRPUSDT)
+    if update_orders:
+        update_orders_by_symbol(const.XRPUSDT, 25.0)
+    print()
 
-    # bad results
     # get_values_and_update_cache(const.XEMUSDT)
     # update_equations_by_symbol(const.XEMUSDT)
     # if update_orders:
@@ -109,13 +108,13 @@ while 1 == 1:
     get_values_and_update_cache(const.XTZUSDT)
     update_equations_by_symbol(const.XTZUSDT)
     if update_orders:
-        update_orders_by_symbol(const.XTZUSDT, 30.0)
+        update_orders_by_symbol(const.XTZUSDT, 25.0)
     print()
 
     get_values_and_update_cache(const.UNIUSDT)
     update_equations_by_symbol(const.UNIUSDT)
     if update_orders:
-        update_orders_by_symbol(const.UNIUSDT, 30.0)
+        update_orders_by_symbol(const.UNIUSDT, 25.0)
     print()
 
     curr_utc = get_curr_minute_utc()

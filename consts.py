@@ -25,8 +25,8 @@ const.ORDERS = 'orders'
 
 const.avg7_hwnd = 7  # 8  # 60  # 300
 const.avg31_hwnd = 31  # 32  # 70  # 400
-const.avg181_hwnd = 127  # 128  # 80  # 500
-const.avg1441_hwnd = 600  # 600  # 90  # 600
+const.avg181_hwnd = 63  # 128  # 80  # 500
+const.avg1441_hwnd = 300  # 600  # 90  # 600
 
 const.check_extremum_wnd = 32
 
@@ -83,8 +83,8 @@ const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
 const.max_error = 0.025
 
-const.order_take_profit_koef_buy = 1.05
-const.order_take_profit_koef_sell = 0.95
+const.order_take_profit_koef_buy = 1.03
+const.order_take_profit_koef_sell = 0.97
 
 const.order_create_plus_koef_buy = 1.001
 const.order_create_plus_koef_sell = 0.999
@@ -95,4 +95,4 @@ const.order_create_plus_koef_sell = 0.999
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
 # 0.000047
-const.d3_d4_useful_koef = 0.000047
+const.d3_d4_useful_koef = 0.00001
