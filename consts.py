@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1622604750
+const.START_UTC = 1624225585
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -23,10 +23,18 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 7  # 8  # 60  # 300
-const.avg31_hwnd = 31  # 32  # 70  # 400
-const.avg181_hwnd = 63  # 128  # 80  # 500
-const.avg1441_hwnd = 300  # 600  # 90  # 600
+const.avg7_hwnd = 8  # 8  # 60  # 300
+const.avg31_hwnd = 32  # 32  # 70  # 400
+const.avg181_hwnd = 96  # 128  # 80  # 500
+const.avg1441_hwnd = 600  # 600  # 90  # 600
+
+# 8
+# 32
+# 48
+# 64
+# 96
+
+# 600 - slow
 
 const.check_extremum_wnd = 32
 
