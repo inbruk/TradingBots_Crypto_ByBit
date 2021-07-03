@@ -23,18 +23,14 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg7_hwnd = 8  # 8  # 60  # 300
-const.avg31_hwnd = 32  # 32  # 70  # 400
-const.avg181_hwnd = 96  # 128  # 80  # 500
-const.avg1441_hwnd = 600  # 600  # 90  # 600
+const.avg8_wnd = 7
+const.avg32_hwnd = 31
+const.avg48_hwnd = 47
+const.avg64_hwnd = 63
+const.avg96_hwnd = 95
+const.avg128_hwnd = 127
 
-# 8
-# 32
-# 48
-# 64
-# 96
-
-# 600 - slow
+const.avgS_hwnd = 599
 
 const.check_extremum_wnd = 32
 
@@ -45,11 +41,14 @@ const.dt_col_name = 'dt'
 const.value_col_name = 'value'
 const.delta1_col_name = 'delta1'
 const.delta2_col_name = 'delta2'
-const.avg7_col_name = 'avg7'
-const.avg31_col_name = 'avg31'
-const.avg181_col_name = 'avg181'
-const.avg1441_col_name = 'avg1441'
-const.avg_cmn_col_name = 'avg_cmn'
+const.avg8_col_name = 'avg8'
+const.avg32_col_name = 'avg32'
+const.avg48_col_name = 'avg48'
+const.avg64_col_name = 'avg64'
+const.avg96_col_name = 'avg96'
+const.avg128_col_name = 'avg128'
+const.avg_fast_col_name = 'avg_fast'
+const.avg_slow_col_name = 'avg_slow'
 const.order_col_name = 'order'
 
 const.type_col_name = 'type'
@@ -89,7 +88,7 @@ const.order_time_in_force_post_only = 'PostOnly'
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
-const.max_error = 0.025
+const.max_avg_error = 0.01
 
 const.order_take_profit_koef_buy = 1.03
 const.order_take_profit_koef_sell = 0.97
@@ -97,10 +96,9 @@ const.order_take_profit_koef_sell = 0.97
 const.order_create_plus_koef_buy = 1.001
 const.order_create_plus_koef_sell = 0.999
 
-
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
 # 0.000047
-const.d3_d4_useful_koef = 0.00001
+const.d3_d4_useful_koef = 0.000167

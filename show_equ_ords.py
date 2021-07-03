@@ -16,14 +16,14 @@ def get_equs_filename(symbol_str):
 
 def prepare_1441_4_chart(df):
 
-    min = df[const.avg1441_col_name].min()
-    max = df[const.avg1441_col_name].max()
+    min = df[const.avg_slow_col_name].min()
+    max = df[const.avg_slow_col_name].max()
     mid = (max-min)/2.0
-    len = df[const.avg1441_col_name].size
+    len = df[const.avg_slow_col_name].size
 
     for x in range(0, len):
-        val = df.at[x, const.avg1441_col_name] - min - mid
-        df.at[x, const.avg1441_col_name] = val
+        val = df.at[x, const.avg_slow_col_name] - min - mid
+        df.at[x, const.avg_slow_col_name] = val
 
     return df
 
@@ -45,15 +45,15 @@ def draw_one_symbol(symbol_str, start_dt):
 
     axes[0].plot(df[const.dt_col_name], df[const.value_col_name],
                  # df[const.dt_col_name], df[const.avg1441_col_name],
-                 df[const.dt_col_name], df[const.avg_cmn_col_name]
+                 df[const.dt_col_name], df[const.avg_fast_col_name]
     )
     axes[0].set_title('Price')
 
-    axes[1].plot(df[const.dt_col_name], df[const.avg1441_col_name],
-                 df[const.dt_col_name], df[const.avg181_col_name],
-                 df[const.dt_col_name], df[const.avg31_col_name],
-                 df[const.dt_col_name], df[const.avg7_col_name]
-                )
+    axes[1].plot(df[const.dt_col_name], df[const.avg_slow_col_name],
+                 df[const.dt_col_name], df[const.avg48_col_name],
+                 df[const.dt_col_name], df[const.avg32_col_name],
+                 df[const.dt_col_name], df[const.avg8_col_name]
+                 )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 
     plt.show()

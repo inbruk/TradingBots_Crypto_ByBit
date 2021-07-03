@@ -32,7 +32,7 @@ def check_for_extremum_in_wnd(out_df, index):
         end_idx = out_len
 
     for x in range(start_idx, end_idx):
-        delta = out_df.at[x+1, const.avg181_col_name] - out_df.at[x, const.avg181_col_name]
+        delta = out_df.at[x+1, const.avg_fast_col_name] - out_df.at[x, const.avg_fast_col_name]
         if delta > 0:
             has_pos = True
         if delta < 0:
@@ -42,10 +42,8 @@ def check_for_extremum_in_wnd(out_df, index):
 
 
 def check_order_open_close(out_df, x, o_now, o_buy):
-    delta1441 = out_df.at[x, const.avg1441_col_name] - out_df.at[x - 1, const.avg1441_col_name]
-    delta181 = out_df.at[x, const.avg181_col_name] - out_df.at[x - 1, const.avg181_col_name]
-    delta31 = out_df.at[x, const.avg31_col_name] - out_df.at[x - 1, const.avg31_col_name]
-    delta7 = out_df.at[x, const.avg7_col_name] - out_df.at[x - 1, const.avg7_col_name]
+    delta_slow = out_df.at[x, const.avg_slow_col_name] - out_df.at[x - 1, const.avg_slow_col_name]
+    delta_fast = out_df.at[x, const.avg_fast_col_name] - out_df.at[x - 1, const.avg_fast_col_name]
     # dt = round(out_df.at[x, const.dt_col_name])
     price = out_df.at[x, const.value_col_name]
 
@@ -53,33 +51,28 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
     if not o_now:
-        has_pos, has_neg = check_for_extremum_in_wnd(out_df, x)
-        # if abs(delta181) > kd3d4:
-        if abs(delta1441) > kd3d4 and abs(delta181) > kd3d4:
+        # has_pos, has_neg = check_for_extremum_in_wnd(out_df, x)
+        if abs(delta_slow) > kd3d4 and abs(delta_fast) > kd3d4:
             # if delta1441 > 0 and delta181 > 0 and has_neg:
-            if delta1441 > 0 and delta181 > 0 and delta31 > 0 and delta7 > 0 and has_neg:
+            if delta_slow > 0 and delta_fast > 0:
                 o_change = True
                 o_now = True
                 o_buy = True
                 return o_now, o_buy, o_change
             # if delta1441 < 0 and delta181 < 0 and has_pos:
-            if delta1441 < 0 and delta181 < 0 and delta31 < 0 and delta7 < 0 and has_pos:
+            if delta_slow < 0 and delta_fast < 0:
                 o_change = True
                 o_now = True
                 o_buy = False
                 return o_now, o_buy, o_change
     else:
-        # if abs(delta181) < kd3d4:
-        #     o_change = True
-        #     o_now = False
-        #     return o_now, o_buy, o_change
         if o_buy:
-            if delta181 < 0:
+            if delta_fast < 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
         else:
-            if delta181 > 0:
+            if delta_fast > 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
