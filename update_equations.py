@@ -21,9 +21,9 @@ def update_eq_value(in_df, old_df):
     num_rows = in_df[const.dt_col_name].size
     out_df = pd.DataFrame(index=range(num_rows),
                           columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
-                                   const.delta2_col_name, const.avg8_col_name, const.avg32_col_name,
-                                   const.avg48_col_name, const.avg64_col_name, const.avg96_col_name,
-                                   const.avg128_col_name, const.avg_slow_col_name,
+                                   const.delta2_col_name, const.avg4_col_name, const.avg8_col_name,
+                                   const.avg32_col_name, const.avg48_col_name, const.avg64_col_name,
+                                   const.avg96_col_name, const.avg128_col_name, const.avg_slow_col_name,
                                    const.avg_fast_col_name, const.order_col_name])
 
     for index, item in in_df.iterrows():
@@ -32,6 +32,7 @@ def update_eq_value(in_df, old_df):
         out_df.at[index,const.value_col_name] = 0.0,
         out_df.at[index,const.delta1_col_name] = 0.0,
         out_df.at[index,const.delta2_col_name] = 0.0,
+        out_df.at[index,const.avg4_col_name] = 0.0,
         out_df.at[index,const.avg8_col_name] = 0.0,
         out_df.at[index,const.avg32_col_name] = 0.0,
         out_df.at[index,const.avg48_col_name] = 0.0,
@@ -148,12 +149,12 @@ def update_eq_avg(old_df, out_df, hwnd_size, col_name):
         out_df.at[x, col_name] = calc_avg_value(out_df, x, hwnd_size, out_len)
 
     # фильтр для сглаживания (создает искажения)
-    if col_name == const.avg_slow_col_name or col_name == const.avg48_col_name:
-        filter_hwnd_size = 8
-        count = 1
-        for t in range(0, count):
-            for x in range(old_len, out_len):
-                out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
+    # if col_name == const.avg_slow_col_name or col_name == const.avg48_col_name:
+    #     filter_hwnd_size = 8
+    #     count = 1
+    #     for t in range(0, count):
+    #         for x in range(old_len, out_len):
+    #             out_df.at[x, col_name] = smooth_filter(out_df, x, filter_hwnd_size, out_len, col_name)
 
     return out_df
 
@@ -164,12 +165,44 @@ count_use_avg64 = 0
 count_use_avg48 = 0
 count_use_avg32 = 0
 count_use_avg8 = 0
+count_use_avg4 = 0
 
 
 def is_avg_col_error_more_const(out_df, x, check_value):
     value = out_df.at[x, const.value_col_name]
-    return abs(value - check_value) > max_avg_error
+    return (abs(value - check_value)/value) > const.max_avg_error
 
+
+def linear_approx_2values(x, y1, y2): # 0.0 <= x <= 1.0
+    y_res = y1 * x + y2 * (1.0 - x)
+    return y_res
+
+
+def calc_k_for_approx(cv1, cv2, val):  # 0.0 <= k <= 1.0
+
+    ev2 = cv2 + const.max_avg_error
+    if ev2 < val:
+        return -1.0  # cv2 not accepted
+
+    ev1 = cv1 + const.max_avg_error
+    k = (ev2 - val)/(ev2 - ev1)
+    return k
+
+
+def calc_approx(out_df, x, y1_col, y2_col, count2):
+
+    value = out_df.at[x, const.value_col_name]
+    y1 = out_df.at[x, y1_col]
+    y2 = out_df.at[x, y2_col]
+    k = calc_k_for_approx(y1, y2, value)
+
+    if k > 0:
+        result = linear_approx_2values(k, y1, y2)
+        count2 += 1
+    else:
+        result = -1.0
+
+    return result, count2
 
 def get_avg_fast_value(out_df, x):
 
@@ -179,44 +212,55 @@ def get_avg_fast_value(out_df, x):
     global count_use_avg48
     global count_use_avg32
     global count_use_avg8
+    global count_use_avg4
 
     result = out_df.at[x, const.avg128_col_name]
     count_use_avg128 += 1
     if is_avg_col_error_more_const(out_df, x, result):
         count_use_avg128 -= 1
-        result = out_df.at[x, const.avg96_col_name]
-        count_use_avg96 += 1
-        if is_avg_col_error_more_const(out_df, x, result):
-            count_use_avg96 -= 1
-            result = out_df.at[x, const.avg64_col_name]
-            count_use_avg64 += 1
-            if is_avg_col_error_more_const(out_df, x, result):
-                count_use_avg64 -= 1
-                result = out_df.at[x, const.avg48_col_name]
-                count_use_avg48 += 1
-                if is_avg_col_error_more_const(out_df, x, result):
-                    count_use_avg48 -= 1
-                    result = out_df.at[x, const.avg32_col_name]
-                    count_use_avg32 += 1
-                    if is_avg_col_error_more_const(out_df, x, result):
-                        count_use_avg32 -= 1
-                        result = out_df.at[x, const.avg8_col_name]
-                        count_use_avg8 += 1
+
+        result, count_use_avg96 = calc_approx(
+            out_df, x, const.avg128_col_name, const.avg96_col_name, count_use_avg96)
+        if result < 0:
+
+            result, count_use_avg64 = calc_approx(
+                out_df, x, const.avg96_col_name, const.avg64_col_name, count_use_avg64)
+            if result < 0:
+
+                result, count_use_avg48 = calc_approx(
+                    out_df, x, const.avg64_col_name, const.avg48_col_name, count_use_avg48)
+                if result < 0:
+
+                    result, count_use_avg32 = calc_approx(
+                        out_df, x, const.avg48_col_name, const.avg32_col_name, count_use_avg32)
+                    if result < 0:
+
+                        result, count_use_avg8 = calc_approx(
+                            out_df, x, const.avg32_col_name, const.avg8_col_name, count_use_avg8)
+                        if result < 0:
+
+                            result = out_df.at[x, const.avg4_col_name]
+                            count_use_avg4 += 1
 
     return result
 
 
 def avg_fast_percents_str():
 
-    sum = count_use_avg128 + count_use_avg96 + count_use_avg64 + count_use_avg48 + count_use_avg32 + count_use_avg8
+    sum = count_use_avg128 + count_use_avg96 + count_use_avg64 + \
+          count_use_avg48 + count_use_avg32 + count_use_avg8 + count_use_avg4
+
     percents_use_avg128 = round(100.0*count_use_avg128/sum, 0)
     percents_use_avg96 = round(100.0*count_use_avg96/sum, 0)
     percents_use_avg64 = round(100.0*count_use_avg64/sum, 0)
     percents_use_avg48 = round(100.0*count_use_avg48/sum, 0)
     percents_use_avg32 = round(100.0*count_use_avg32/sum, 0)
     percents_use_avg8 = round(100.0*count_use_avg8/sum, 0)
-    result = '(' + str(percents_use_avg128) + str(percents_use_avg96) + str(percents_use_avg64) + \
-             str(percents_use_avg48) + str(percents_use_avg32) + str(percents_use_avg8) + ')'
+    percents_use_avg4 = round(100.0*count_use_avg4/sum, 0)
+
+    result = '(' + str(percents_use_avg128) + ' ' + str(percents_use_avg96) + ' ' + str(percents_use_avg64) + ' ' + \
+             str(percents_use_avg48) + ' ' + str(percents_use_avg32) + ' ' + str(percents_use_avg8) + ' ' + \
+             str(percents_use_avg4) + ')'
 
     return result
 
@@ -260,9 +304,9 @@ def update_equations_by_symbol(symbol_str):
         old_df = pd.read_csv(out_file_name)
     else:
         old_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
-                                       const.delta2_col_name, const.avg8_col_name, const.avg32_col_name,
-                                       const.avg48_col_name, const.avg64_col_name, const.avg96_col_name,
-                                       const.avg128_col_name, const.avg_slow_col_name,
+                                       const.delta2_col_name, const.avg4_col_name, const.avg8_col_name,
+                                       const.avg32_col_name, const.avg48_col_name, const.avg64_col_name,
+                                       const.avg96_col_name, const.avg128_col_name, const.avg_slow_col_name,
                                        const.avg_fast_col_name, const.order_col_name])
     print('..c.', end='')
 
@@ -275,25 +319,28 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_delta2(old_df, out_df)
     print('..d2.', end='')
 
+    out_df = update_eq_avg(old_df, out_df, const.avg4_wnd, const.avg4_col_name)
+    print('..a4.', end='')
+
     out_df = update_eq_avg(old_df, out_df, const.avg8_wnd, const.avg8_col_name)
     print('..a8.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg32_hwnd, const.avg32_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg32_wnd, const.avg32_col_name)
     print('..a32.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg48_hwnd, const.avg48_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg48_wnd, const.avg48_col_name)
     print('..a48.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg64_wnd, const.avg8_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg64_wnd, const.avg64_col_name)
     print('..a64.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg96_hwnd, const.avg32_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg96_wnd, const.avg96_col_name)
     print('..a96.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg128_hwnd, const.avg48_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg128_wnd, const.avg128_col_name)
     print('..a128.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avgS_hwnd, const.avg_slow_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg_slow_wnd, const.avg_slow_col_name)
     print('..avg_slow.', end='')
 
     out_df = update_avg_fast_col(old_df, out_df)

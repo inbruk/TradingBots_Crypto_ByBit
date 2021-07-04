@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1624225585
+const.START_UTC = 1624871589
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -23,14 +23,15 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
+const.avg4_wnd = 3
 const.avg8_wnd = 7
-const.avg32_hwnd = 31
-const.avg48_hwnd = 47
-const.avg64_hwnd = 63
-const.avg96_hwnd = 95
-const.avg128_hwnd = 127
+const.avg32_wnd = 31
+const.avg48_wnd = 47
+const.avg64_wnd = 63
+const.avg96_wnd = 95
+const.avg128_wnd = 127
 
-const.avgS_hwnd = 599
+const.avg_slow_wnd = 599
 
 const.check_extremum_wnd = 32
 
@@ -41,6 +42,7 @@ const.dt_col_name = 'dt'
 const.value_col_name = 'value'
 const.delta1_col_name = 'delta1'
 const.delta2_col_name = 'delta2'
+const.avg4_col_name = 'avg4'
 const.avg8_col_name = 'avg8'
 const.avg32_col_name = 'avg32'
 const.avg48_col_name = 'avg48'
@@ -88,7 +90,7 @@ const.order_time_in_force_post_only = 'PostOnly'
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
-const.max_avg_error = 0.01
+const.max_avg_error = 0.001
 
 const.order_take_profit_koef_buy = 1.03
 const.order_take_profit_koef_sell = 0.97

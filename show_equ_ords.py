@@ -44,15 +44,19 @@ def draw_one_symbol(symbol_str, start_dt):
     fig, axes = plt.subplots(2, 1)
 
     axes[0].plot(df[const.dt_col_name], df[const.value_col_name],
-                 # df[const.dt_col_name], df[const.avg1441_col_name],
+                 df[const.dt_col_name], df[const.avg_slow_col_name],
                  df[const.dt_col_name], df[const.avg_fast_col_name]
     )
     axes[0].set_title('Price')
 
     axes[1].plot(df[const.dt_col_name], df[const.avg_slow_col_name],
+                 df[const.dt_col_name], df[const.avg128_col_name],
+                 df[const.dt_col_name], df[const.avg96_col_name],
+                 df[const.dt_col_name], df[const.avg64_col_name],
                  df[const.dt_col_name], df[const.avg48_col_name],
                  df[const.dt_col_name], df[const.avg32_col_name],
-                 df[const.dt_col_name], df[const.avg8_col_name]
+                 df[const.dt_col_name], df[const.avg8_col_name],
+                 df[const.dt_col_name], df[const.avg4_col_name]
                  )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 
@@ -60,13 +64,13 @@ def draw_one_symbol(symbol_str, start_dt):
     print('..drawed !')
 
 
-# curr_symbol = const.BTCUSDT
+curr_symbol = const.BTCUSDT
 # curr_symbol = const.AAVEUSDT
 # curr_symbol = const.ADAUSDT
 # curr_symbol = const.BCHUSDT
 # curr_symbol = const.DOGEUSDT
 # curr_symbol = const.DOTUSDT
-curr_symbol = const.ETHUSDT
+# curr_symbol = const.ETHUSDT
 # curr_symbol = const.LINKUSDT
 # curr_symbol = const.LTCUSDT
 # curr_symbol = const.SUSHIUSDT
@@ -75,7 +79,7 @@ curr_symbol = const.ETHUSDT
 # curr_symbol = const.XTZUSDT
 # curr_symbol = const.UNIUSDT
 # curr_symbol = const.SUSHIUSDT
-start_dt_utc = 1624225585
+start_dt_utc = 1624871589
 draw_one_symbol(curr_symbol, start_dt_utc)
 
 
