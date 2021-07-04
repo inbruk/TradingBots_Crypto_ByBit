@@ -90,7 +90,7 @@ const.order_time_in_force_post_only = 'PostOnly'
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
-const.max_avg_error = 0.001
+const.max_avg_error = 0.005
 
 const.order_take_profit_koef_buy = 1.03
 const.order_take_profit_koef_sell = 0.97

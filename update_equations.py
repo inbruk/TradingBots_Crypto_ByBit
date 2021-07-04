@@ -180,13 +180,13 @@ def linear_approx_2values(x, y1, y2): # 0.0 <= x <= 1.0
 
 def calc_k_for_approx(cv1, cv2, val):  # 0.0 <= k <= 1.0
 
-    ev2 = cv2 + const.max_avg_error
+    ev2 = cv2 + val*const.max_avg_error
     if ev2 < val:
-        return -1.0  # cv2 not accepted
+        return False, 0.0  # cv2 not accepted
 
-    ev1 = cv1 + const.max_avg_error
+    ev1 = cv1 + val*const.max_avg_error
     k = (ev2 - val)/(ev2 - ev1)
-    return k
+    return True, k
 
 
 def calc_approx(out_df, x, y1_col, y2_col, count2):
@@ -194,15 +194,13 @@ def calc_approx(out_df, x, y1_col, y2_col, count2):
     value = out_df.at[x, const.value_col_name]
     y1 = out_df.at[x, y1_col]
     y2 = out_df.at[x, y2_col]
-    k = calc_k_for_approx(y1, y2, value)
+    accept, k = calc_k_for_approx(y1, y2, value)
 
-    if k > 0:
+    if accept:
         result = linear_approx_2values(k, y1, y2)
         count2 += 1
-    else:
-        result = -1.0
 
-    return result, count2
+    return accept, result, count2
 
 def get_avg_fast_value(out_df, x):
 
@@ -219,25 +217,25 @@ def get_avg_fast_value(out_df, x):
     if is_avg_col_error_more_const(out_df, x, result):
         count_use_avg128 -= 1
 
-        result, count_use_avg96 = calc_approx(
+        accept, result, count_use_avg96 = calc_approx(
             out_df, x, const.avg128_col_name, const.avg96_col_name, count_use_avg96)
-        if result < 0:
+        if not accept:
 
-            result, count_use_avg64 = calc_approx(
+            accept, result, count_use_avg64 = calc_approx(
                 out_df, x, const.avg96_col_name, const.avg64_col_name, count_use_avg64)
-            if result < 0:
+            if not accept:
 
-                result, count_use_avg48 = calc_approx(
+                accept, result, count_use_avg48 = calc_approx(
                     out_df, x, const.avg64_col_name, const.avg48_col_name, count_use_avg48)
-                if result < 0:
+                if not accept:
 
-                    result, count_use_avg32 = calc_approx(
+                    accept, result, count_use_avg32 = calc_approx(
                         out_df, x, const.avg48_col_name, const.avg32_col_name, count_use_avg32)
-                    if result < 0:
+                    if not accept:
 
-                        result, count_use_avg8 = calc_approx(
+                        accept, result, count_use_avg8 = calc_approx(
                             out_df, x, const.avg32_col_name, const.avg8_col_name, count_use_avg8)
-                        if result < 0:
+                        if not accept:
 
                             result = out_df.at[x, const.avg4_col_name]
                             count_use_avg4 += 1
