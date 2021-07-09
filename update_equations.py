@@ -167,40 +167,98 @@ count_use_avg32 = 0
 count_use_avg8 = 0
 count_use_avg4 = 0
 
+prev_col = const.avg128_col_name
+next_col = const.avg128_col_name
+is_transit_now = False
+curr_transit_pos = 0
 
-def is_avg_col_error_more_const(out_df, x, check_value):
+
+def calc_avg_cols_usage(curr_col):
+    if curr_col == const.avg128_col_name:
+        count_use_avg128 += 1
+    else:
+        if curr_col == const.avg96_col_name:
+            count_use_avg96 += 1
+        else:
+            if curr_col == const.avg64_col_name:
+                count_use_avg64 += 1
+            else:
+                if curr_col == const.avg48_col_name:
+                    count_use_avg48 += 1
+                else:
+                    if curr_col == const.avg32_col_name:
+                        count_use_avg32 += 1
+                    else:
+                        if curr_col == const.avg8_col_name:
+                            count_use_avg8 += 1
+
+
+def get_avg_col_error(out_df, x, curr_col):
+    col_value = out_df.at[x, curr_col]
     value = out_df.at[x, const.value_col_name]
-    return (abs(value - check_value)/value) > const.max_avg_error
+    return abs(value - col_value)/value
 
 
-def linear_approx_2values(x, y1, y2): # 0.0 <= x <= 1.0
-    y_res = y1 * x + y2 * (1.0 - x)
-    return y_res
+def is_avg_col_error_more_const(out_df, x, curr_col):
+
+    start = x - const.max_avg_err_wnd_size
+    if start < 0:
+        start = 0
+
+    sum = 0.0
+    cnt =0
+    for i in range(start, x+1):
+        sum += get_avg_col_error(out_df, i, curr_col)
+        cnt += 1
+
+    return (sum/cnt) > const.max_avg_error
 
 
-def calc_k_for_approx(cv1, cv2, val):  # 0.0 <= k <= 1.0
+def calc_curr_col(out_df, x):
 
-    ev2 = cv2 + val*const.max_avg_error
-    if ev2 < val:
-        return False, 0.0  # cv2 not accepted
+    if is_transit_now:
+        return next_col
+    else:
+        curr_col = const.avg128_col_name
+        if is_avg_col_error_more_const(out_df, x, curr_col):
+            curr_col = const.avg96_col_name
+            if is_avg_col_error_more_const(out_df, x, curr_col):
+                curr_col = const.avg64_col_name
+                if is_avg_col_error_more_const(out_df, x, curr_col):
+                    curr_col = const.avg48_col_name
+                    if is_avg_col_error_more_const(out_df, x, curr_col):
+                        curr_col = const.avg32_col_name
+                        if is_avg_col_error_more_const(out_df, x, curr_col):
+                            curr_col = const.avg8_col_name
 
-    ev1 = cv1 + val*const.max_avg_error
-    k = (ev2 - val)/(ev2 - ev1)
-    return True, k
+    return curr_col
 
 
-def calc_approx(out_df, x, y1_col, y2_col, count2):
+def linear_approx_2values(out_df, x):
 
-    value = out_df.at[x, const.value_col_name]
-    y1 = out_df.at[x, y1_col]
-    y2 = out_df.at[x, y2_col]
-    accept, k = calc_k_for_approx(y1, y2, value)
+    global curr_transit_pos
+    global is_transit_now
+    global prev_col
+    global next_col
 
-    if accept:
-        result = linear_approx_2values(k, y1, y2)
-        count2 += 1
+    prev_value = out_df.at[x, prev_col]
+    next_value = out_df.at[x, next_col]
+    k = curr_transit_pos*const.transit_step
+    result = prev_value * (1 - k) + next_value * k
 
-    return accept, result, count2
+    if curr_transit_pos > transit_max_pos/2.0:
+        calc_avg_cols_usage(next_col)
+    else:
+        calc_avg_cols_usage(prev_col)
+
+    curr_transit_pos += 1
+    if curr_transit_pos > transit_max_pos:
+        prev_col = next_col
+        curr_transit_pos = 0
+        is_transit_now = False
+
+    return result
+
 
 def get_avg_fast_value(out_df, x):
 
@@ -212,33 +270,25 @@ def get_avg_fast_value(out_df, x):
     global count_use_avg8
     global count_use_avg4
 
-    result = out_df.at[x, const.avg128_col_name]
-    count_use_avg128 += 1
-    if is_avg_col_error_more_const(out_df, x, result):
-        count_use_avg128 -= 1
+    global curr_transit_pos
+    global is_transit_now
+    global prev_col
+    global next_col
 
-        accept, result, count_use_avg96 = calc_approx(
-            out_df, x, const.avg128_col_name, const.avg96_col_name, count_use_avg96)
-        if not accept:
+    if is_transit_now:
+        result = linear_approx_2values(out_df, x)
+    else:
+        curr_col = calc_curr_col(out_df, x)
 
-            accept, result, count_use_avg64 = calc_approx(
-                out_df, x, const.avg96_col_name, const.avg64_col_name, count_use_avg64)
-            if not accept:
+        if prev_col != curr_col:
+            next_col = curr_col
+            is_transit_now = True
+            curr_transit_pos = 0
 
-                accept, result, count_use_avg48 = calc_approx(
-                    out_df, x, const.avg64_col_name, const.avg48_col_name, count_use_avg48)
-                if not accept:
-
-                    accept, result, count_use_avg32 = calc_approx(
-                        out_df, x, const.avg48_col_name, const.avg32_col_name, count_use_avg32)
-                    if not accept:
-
-                        accept, result, count_use_avg8 = calc_approx(
-                            out_df, x, const.avg32_col_name, const.avg8_col_name, count_use_avg8)
-                        if not accept:
-
-                            result = out_df.at[x, const.avg4_col_name]
-                            count_use_avg4 += 1
+            result = linear_approx_2values(out_df, x)
+        else:
+            result = out_df.at[x, prev_col]
+            calc_avg_cols_usage(prev_col)
 
     return result
 

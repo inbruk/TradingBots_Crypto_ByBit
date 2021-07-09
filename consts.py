@@ -88,9 +88,13 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
+const.max_avg_err_wnd_size = 8
+const.max_avg_error = 0.01
+const.transit_max_pos = 6
+const.transit_step = 0.2
+
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
-const.max_avg_error = 0.005
 
 const.order_take_profit_koef_buy = 1.03
 const.order_take_profit_koef_sell = 0.97
