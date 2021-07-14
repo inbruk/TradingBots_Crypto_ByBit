@@ -55,8 +55,8 @@ def draw_one_symbol(symbol_str, start_dt):
                  df[const.dt_col_name], df[const.avg64_col_name],
                  df[const.dt_col_name], df[const.avg48_col_name],
                  df[const.dt_col_name], df[const.avg32_col_name],
-                 df[const.dt_col_name], df[const.avg8_col_name],
-                 df[const.dt_col_name], df[const.avg4_col_name]
+                 df[const.dt_col_name], df[const.avg24_col_name],
+                 df[const.dt_col_name], df[const.avg16_col_name]
                  )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 
@@ -64,8 +64,8 @@ def draw_one_symbol(symbol_str, start_dt):
     print('..drawed !')
 
 
-curr_symbol = const.BTCUSDT
-# curr_symbol = const.AAVEUSDT
+# curr_symbol = const.BTCUSDT
+curr_symbol = const.AAVEUSDT
 # curr_symbol = const.ADAUSDT
 # curr_symbol = const.BCHUSDT
 # curr_symbol = const.DOGEUSDT

@@ -23,8 +23,9 @@ const.UNIUSDT    = 'UNIUSDT'
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg4_wnd = 3
 const.avg8_wnd = 7
+const.avg16_wnd = 15
+const.avg24_wnd = 23
 const.avg32_wnd = 31
 const.avg48_wnd = 47
 const.avg64_wnd = 63
@@ -42,8 +43,9 @@ const.dt_col_name = 'dt'
 const.value_col_name = 'value'
 const.delta1_col_name = 'delta1'
 const.delta2_col_name = 'delta2'
-const.avg4_col_name = 'avg4'
 const.avg8_col_name = 'avg8'
+const.avg16_col_name = 'avg16'
+const.avg24_col_name = 'avg24'
 const.avg32_col_name = 'avg32'
 const.avg48_col_name = 'avg48'
 const.avg64_col_name = 'avg64'
@@ -88,10 +90,10 @@ const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
-const.max_avg_err_wnd_size = 8
+const.max_avg_err_wnd_size = 4
 const.max_avg_error = 0.01
-const.transit_max_pos = 6
-const.transit_step = 0.2
+const.transit_max_pos = 11
+const.transit_step = 0.1
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025

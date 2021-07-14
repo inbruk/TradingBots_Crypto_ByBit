@@ -21,7 +21,7 @@ def update_eq_value(in_df, old_df):
     num_rows = in_df[const.dt_col_name].size
     out_df = pd.DataFrame(index=range(num_rows),
                           columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
-                                   const.delta2_col_name, const.avg4_col_name, const.avg8_col_name,
+                                   const.delta2_col_name, const.avg16_col_name, const.avg24_col_name,
                                    const.avg32_col_name, const.avg48_col_name, const.avg64_col_name,
                                    const.avg96_col_name, const.avg128_col_name, const.avg_slow_col_name,
                                    const.avg_fast_col_name, const.order_col_name])
@@ -32,8 +32,8 @@ def update_eq_value(in_df, old_df):
         out_df.at[index,const.value_col_name] = 0.0,
         out_df.at[index,const.delta1_col_name] = 0.0,
         out_df.at[index,const.delta2_col_name] = 0.0,
-        out_df.at[index,const.avg4_col_name] = 0.0,
-        out_df.at[index,const.avg8_col_name] = 0.0,
+        out_df.at[index,const.avg16_col_name] = 0.0,
+        out_df.at[index,const.avg24_col_name] = 0.0,
         out_df.at[index,const.avg32_col_name] = 0.0,
         out_df.at[index,const.avg48_col_name] = 0.0,
         out_df.at[index,const.avg64_col_name] = 0.0,
@@ -164,16 +164,26 @@ count_use_avg96 = 0
 count_use_avg64 = 0
 count_use_avg48 = 0
 count_use_avg32 = 0
+count_use_avg24 = 0
+count_use_avg16 = 0
 count_use_avg8 = 0
-count_use_avg4 = 0
 
 prev_col = const.avg128_col_name
 next_col = const.avg128_col_name
 is_transit_now = False
-curr_transit_pos = 0
+curr_transit_pos = 1
 
 
 def calc_avg_cols_usage(curr_col):
+    global count_use_avg128
+    global count_use_avg96
+    global count_use_avg64
+    global count_use_avg48
+    global count_use_avg32
+    global count_use_avg24
+    global count_use_avg16
+    global count_use_avg8
+
     if curr_col == const.avg128_col_name:
         count_use_avg128 += 1
     else:
@@ -189,8 +199,14 @@ def calc_avg_cols_usage(curr_col):
                     if curr_col == const.avg32_col_name:
                         count_use_avg32 += 1
                     else:
-                        if curr_col == const.avg8_col_name:
-                            count_use_avg8 += 1
+                        if curr_col == const.avg24_col_name:
+                            count_use_avg24 += 1
+                        else:
+                            if curr_col == const.avg16_col_name:
+                                count_use_avg16 += 1
+                            else:
+                                if curr_col == const.avg8_col_name:
+                                    count_use_avg8 += 1
 
 
 def get_avg_col_error(out_df, x, curr_col):
@@ -199,19 +215,20 @@ def get_avg_col_error(out_df, x, curr_col):
     return abs(value - col_value)/value
 
 
-def is_avg_col_error_more_const(out_df, x, curr_col):
+def is_avg_col_error_more_const(out_df, x, curr_col, error):
+
+    if x < const.max_avg_err_wnd_size+1:
+        return False
 
     start = x - const.max_avg_err_wnd_size
-    if start < 0:
-        start = 0
 
     sum = 0.0
-    cnt =0
+    cnt = 0
     for i in range(start, x+1):
         sum += get_avg_col_error(out_df, i, curr_col)
         cnt += 1
 
-    return (sum/cnt) > const.max_avg_error
+    return (sum/cnt) > error
 
 
 def calc_curr_col(out_df, x):
@@ -219,17 +236,19 @@ def calc_curr_col(out_df, x):
     if is_transit_now:
         return next_col
     else:
-        curr_col = const.avg128_col_name
-        if is_avg_col_error_more_const(out_df, x, curr_col):
-            curr_col = const.avg96_col_name
-            if is_avg_col_error_more_const(out_df, x, curr_col):
-                curr_col = const.avg64_col_name
-                if is_avg_col_error_more_const(out_df, x, curr_col):
-                    curr_col = const.avg48_col_name
-                    if is_avg_col_error_more_const(out_df, x, curr_col):
-                        curr_col = const.avg32_col_name
-                        if is_avg_col_error_more_const(out_df, x, curr_col):
-                            curr_col = const.avg8_col_name
+        curr_col = const.avg96_col_name
+        if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+            # curr_col = const.avg64_col_name
+            # if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+            #     curr_col = const.avg48_col_name
+            #     if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+            #         curr_col = const.avg32_col_name
+            #         if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+            curr_col = const.avg24_col_name
+            if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+                curr_col = const.avg16_col_name
+                if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+                    curr_col = const.avg8_col_name
 
     return curr_col
 
@@ -246,15 +265,15 @@ def linear_approx_2values(out_df, x):
     k = curr_transit_pos*const.transit_step
     result = prev_value * (1 - k) + next_value * k
 
-    if curr_transit_pos > transit_max_pos/2.0:
+    if curr_transit_pos > const.transit_max_pos/2.0:
         calc_avg_cols_usage(next_col)
     else:
         calc_avg_cols_usage(prev_col)
 
     curr_transit_pos += 1
-    if curr_transit_pos > transit_max_pos:
+    if curr_transit_pos >= const.transit_max_pos:
         prev_col = next_col
-        curr_transit_pos = 0
+        curr_transit_pos = 1
         is_transit_now = False
 
     return result
@@ -267,8 +286,9 @@ def get_avg_fast_value(out_df, x):
     global count_use_avg64
     global count_use_avg48
     global count_use_avg32
+    global count_use_avg24
+    global count_use_avg16
     global count_use_avg8
-    global count_use_avg4
 
     global curr_transit_pos
     global is_transit_now
@@ -283,7 +303,7 @@ def get_avg_fast_value(out_df, x):
         if prev_col != curr_col:
             next_col = curr_col
             is_transit_now = True
-            curr_transit_pos = 0
+            curr_transit_pos = 1
 
             result = linear_approx_2values(out_df, x)
         else:
@@ -296,19 +316,20 @@ def get_avg_fast_value(out_df, x):
 def avg_fast_percents_str():
 
     sum = count_use_avg128 + count_use_avg96 + count_use_avg64 + \
-          count_use_avg48 + count_use_avg32 + count_use_avg8 + count_use_avg4
+          count_use_avg48 + count_use_avg32 + count_use_avg24 + count_use_avg16 + count_use_avg8
 
     percents_use_avg128 = round(100.0*count_use_avg128/sum, 0)
     percents_use_avg96 = round(100.0*count_use_avg96/sum, 0)
     percents_use_avg64 = round(100.0*count_use_avg64/sum, 0)
     percents_use_avg48 = round(100.0*count_use_avg48/sum, 0)
     percents_use_avg32 = round(100.0*count_use_avg32/sum, 0)
-    percents_use_avg8 = round(100.0*count_use_avg8/sum, 0)
-    percents_use_avg4 = round(100.0*count_use_avg4/sum, 0)
+    percents_use_avg24 = round(100.0 * count_use_avg24 / sum, 0)
+    percents_use_avg16 = round(100.0 * count_use_avg16 / sum, 0)
+    percents_use_avg8 = round(100.0 * count_use_avg8 / sum, 0)
 
     result = '(' + str(percents_use_avg128) + ' ' + str(percents_use_avg96) + ' ' + str(percents_use_avg64) + ' ' + \
-             str(percents_use_avg48) + ' ' + str(percents_use_avg32) + ' ' + str(percents_use_avg8) + ' ' + \
-             str(percents_use_avg4) + ')'
+             str(percents_use_avg48) + ' ' + str(percents_use_avg32) + ' ' + str(percents_use_avg24) + ' ' + \
+             str(percents_use_avg16) + ' ' + str(percents_use_avg8) + ')'
 
     return result
 
@@ -352,7 +373,7 @@ def update_equations_by_symbol(symbol_str):
         old_df = pd.read_csv(out_file_name)
     else:
         old_df = pd.DataFrame(columns=[const.dt_col_name, const.value_col_name, const.delta1_col_name,
-                                       const.delta2_col_name, const.avg4_col_name, const.avg8_col_name,
+                                       const.delta2_col_name, const.avg16_col_name, const.avg24_col_name,
                                        const.avg32_col_name, const.avg48_col_name, const.avg64_col_name,
                                        const.avg96_col_name, const.avg128_col_name, const.avg_slow_col_name,
                                        const.avg_fast_col_name, const.order_col_name])
@@ -367,11 +388,14 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_delta2(old_df, out_df)
     print('..d2.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg4_wnd, const.avg4_col_name)
-    print('..a4.', end='')
-
     out_df = update_eq_avg(old_df, out_df, const.avg8_wnd, const.avg8_col_name)
     print('..a8.', end='')
+
+    out_df = update_eq_avg(old_df, out_df, const.avg16_wnd, const.avg16_col_name)
+    print('..a16.', end='')
+
+    out_df = update_eq_avg(old_df, out_df, const.avg24_wnd, const.avg24_col_name)
+    print('..a24.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg32_wnd, const.avg32_col_name)
     print('..a32.', end='')
