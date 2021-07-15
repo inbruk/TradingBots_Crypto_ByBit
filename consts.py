@@ -32,7 +32,7 @@ const.avg64_wnd = 63
 const.avg96_wnd = 95
 const.avg128_wnd = 127
 
-const.avg_slow_wnd = 599
+const.avg_slow_wnd = 300  # 600
 
 const.check_extremum_wnd = 32
 

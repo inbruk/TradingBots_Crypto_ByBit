@@ -93,7 +93,6 @@ def update_eq_delta2(old_df, out_df):
 
 
 def calc_avg_value(out_df, index, hwnd_size, full_length):
-    sumv = 0.0
 
     start_idx = index - hwnd_size
     if start_idx<0:
@@ -103,12 +102,15 @@ def calc_avg_value(out_df, index, hwnd_size, full_length):
     if end_idx > full_length:
         end_idx = full_length
 
-    count = 0
+    sumv = 0.0
+    divider = 0
+    curr_add = 1
     for x in range(start_idx, end_idx):
-        sumv += out_df.at[x, const.value_col_name]
-        count += 1
+        divider += curr_add
+        sumv += out_df.at[x, const.value_col_name] * curr_add
+        curr_add += 1
 
-    return sumv/count
+    return sumv/divider
 
 
 def smooth_filter(out_df, index, hwnd_size, full_length, col_name):
