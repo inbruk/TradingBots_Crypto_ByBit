@@ -91,7 +91,7 @@ const.order_time_in_force_fill_or_kill = 'FillOrKill'
 const.order_time_in_force_post_only = 'PostOnly'
 
 const.max_avg_err_wnd_size = 4
-const.max_avg_error = 0.01
+const.max_avg_error = 0.02
 const.transit_max_pos = 11
 const.transit_step = 0.1
 
