@@ -76,7 +76,7 @@ def select_best_currencies(count):
 
     print(currency_items)
 
-    result = currency_items.[:const.select_best_count].symbol
+    result = currency_items[:const.select_best_count].symbol
     print(result)
     return result
 
