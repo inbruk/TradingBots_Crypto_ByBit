@@ -20,6 +20,23 @@ const.XEMUSDT    = 'XEMUSDT'
 const.XTZUSDT    = 'XTZUSDT'
 const.UNIUSDT    = 'UNIUSDT'
 
+const.CURRENCIES = [
+    const.BTCUSDT,
+    const.AAVEUSDT,
+    const.ADAUSDT,
+    const.BCHUSDT,
+    const.DOGEUSDT,
+    const.DOTUSDT,
+    const.ETHUSDT,
+    const.LINKUSDT,
+    const.LTCUSDT,
+    const.SUSHIUSDT,
+    const.XRPUSDT,
+    const.XEMUSDT,
+    const.XTZUSDT,
+    const.UNIUSDT
+]
+
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
@@ -94,6 +111,10 @@ const.max_avg_err_wnd_size = 4
 const.max_avg_error = 0.02
 const.transit_max_pos = 11
 const.transit_step = 0.1
+
+const.select_best_wnd_size = 60
+const.select_best_min_delta = 0.005
+const.select_best_count = 3
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
