@@ -10,6 +10,7 @@ from IPython.core.display import display
 from update_candles import *
 from update_equations import *
 from update_orders import *
+from select_best_cur import *
 
 
 def get_curr_minute_utc():
@@ -32,93 +33,22 @@ def get_next_minute_utc():
 while 1 == 1:
 
     update_orders = False
-
     next_utc = get_next_minute_utc()
 
-    get_values_and_update_cache(const.BTCUSDT)
-    update_equations_by_symbol(const.BTCUSDT)
+    for symbol in const.CURRENCIES:
+        get_values_and_update_cache(symbol)
+        update_equations_by_symbol(symbol)
+        print()
+
+    best_curs = select_best_currencies()
     print()
 
-    get_values_and_update_cache(const.AAVEUSDT)
-    update_equations_by_symbol(const.AAVEUSDT)
     if update_orders:
-        update_orders_by_symbol(const.AAVEUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.ADAUSDT)
-    update_equations_by_symbol(const.ADAUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.ADAUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.BCHUSDT)
-    update_equations_by_symbol(const.BCHUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.BCHUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.DOTUSDT)
-    update_equations_by_symbol(const.DOTUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.DOTUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.DOGEUSDT)
-    update_equations_by_symbol(const.DOGEUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.DOGEUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.ETHUSDT)
-    update_equations_by_symbol(const.ETHUSDT)
-    if update_orders:
-       update_orders_by_symbol(const.ETHUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.LTCUSDT)
-    update_equations_by_symbol(const.LTCUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.LTCUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.LINKUSDT)
-    update_equations_by_symbol(const.LINKUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.LINKUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.SUSHIUSDT)
-    update_equations_by_symbol(const.SUSHIUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.SUSHIUSDT, 30.0)
-    print()
-
-    get_values_and_update_cache(const.XRPUSDT)
-    update_equations_by_symbol(const.XRPUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.XRPUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.XEMUSDT)
-    update_equations_by_symbol(const.XEMUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.XEMUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.XTZUSDT)
-    update_equations_by_symbol(const.XTZUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.XTZUSDT, 25.0)
-    print()
-
-    get_values_and_update_cache(const.UNIUSDT)
-    update_equations_by_symbol(const.UNIUSDT)
-    if update_orders:
-        update_orders_by_symbol(const.UNIUSDT, 25.0)
-    print()
+        for symbol in best_curs:
+            update_orders_by_symbol(symbol, 45.0)
+            print()
 
     curr_utc = get_curr_minute_utc()
-
     while curr_utc < next_utc:
         curr_utc = get_curr_minute_utc()
 

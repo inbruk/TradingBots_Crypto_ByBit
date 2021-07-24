@@ -8,6 +8,7 @@ from pconst import const
 from consts import *
 from client_bybit import *
 from update_orders import *
+from pprint import pprint
 from IPython.core.display import display
 
 
@@ -26,11 +27,11 @@ def calculate_delta_in_percents(eq_df):
         if max < value:
             max = value
 
-    result = (max - min)/value
+    result = 100.0 * (max - min) / value
     return result
 
 
-def calculate_RMSE(eq_df):
+def calculate_MSE(eq_df):
 
     value_series = eq_df[const.value_col_name]
     avg96_series = eq_df[const.avg96_col_name]
@@ -38,21 +39,25 @@ def calculate_RMSE(eq_df):
     start = df_len - const.select_best_wnd_size
 
     sum = 0.0
+    maxe = 0.0
     count = 0
     for i in range(start, df_len):
-        delta_square = pow((value_series - avg96_series), 2)
-        sum += delta_square
+        delta = abs(value_series[i] - avg96_series[i])
+        if delta > maxe:
+            maxe = delta
+        sum += delta
         count += 1
 
-    result = sum / count
+    # result = sum / (count * value_series[df_len-1])
+    result = 100.0 * maxe / value_series[df_len-1]
     return result
 
 
-def curr_item_compare(x, y):
-    return x.rmse > y.rmse
+# def curr_item_compare(x, y):
+#     return x.rmse > y.rmse
 
 
-def select_best_currencies(count):
+def select_best_currencies():
     print('Select most useful currencies...')
 
     print('    calculate metrics...')
@@ -61,22 +66,29 @@ def select_best_currencies(count):
         eq_file_name = get_equations_filename(symbol)
         eq_df = pd.read_csv(eq_file_name)
         curr_delta_p = calculate_delta_in_percents(eq_df)
-        if curr_delta_p > const.select_best_min_delta:
-            curr_rmse = calculate_RMSE(eq_df)
+        curr_mse = calculate_MSE(eq_df)
+        if curr_delta_p > const.select_best_min_delta_prc and curr_mse < const.select_best_max_mse_prc:
             curr_dic = {
                 'symbol': symbol,
                 'delta_p': curr_delta_p,
-                'rmse': curr_rmse
+                'mse': curr_mse,
+                'target_func': (curr_delta_p / curr_mse)
             }
             currency_items.append(curr_dic)
-            print(curr_dic)
+            # print(curr_dic)
 
     print('    sort metrics...')
-    sorted(currency_items, cmp=curr_item_compare)
+    currency_items.sort(key=lambda x: x['target_func'], reverse=True)
+    print()
 
-    print(currency_items)
+    print('    get result...')
+    result_list = currency_items[:const.select_best_count]
 
-    result = currency_items[:const.select_best_count].symbol
+    for item in currency_items:
+        print(item)
+    print()
+
+    result = list(map(lambda x: x['symbol'], result_list))
     print(result)
     return result
 
