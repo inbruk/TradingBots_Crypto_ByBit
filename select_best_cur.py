@@ -79,7 +79,6 @@ def select_best_currencies():
 
     print('    sort metrics...')
     currency_items.sort(key=lambda x: x['target_func'], reverse=True)
-    print()
 
     print('    get result...')
     result_list = currency_items[:const.select_best_count]

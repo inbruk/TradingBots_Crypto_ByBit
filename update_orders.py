@@ -247,7 +247,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
             out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x)
         ord_change = not auto_closed
 
-    #   out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
+        out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
     if ord_change:
         if order_now:
@@ -261,10 +261,10 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
             success_open, open_order_id, beg_dt, qty, qty_in_usd, beg_val = \
                 client_position_open(order_buy_str, symbol, qty_in_usd, beg_val)
 
-            if success_open:
-                ord_df = fill_order_values(
-                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty, qty_in_usd
-                )
+            # if success_open:
+                # ord_df = fill_order_values(
+                #     ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty, qty_in_usd
+                # )
         else:
             if order_buy:
                 order_buy_str = const.order_side_buy
@@ -276,11 +276,11 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
             success_close, close_order_id, end_dt, qty, qty_in_usd, end_val = \
                 client_position_close(order_buy_str, symbol, qty_in_usd, end_val)
 
-            if success_close:
-                ord_df = fill_order_values(
-                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
-                    close_order_id, end_dt, end_val, qty, qty_in_usd
-                )
+            # if success_close:
+                # ord_df = fill_order_values(
+                #     ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
+                #     close_order_id, end_dt, end_val, qty, qty_in_usd
+                # )
 
     return out_df, ord_df
 
