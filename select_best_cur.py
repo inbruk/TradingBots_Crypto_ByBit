@@ -75,7 +75,7 @@ def select_best_currencies():
                 'target_func': (curr_delta_p / curr_mse)
             }
             currency_items.append(curr_dic)
-            # print(curr_dic)
+            print(curr_dic)
 
     print('    sort metrics...')
     currency_items.sort(key=lambda x: x['target_func'], reverse=True)
