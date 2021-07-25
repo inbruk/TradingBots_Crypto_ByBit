@@ -64,15 +64,13 @@ def check_order_open_close(out_df, x, o_now, o_buy):
     if not o_now:
         if abs(delta_slow) > kd3d4 and abs(delta_fast) > kd3d4:
 
-            if delta8 > 0 and delta16 > 0 and delta24 > 0 and delta32 > 0 and \
-                    delta48 > 0 and delta64 > 0 and delta96 > 0 and delta128 > 0 and delta_slow > 0:
+            if delta_fast > 0 and delta_slow > 0:
                 o_change = True
                 o_now = True
                 o_buy = True
                 return o_now, o_buy, o_change
 
-            if delta8 < 0 and delta16 < 0 and delta24 < 0 and delta32 < 0 and \
-                    delta48 < 0 and delta64 < 0 and delta96 < 0 and delta128 < 0 and delta_slow < 0:
+            if delta_fast < 0 and delta_slow < 0:
                 o_change = True
                 o_now = True
                 o_buy = False
