@@ -42,8 +42,19 @@ def check_for_extremum_in_wnd(out_df, index):
 
 
 def check_order_open_close(out_df, x, o_now, o_buy):
+
+    delta8 = out_df.at[x, const.avg8_col_name] - out_df.at[x - 1, const.avg8_col_name]
+    delta16 = out_df.at[x, const.avg16_col_name] - out_df.at[x - 1, const.avg16_col_name]
+    delta24 = out_df.at[x, const.avg24_col_name] - out_df.at[x - 1, const.avg24_col_name]
+    delta32 = out_df.at[x, const.avg32_col_name] - out_df.at[x - 1, const.avg32_col_name]
+    delta48 = out_df.at[x, const.avg48_col_name] - out_df.at[x - 1, const.avg48_col_name]
+    delta64 = out_df.at[x, const.avg64_col_name] - out_df.at[x - 1, const.avg64_col_name]
+    delta96 = out_df.at[x, const.avg96_col_name] - out_df.at[x - 1, const.avg96_col_name]
+    delta128 = out_df.at[x, const.avg128_col_name] - out_df.at[x - 1, const.avg128_col_name]
+
     delta_slow = out_df.at[x, const.avg_slow_col_name] - out_df.at[x - 1, const.avg_slow_col_name]
     delta_fast = out_df.at[x, const.avg_fast_col_name] - out_df.at[x - 1, const.avg_fast_col_name]
+
     # dt = round(out_df.at[x, const.dt_col_name])
     price = out_df.at[x, const.value_col_name]
 
@@ -51,28 +62,29 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
     if not o_now:
-        # has_pos, has_neg = check_for_extremum_in_wnd(out_df, x)
         if abs(delta_slow) > kd3d4 and abs(delta_fast) > kd3d4:
-            # if delta1441 > 0 and delta181 > 0 and has_neg:
-            if delta_slow > 0 and delta_fast > 0:
+
+            if delta8 > 0 and delta16 > 0 and delta24 > 0 and delta32 > 0 and \
+                    delta48 > 0 and delta64 > 0 and delta96 > 0 and delta128 > 0 and delta_slow > 0:
                 o_change = True
                 o_now = True
                 o_buy = True
                 return o_now, o_buy, o_change
-            # if delta1441 < 0 and delta181 < 0 and has_pos:
-            if delta_slow < 0 and delta_fast < 0:
+
+            if delta8 < 0 and delta16 < 0 and delta24 < 0 and delta32 < 0 and \
+                    delta48 < 0 and delta64 < 0 and delta96 < 0 and delta128 < 0 and delta_slow < 0:
                 o_change = True
                 o_now = True
                 o_buy = False
                 return o_now, o_buy, o_change
     else:
         if o_buy:
-            if delta_fast < 0:
+            if delta_fast < 0 or delta_slow < 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
         else:
-            if delta_fast > 0:
+            if delta_fast > 0 or delta_slow > 0:
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
