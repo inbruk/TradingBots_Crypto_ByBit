@@ -121,8 +121,8 @@ const.one_curr_order_amount = 45.0
 const.order_stop_lost_koef_buy = 0.98
 const.order_stop_lost_koef_sell = 1.02
 
-const.order_take_profit_koef_buy = 1.1
-const.order_take_profit_koef_sell = 0.9
+const.order_take_profit_koef_buy = 1.05
+const.order_take_profit_koef_sell = 0.95
 
 const.order_create_plus_koef_buy = 1.001
 const.order_create_plus_koef_sell = 0.999
