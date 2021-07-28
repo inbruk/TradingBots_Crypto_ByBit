@@ -31,7 +31,7 @@ def get_next_minute_utc():
 
 
 first_run = True
-update_orders = True
+update_orders = False
 
 while 1 == 1:
     next_utc = get_next_minute_utc()
@@ -39,17 +39,19 @@ while 1 == 1:
     for symbol in const.CURRENCIES:
         get_values_and_update_cache(symbol)
         update_equations_by_symbol(symbol)
+        if not update_orders:
+            fill_orders_by_historical_data(symbol)
         print()
 
     if first_run:
         best_curs = select_best_currencies()
-        print()
         first_run = False
+        print()
 
     if update_orders:
         for symbol in best_curs:
             update_orders_by_symbol(symbol, 45.0)
-            print()
+    print()
 
     curr_utc = get_curr_minute_utc()
     while curr_utc < next_utc:

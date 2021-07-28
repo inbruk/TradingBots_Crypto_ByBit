@@ -242,22 +242,12 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     ord_change = False
     order_now, order_buy, open_order_id, beg_dt, beg_val = check_for_order_open(ord_df)
-
-    mean_value = out_df[const.value_col_name].mean()
-    min_value = out_df[const.value_col_name].min()
-    max_value = out_df[const.value_col_name].max()
-
-    out_df.at[0, const.order_col_name] = mean_value
-    out_df.at[1, const.order_col_name] = mean_value
-
     order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
 
     if ord_change and not order_now:  # not close if closed
         auto_closed, ord_df = check_and_close_when_autoclosed(
             out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x)
         ord_change = not auto_closed
-
-        # out_df = fill_equation_values(out_df, x, order_now, order_buy, mean_value, min_value, max_value)
 
     if ord_change:
         if order_now:
@@ -293,6 +283,34 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
                 )
 
     return out_df, ord_df
+
+
+def fill_orders_by_historical_data(symbol_str):
+    print('Fill historical orders ' + symbol_str + ' ', end='')
+
+    eq_file_name = get_equations_filename(symbol_str)
+    eq_df = pd.read_csv(eq_file_name)
+    print('..load eq.', end='')
+
+    eq_len = eq_df[const.dt_col_name].size
+    mean_value = eq_df[const.value_col_name].mean()
+    min_value = eq_df[const.value_col_name].min()
+    max_value = eq_df[const.value_col_name].max()
+
+    eq_df.at[0, const.order_col_name] = mean_value
+    eq_df.at[1, const.order_col_name] = mean_value
+    o_now = False
+    o_buy = False
+    for x in range(2, eq_len):
+        o_now, o_buy, o_change = check_order_open_close(eq_df, x, o_now, o_buy)
+        fill_equation_values(eq_df, x, o_now, o_buy, mean_value, min_value, max_value)
+
+    print('..fill historical orders.', end='')
+
+    eq_df.to_csv(eq_file_name, index=False, header=True)
+    print('..save it.', end='')
+
+    print('Completed !')
 
 
 def update_orders_by_symbol(symbol_str, qty_in_usd):
