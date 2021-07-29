@@ -79,7 +79,6 @@ const.open_price_col_name = 'open_price'
 const.close_ord_id_col_name = 'close_ord_id'
 const.close_dt_col_name = 'close_dt'
 const.close_price_col_name = 'close_price'
-const.qty_col_name = 'qty'
 const.qty_in_usd_col_name = 'qty_in_usd'
 const.delta_price_col_name = 'delta_price'
 const.delta_price_prc_col_name = 'delta_price_prc'
@@ -118,8 +117,8 @@ const.select_best_max_mse_prc = 0.8
 const.select_best_count = 4
 const.one_curr_order_amount = 45.0
 
-const.order_stop_lost_koef_buy = 0.98
-const.order_stop_lost_koef_sell = 1.02
+const.order_stop_lost_koef_buy = 0.975
+const.order_stop_lost_koef_sell = 1.025
 
 const.order_take_profit_koef_buy = 1.01
 const.order_take_profit_koef_sell = 0.99
@@ -132,4 +131,4 @@ const.order_create_plus_koef_sell = 0.999
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
 # 0.000047
-const.d3_d4_useful_koef = 0.000047
+const.d3_d4_useful_koef = 0.0001

@@ -50,7 +50,7 @@ while 1 == 1:
 
     if update_orders:
         for symbol in best_curs:
-            update_orders_by_symbol(symbol, 45.0)
+            update_orders_by_symbol(symbol, const.one_curr_order_amount)
     print()
 
     curr_utc = get_curr_minute_utc()
