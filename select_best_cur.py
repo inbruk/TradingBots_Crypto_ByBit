@@ -18,7 +18,7 @@ def calculate_delta_in_percents(eq_df):
     max = 0.0
     value_series = eq_df[const.value_col_name]
     df_len = eq_df[const.value_col_name].size
-    start = df_len - const.select_best_wnd_size
+    start = 1  # df_len - const.select_best_wnd_size
 
     for i in range(start, df_len):
         value = value_series[i]
@@ -36,7 +36,7 @@ def calculate_MSE(eq_df):
     value_series = eq_df[const.value_col_name]
     avg96_series = eq_df[const.avg96_col_name]
     df_len = eq_df[const.value_col_name].size
-    start = df_len - const.select_best_wnd_size
+    start = 1  # df_len - const.select_best_wnd_size
 
     sum = 0.0
     maxe = 0.0
@@ -61,21 +61,26 @@ def select_best_currencies():
     print('Select most useful currencies...')
 
     print('    calculate metrics...')
-    currency_items = []
+    all_items = []
     for symbol in const.CURRENCIES:
         eq_file_name = get_equations_filename(symbol)
         eq_df = pd.read_csv(eq_file_name)
         curr_delta_p = calculate_delta_in_percents(eq_df)
         curr_mse = calculate_MSE(eq_df)
-        if curr_delta_p > const.select_best_min_delta_prc and curr_mse < const.select_best_max_mse_prc:
-            curr_dic = {
-                'symbol': symbol,
-                'delta_p': curr_delta_p,
-                'mse': curr_mse,
-                'target_func': (curr_delta_p / curr_mse)
-            }
-            currency_items.append(curr_dic)
-            print(curr_dic)
+        curr_dic = {
+            'symbol': symbol,
+            'delta_p': curr_delta_p,
+            'mse': curr_mse,
+            'target_func': (curr_delta_p / curr_mse)
+        }
+        all_items.append(curr_dic)
+        print(curr_dic)
+
+    print('    exclude not fitted items...')
+    currency_items = []
+    for curr_item in all_items:
+        if curr_item['delta_p'] > const.select_best_min_delta_prc and curr_item['mse'] < const.select_best_max_mse_prc:
+            currency_items.append(curr_item)
 
     print('    sort metrics...')
     currency_items.sort(key=lambda x: x['target_func'], reverse=True)
