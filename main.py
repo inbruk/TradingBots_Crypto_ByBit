@@ -34,7 +34,8 @@ update_orders = False
 currencies = [
     const.BCHUSDT,
     const.LINKUSDT,
-    const.LTCUSDT
+    const.LTCUSDT,
+    const.UNIUSDT
 ]
 
 while 1 == 1:
@@ -45,6 +46,8 @@ while 1 == 1:
         update_equations_by_symbol(symbol)
         if update_orders:
             update_orders_by_symbol(symbol, const.one_curr_order_amount)
+        else:
+            fill_orders_by_historical_data(symbol)
         print()
 
     curr_utc = get_curr_minute_utc()
