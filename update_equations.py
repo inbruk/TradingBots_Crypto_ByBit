@@ -238,19 +238,19 @@ def calc_curr_col(out_df, x):
     if is_transit_now:
         return next_col
     else:
-        curr_col = const.avg96_col_name
-        if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+        curr_col = const.avg64_col_name
+        # if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
             # curr_col = const.avg64_col_name
             # if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
             #     curr_col = const.avg48_col_name
             #     if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
             #         curr_col = const.avg32_col_name
             #         if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
-            curr_col = const.avg24_col_name
-            if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
-                curr_col = const.avg16_col_name
-                if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
-                    curr_col = const.avg8_col_name
+            # curr_col = const.avg24_col_name
+            # if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+            # curr_col = const.avg16_col_name
+            # if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
+            #     curr_col = const.avg8_col_name
 
     return curr_col
 
