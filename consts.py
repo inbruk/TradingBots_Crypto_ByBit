@@ -51,6 +51,8 @@ const.avg128_wnd = 128
 
 const.avg_slow_wnd = 160
 
+# best 63, 160
+
 const.check_extremum_wnd = 32
 
 const.open_col_name = 'open'
@@ -113,7 +115,7 @@ const.transit_step = 0.1
 
 const.select_best_wnd_size = 60
 const.select_best_min_delta_prc = 0.6
-const.select_best_max_mse_prc = 2.5  # 0.8
+const.select_best_max_mse_prc = 8.0  # 0.8
 const.select_best_count = 4
 const.one_curr_order_amount = 45.0
 

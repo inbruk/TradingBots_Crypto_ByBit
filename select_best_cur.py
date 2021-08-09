@@ -83,7 +83,7 @@ def select_best_currencies():
             currency_items.append(curr_item)
 
     print('    sort metrics...')
-    currency_items.sort(key=lambda x: x['target_func'], reverse=True)
+    currency_items.sort(key=lambda x: x['delta_p'], reverse=True)
 
     print('    get result...')
     result_list = currency_items[:const.select_best_count]
