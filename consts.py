@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1627654585
+const.START_UTC = 1629002250
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -134,4 +134,4 @@ const.order_create_plus_koef_sell = 0.999
 # abs(d3 + d4) > price * 0.000167
 # 0.00004
 # 0.000047
-const.d3_d4_useful_koef = 0.00003
+const.d3_d4_useful_koef = 0.00005

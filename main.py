@@ -34,8 +34,8 @@ update_orders = True
 currencies = [
     const.DOGEUSDT,
     const.DOTUSDT,
-    const.UNIUSDT,
-    const.SUSHIUSDT
+    const.XRPUSDT,
+    const.LINKUSDT
 ]
 
 while 1 == 1:
