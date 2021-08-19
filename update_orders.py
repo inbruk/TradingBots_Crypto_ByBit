@@ -219,7 +219,7 @@ def check_and_close_when_autoclosed(out_df, ord_df, symbol, order_buy, open_orde
 
         ord_df = fill_order_values(
             ord_df, False, order_buy, open_order_id, beg_dt, beg_val,
-            '1.1', end_dt, end_val, 1.1, 1.1
+            '1.1', end_dt, end_val, const.one_curr_order_amount
         )
         return True, ord_df
 
@@ -261,7 +261,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
             if success_open:
                 ord_df = fill_order_values(
-                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty, qty_in_usd
+                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty_in_usd
                 )
         else:
             if order_buy:
@@ -277,7 +277,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
             if success_close:
                 ord_df = fill_order_values(
                     ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
-                    close_order_id, end_dt, end_val, qty, qty_in_usd
+                    close_order_id, end_dt, end_val, qty_in_usd
                 )
 
     return out_df, ord_df
