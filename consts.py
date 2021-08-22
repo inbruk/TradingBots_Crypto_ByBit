@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1629002250
+const.START_UTC = 1629629424
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -114,8 +114,8 @@ const.transit_max_pos = 11
 const.transit_step = 0.1
 
 const.select_best_wnd_size = 60
-const.select_best_min_delta_prc = 20
-const.select_best_max_mse_prc = 4.0  # 0.8
+const.select_best_min_delta_prc = 8
+const.select_best_max_mse_prc = 2.0  # 0.8
 const.select_best_count = 4
 const.one_curr_order_amount = 45.0
 
@@ -133,5 +133,6 @@ const.order_create_plus_koef_sell = 0.999
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
 # 0.0001
-# 0.000047
+# 0.000075
+# 0.00005
 const.d3_d4_useful_koef = 0.0001

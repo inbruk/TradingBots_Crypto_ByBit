@@ -46,6 +46,10 @@ def client_load_hour_prices(symbol_str, begin_utc):
         df = pd.DataFrame(columns=['dt', 'open', 'high', 'low', 'close', 'volume', 'turnover'])
         json_data = json.loads(req.text)
         json_rows = json_data['result']
+
+        # remove last minute value, because it is not completed
+        json_rows = json_rows[:-1]
+
         for item in json_rows:
             dt = round(item['open_time'])
             new_row = {'dt': dt, 'open': item['open'], 'high': item['high'], 'low': item['low'],
