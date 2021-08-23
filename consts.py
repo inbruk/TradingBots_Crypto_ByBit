@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1629629424
+const.START_UTC = 1629543024
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -125,8 +125,8 @@ const.order_stop_lost_koef_sell = 1.025
 const.order_take_profit_koef_buy = 1.1
 const.order_take_profit_koef_sell = 0.9
 
-const.order_create_plus_koef_buy = 1.001
-const.order_create_plus_koef_sell = 0.999
+const.order_create_plus_koef_buy = 1.002
+const.order_create_plus_koef_sell = 0.998
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute

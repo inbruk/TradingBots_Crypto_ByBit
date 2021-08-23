@@ -256,6 +256,12 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
             beg_val = out_df.at[x, const.value_col_name]
 
+# -------------------------------------------------------------------------------------
+            ord_df = fill_order_values(
+                ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, 'test open order', 0.0, 0.0, qty_in_usd
+            )
+# -------------------------------------------------------------------------------------
+
             success_open, open_order_id, beg_dt, qty, qty_in_usd, beg_val = \
                 client_position_open(order_buy_str, symbol, qty_in_usd, beg_val)
 
@@ -270,6 +276,12 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
                 order_buy_str = const.order_side_sell
 
             end_val = out_df.at[x, const.value_col_name]
+
+            # -------------------------------------------------------------------------------------
+            ord_df = fill_order_values(
+                ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, 'test close order', 0.0, 0.0, qty_in_usd
+            )
+            # -------------------------------------------------------------------------------------
 
             success_close, close_order_id, end_dt, qty, qty_in_usd, end_val = \
                 client_position_close(order_buy_str, symbol, qty_in_usd, end_val)
@@ -343,6 +355,11 @@ def fill_orders_by_historical_data(symbol_str):
                     beg_v = eq_df.at[x, const.value_col_name] * const.order_create_plus_koef_buy
                 else:
                     beg_v = eq_df.at[x, const.value_col_name] * const.order_create_plus_koef_sell
+
+                # -------------------------------------------------------------------------------------
+                # ord_df = fill_order_values(
+                #     ord_df, o_now, o_buy, 'test open order', beg_dt, beg_v, '', 0.0, 0.0, 0.0)
+                # -------------------------------------------------------------------------------------
 
                 ord_df = fill_order_values(
                     ord_df, o_now, o_buy, ' ', beg_dt, beg_v, ' ', 0.0, 0.0, const.one_curr_order_amount)

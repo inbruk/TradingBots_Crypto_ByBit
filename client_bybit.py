@@ -83,7 +83,17 @@ def current_time_ms():
     return res
 
 
+def write_log(str):
+    f = open(r'data/order.log', 'a')
+    f.write(str + '\n')
+    f.close()
+
+
 def client_order_create(side: str, symbol: str, qty: float, price: float, reduce_only: bool):
+
+    # -------------------------------------------------------------------------------------
+    write_log('try to create order '+symbol+' '+str(price))
+    # -------------------------------------------------------------------------------------
 
     order_type: str = const.order_type_limit
     time_in_force: str = const.order_time_in_force_good_till_cancel
@@ -127,9 +137,15 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
     req = requests.post(const.PRIVATE_API_ORDER_CREATE, json=req_data)
 
     if req.ok:
+        # -------------------------------------------------------------------------------------
+        write_log('    req.ok')
+        # -------------------------------------------------------------------------------------
         json_data = json.loads(req.text)
         ret_code = json_data['ret_code']
         if ret_code == 0:
+            # -------------------------------------------------------------------------------------
+            write_log('    ret_code == 0')
+            # -------------------------------------------------------------------------------------
             time_now = json_data['time_now']
             result = json_data['result']
             order_id = result['order_id']
