@@ -8,6 +8,7 @@ import datetime
 import pandas as pd
 from pconst import const
 from consts import *
+from debug_log import *
 from IPython.core.display import display
 
 const.COMMON_API_URL = 'https://api.bybit.com/'
@@ -83,16 +84,10 @@ def current_time_ms():
     return res
 
 
-def write_log(str):
-    f = open(r'data/order.log', 'a')
-    f.write(str + '\n')
-    f.close()
-
-
 def client_order_create(side: str, symbol: str, qty: float, price: float, reduce_only: bool):
 
     # -------------------------------------------------------------------------------------
-    write_log('try to create order '+symbol+' '+str(price))
+    # debug_log_write('try to open / close order ' + side + symbol + ' ' + str(price))
     # -------------------------------------------------------------------------------------
 
     order_type: str = const.order_type_limit
@@ -138,13 +133,13 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
 
     if req.ok:
         # -------------------------------------------------------------------------------------
-        write_log('    req.ok')
+        # debug_log_write('    req.ok')
         # -------------------------------------------------------------------------------------
         json_data = json.loads(req.text)
         ret_code = json_data['ret_code']
         if ret_code == 0:
             # -------------------------------------------------------------------------------------
-            write_log('    ret_code == 0')
+            # debug_log_write('    ret_code == 0')
             # -------------------------------------------------------------------------------------
             time_now = json_data['time_now']
             result = json_data['result']

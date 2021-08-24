@@ -6,6 +6,7 @@ import datetime
 import pandas as pd
 from pconst import const
 from consts import *
+from debug_log import *
 from IPython.core.display import display
 
 
@@ -95,20 +96,35 @@ def update_eq_delta2(old_df, out_df):
 def calc_avg_value(out_df, index, hwnd_size, full_length):
 
     start_idx = index - hwnd_size
-    if start_idx<0:
+    if start_idx < 0:
         start_idx = 0
 
-    end_idx = index + hwnd_size + 1
+    end_idx = index + 1  # important place !!! error in wnd size broke all calcs !
     if end_idx > full_length:
         end_idx = full_length
 
     sumv = 0.0
     divider = 0
     curr_add = 1
+    # debug_values = ''
+    # count = 0
     for x in range(start_idx, end_idx):
         divider += curr_add
-        sumv += out_df.at[x, const.value_col_name] * curr_add
+        value = out_df.at[x, const.value_col_name] * curr_add
+        sumv += value
         curr_add += 1
+
+        # debug_values = debug_values + str(value) + ', '
+        # count += 1
+
+    # -------------------------------------------------------------------------------------
+    # if hwnd_size == const.avg_slow_wnd:
+    #     debug_log_write('calc_avg_value:')
+    #     curr_dt = out_df.at[start_idx, const.dt_col_name]
+    #     debug_log_write('    dt=' + str(curr_dt) + ' start_idx=' + str(start_idx) + ' end_idx=' + str(end_idx) + ' count=' + str(count))
+    #     debug_log_write('    hwnd_size=' + str(hwnd_size) + ' start_idx=' + str(start_idx) + ' end_idx=' + str(end_idx))
+    #     debug_log_write('    debug_values' + debug_values)
+    # -------------------------------------------------------------------------------------
 
     return sumv/divider
 

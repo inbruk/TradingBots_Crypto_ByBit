@@ -7,6 +7,7 @@ import pandas as pd
 from pconst import const
 from consts import *
 from client_bybit import *
+from debug_log import *
 from IPython.core.display import display
 
 
@@ -57,6 +58,14 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     # dt = round(out_df.at[x, const.dt_col_name])
     price = out_df.at[x, const.value_col_name]
+
+    # -------------------------------------------------------------------------------------
+    # debug_log_write('inside check_order_open_close:')
+    # debug_log_write('    x=' + str(x) + ' dt=' + str(out_df.at[x, const.dt_col_name]))
+    # debug_log_write('    out_df.at[x, const.avg_slow_col_name]=' + str(out_df.at[x, const.avg_slow_col_name]) + ' out_df.at[x - 1, const.avg_slow_col_name]=' + str(out_df.at[x - 1, const.avg_slow_col_name]) )
+    # debug_log_write('    out_df.at[x, const.avg_fast_col_name]=' + str(out_df.at[x, const.avg_fast_col_name]) + ' out_df.at[x - 1, const.avg_fast_col_name]=' + str(out_df.at[x - 1, const.avg_fast_col_name]) )
+    # debug_log_write('    delta_slow=' + str(delta_slow) + ' delta_fast=' + str(delta_fast) + ' price=' + str(price))
+    # -------------------------------------------------------------------------------------
 
     o_change = False
 
@@ -238,13 +247,32 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
     print('..[' + last_dt + ',' + curr_min_dt + '].', end='')
 
+    # -------------------------------------------------------------------------------------
+    # debug_log_write('update_eq_order -------------------------------------------------------------------- ')
+    # debug_log_write('    x=' + str(x) + ' last_dt_utc=' + str(last_dt_utc) + ' last_dt=' + str(last_dt) + ' curr_min_dt=' + str(curr_min_dt))
+    # -------------------------------------------------------------------------------------
+
     ord_change = False
     order_now, order_buy, open_order_id, beg_dt, beg_val = check_for_order_open(ord_df)
+    # -------------------------------------------------------------------------------------
+    # debug_log_write('check_for_order_open:')
+    # debug_log_write('    order_now=' + str(order_now) + ' order_buy=' +str(order_buy) + ' open_order_id=' + str(open_order_id))
+    # debug_log_write('    beg_dt=' + str(beg_dt) + ' beg_val=' + str(beg_val))
+    # -------------------------------------------------------------------------------------
+
     order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy)
+    # -------------------------------------------------------------------------------------
+    # debug_log_write('check_order_open_close:')
+    # debug_log_write('    order_now=' + str(order_now) + ' order_buy=' + str(order_buy) + ' ord_change=' + str(ord_change))
+    # -------------------------------------------------------------------------------------
+
 
     if ord_change and not order_now:  # not close if closed
         auto_closed, ord_df = check_and_close_when_autoclosed(
             out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x)
+        # -------------------------------------------------------------------------------------
+        # debug_log_write('check_and_close_when_autoclosed: auto_closed=' + str(auto_closed))
+        # -------------------------------------------------------------------------------------
         ord_change = not auto_closed
 
     if ord_change:
@@ -256,14 +284,13 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
             beg_val = out_df.at[x, const.value_col_name]
 
-# -------------------------------------------------------------------------------------
-            ord_df = fill_order_values(
-                ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, 'test open order', 0.0, 0.0, qty_in_usd
-            )
-# -------------------------------------------------------------------------------------
-
             success_open, open_order_id, beg_dt, qty, qty_in_usd, beg_val = \
                 client_position_open(order_buy_str, symbol, qty_in_usd, beg_val)
+            # -------------------------------------------------------------------------------------
+            # debug_log_write('client_position_open:')
+            # debug_log_write('    success_open=' + str(success_open) + ' open_order_id=' + str(open_order_id) + ' beg_dt=' + str(beg_dt))
+            # debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' beg_val=' + str(beg_val))
+            # -------------------------------------------------------------------------------------
 
             if success_open:
                 ord_df = fill_order_values(
@@ -277,14 +304,13 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
             end_val = out_df.at[x, const.value_col_name]
 
-            # -------------------------------------------------------------------------------------
-            ord_df = fill_order_values(
-                ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, 'test close order', 0.0, 0.0, qty_in_usd
-            )
-            # -------------------------------------------------------------------------------------
-
             success_close, close_order_id, end_dt, qty, qty_in_usd, end_val = \
                 client_position_close(order_buy_str, symbol, qty_in_usd, end_val)
+            # -------------------------------------------------------------------------------------
+            # debug_log_write('client_position_close:')
+            # debug_log_write('    success_open=' + str(success_close) + ' open_order_id=' + str(open_order_id) + ' end_dt=' + str(end_dt))
+            # debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' end_val=' + str(end_val))
+            # -------------------------------------------------------------------------------------
 
             if success_close:
                 ord_df = fill_order_values(
