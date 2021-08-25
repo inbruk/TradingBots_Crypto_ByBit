@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1629817200
+const.START_UTC = 1629246728
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -49,9 +49,9 @@ const.avg64_wnd = 63
 const.avg96_wnd = 95
 const.avg128_wnd = 128
 
-const.avg_slow_wnd = 159
+const.avg_slow_wnd = 900
 
-# best 63, 160
+# best 128, 300
 
 const.check_extremum_wnd = 32
 
@@ -125,14 +125,14 @@ const.order_stop_lost_koef_sell = 1.025
 const.order_take_profit_koef_buy = 1.1
 const.order_take_profit_koef_sell = 0.9
 
-const.order_create_plus_koef_buy = 1.002
-const.order_create_plus_koef_sell = 0.998
+const.order_create_plus_koef_buy = 1.001
+const.order_create_plus_koef_sell = 0.999
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute
 # 1% per 1 hour = 1/60
 # abs(d3 + d4) > price * 0.000167
-# 0.0001
+# 0.0003
 # 0.000075
 # 0.00005
 const.d3_d4_useful_koef = 0.00005

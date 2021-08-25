@@ -32,11 +32,10 @@ def get_next_minute_utc():
 
 update_orders = False
 currencies = [
-    # const.AAVEUSDT,
-    # const.LTCUSDT,
-    # const.DOGEUSDT,
-    # const.UNIUSDT,
-    const.ADAUSDT
+    const.AAVEUSDT,
+    const.LTCUSDT,
+    const.DOGEUSDT,
+    const.UNIUSDT
 ]
 
 while 1 == 1:

@@ -254,7 +254,7 @@ def calc_curr_col(out_df, x):
     if is_transit_now:
         return next_col
     else:
-        curr_col = const.avg64_col_name
+        curr_col = const.avg128_col_name
         # if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
             # curr_col = const.avg64_col_name
             # if is_avg_col_error_more_const(out_df, x, curr_col, const.max_avg_error):
