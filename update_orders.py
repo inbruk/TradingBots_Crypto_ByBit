@@ -69,9 +69,10 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     o_change = False
 
-    kd3d4 = price * const.d3_d4_useful_koef  # see const.py for details
+    fast_koef = price * const.min_fast_avg_delta
+    slow_koef = price * const.min_slow_avg_delta
     if not o_now:
-        if abs(delta_slow) > kd3d4 and abs(delta_fast) > kd3d4:
+        if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
 
             if delta_fast > 0 and delta_slow > 0:
                 o_change = True
