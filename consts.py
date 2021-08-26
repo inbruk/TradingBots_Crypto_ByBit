@@ -46,12 +46,13 @@ const.avg24_wnd = 23
 const.avg32_wnd = 31
 const.avg48_wnd = 47
 const.avg64_wnd = 63
-const.avg96_wnd = 95
-const.avg128_wnd = 400
+const.avg96_wnd = 1200
+const.avg128_wnd = 1200
 
-const.avg_slow_wnd = 900
+const.avg_slow_wnd = 1200
 
 # best 128, 300
+# 1200
 
 const.check_extremum_wnd = 32
 
@@ -135,5 +136,5 @@ const.order_create_plus_koef_sell = 0.999
 # 0.0003
 # 0.000075
 # 0.00005
-const.min_fast_avg_delta = 0.0001
-const.min_slow_avg_delta = 0.00005
+const.min_fast_avg_delta = 0.00000
+const.min_slow_avg_delta = 0.00000
