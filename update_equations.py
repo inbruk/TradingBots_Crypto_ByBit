@@ -110,8 +110,10 @@ def calc_avg_value(out_df, index, hwnd_size, full_length, src_col_name):
     # count = 0
     for x in range(start_idx, end_idx):
         divider += curr_add
-        ind = str(x)
-        value = out_df.at[ind, src_col_name] * curr_add
+        # try:
+        value = out_df.at[x, src_col_name] * curr_add
+        # except:
+        #     value = 0.0
         sumv += value
         curr_add += 1
 
@@ -410,19 +412,19 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg8_wnd, const.avg8_col_name)
     print('..a8.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg8_wnd, const.avg16_wnd, const.avg16_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg8_col_name, const.avg16_wnd, const.avg16_col_name)
     print('..a16.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg16_wnd, const.avg24_wnd, const.avg24_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg16_col_name, const.avg24_wnd, const.avg24_col_name)
     print('..a24.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg24_wnd, const.avg32_wnd, const.avg32_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg24_col_name, const.avg32_wnd, const.avg32_col_name)
     print('..a32.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg32_wnd, const.avg48_wnd, const.avg48_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg32_col_name, const.avg48_wnd, const.avg48_col_name)
     print('..a48.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg48_wnd, const.avg64_wnd, const.avg64_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg48_col_name, const.avg64_wnd, const.avg64_col_name)
     print('..a64.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg96_wnd, const.avg96_col_name)

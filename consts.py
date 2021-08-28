@@ -46,10 +46,10 @@ const.avg24_wnd = 15
 const.avg32_wnd = 15
 const.avg48_wnd = 15
 const.avg64_wnd = 15
-const.avg96_wnd = 1200
-const.avg128_wnd = 1200
+const.avg96_wnd = 600
+const.avg128_wnd = 600
 
-const.avg_slow_wnd = 1200
+const.avg_slow_wnd = 600
 
 # best 128, 300
 # 1200
