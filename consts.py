@@ -40,12 +40,12 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg8_wnd = 7
+const.avg8_wnd = 15
 const.avg16_wnd = 15
-const.avg24_wnd = 23
-const.avg32_wnd = 31
-const.avg48_wnd = 47
-const.avg64_wnd = 63
+const.avg24_wnd = 15
+const.avg32_wnd = 15
+const.avg48_wnd = 15
+const.avg64_wnd = 15
 const.avg96_wnd = 1200
 const.avg128_wnd = 1200
 
