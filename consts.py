@@ -46,10 +46,10 @@ const.avg24_wnd = 15
 const.avg32_wnd = 15
 const.avg48_wnd = 15
 const.avg64_wnd = 15
-const.avg96_wnd = 600
-const.avg128_wnd = 600
+const.avg96_wnd = 300
+const.avg128_wnd = 300
 
-const.avg_slow_wnd = 600
+const.avg_slow_wnd = 300
 
 # best 128, 300
 # 1200
@@ -118,6 +118,7 @@ const.select_best_wnd_size = 60
 const.select_best_min_delta_prc = 8
 const.select_best_max_mse_prc = 2.0  # 0.8
 const.select_best_count = 4
+
 const.one_curr_order_amount = 45.0
 
 const.order_stop_lost_koef_buy = 0.975
@@ -136,5 +137,7 @@ const.order_create_plus_koef_sell = 0.999
 # 0.0003
 # 0.000075
 # 0.00005
-const.min_fast_avg_delta = 0.00000
-const.min_slow_avg_delta = 0.00000
+const.min_fast_avg_delta = 0.0001
+const.min_slow_avg_delta = 0.0001
+
+const.max_backward_prc = 0.25

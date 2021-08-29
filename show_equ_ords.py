@@ -54,10 +54,10 @@ def draw_one_symbol(symbol_str, start_dt):
                  df[const.dt_col_name], df[const.value_col_name],
                  # df[const.dt_col_name], df[const.avg_slow_col_name],
                  # df[const.dt_col_name], df[const.avg96_col_name],
-                 df[const.dt_col_name], df[const.avg64_col_name]
+                 # df[const.dt_col_name], df[const.avg64_col_name]
                  # df[const.dt_col_name], df[const.avg48_col_name],
                  # df[const.dt_col_name], df[const.avg32_col_name]
-                 # df[const.dt_col_name], df[const.avg24_col_name],
+                 df[const.dt_col_name], df[const.avg24_col_name],
                  # df[const.dt_col_name], df[const.avg16_col_name],
                  )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')

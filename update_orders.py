@@ -42,7 +42,7 @@ def check_for_extremum_in_wnd(out_df, index):
     return has_pos, has_neg
 
 
-def check_order_open_close(out_df, x, o_now, o_buy):
+def check_order_open_close(out_df, x, o_now, o_buy, extremum, beg_value):
 
     delta8 = out_df.at[x, const.avg8_col_name] - out_df.at[x - 1, const.avg8_col_name]
     delta16 = out_df.at[x, const.avg16_col_name] - out_df.at[x - 1, const.avg16_col_name]
@@ -71,33 +71,48 @@ def check_order_open_close(out_df, x, o_now, o_buy):
 
     fast_koef = price * const.min_fast_avg_delta
     slow_koef = price * const.min_slow_avg_delta
-    if not o_now:
-        if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
+    if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
+        if not o_now:
+                if delta_fast > 0 and delta_slow > 0:
+                    o_change = True
+                    o_now = True
+                    o_buy = True
 
-            if delta_fast > 0 and delta_slow > 0:
-                o_change = True
-                o_now = True
-                o_buy = True
-                return o_now, o_buy, o_change
-
-            if delta_fast < 0 and delta_slow < 0:
-                o_change = True
-                o_now = True
-                o_buy = False
-                return o_now, o_buy, o_change
-    else:
-        if o_buy:
-            if delta_fast < 0:
-                o_change = True
-                o_now = False
-                return o_now, o_buy, o_change
+                if delta_fast < 0 and delta_slow < 0:
+                    o_change = True
+                    o_now = True
+                    o_buy = False
         else:
-            if delta_fast > 0:
-                o_change = True
-                o_now = False
-                return o_now, o_buy, o_change
+            if o_buy:
+                if delta_fast < 0:
+                    o_change = True
+                    o_now = False
+            else:
+                if delta_fast > 0:
+                    o_change = True
+                    o_now = False
+    else:
+        if o_now:
+            if extremum == 0.0:
+                if (o_buy and delta_fast < 0) or (not o_buy and delta_fast > 0):
+                    extremum = price
+            else:
+                if o_buy:
+                    if extremum == 0.0:
 
-    return o_now, o_buy, o_change
+                    else:
+                        if backward_koef > const.max_backward_prc:
+                            backward_koef = (extremum - price) / (extremum - beg_value)
+                            o_change = True
+                            o_now = False
+                else:
+                    backward_koef = (price - extremum) / (beg_value - extremum)
+                    if backward_koef < const.max_backward_prc:
+                        o_change = True
+                        o_now = False
+
+
+    return o_now, o_buy, o_change, extremum
 
 
 def fill_equation_values(out_df, x, o_now, o_buy, mean_value, min_value, max_value):
