@@ -72,21 +72,20 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
 
     fast_koef = price * const.min_fast_avg_delta
     slow_koef = price * const.min_slow_avg_delta
+
     if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
         if not o_now:
             if delta_fast > 0 and delta_slow > 0:
                 o_change = True
                 o_now = True
                 o_buy = True
-                extremum = 0.0
 
             if delta_fast < 0 and delta_slow < 0:
                 o_change = True
                 o_now = True
                 o_buy = False
-                extremum = 0.0
 
-            return o_now, o_buy, o_change, extremum
+            return o_now, o_buy, o_change
     #     else:
     #         if o_buy:
     #             if delta_fast < 0:
@@ -99,11 +98,13 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
     # else:
 
     if o_now:
-        extremum = ord_df.at[x, const.extremum_col_name]
+        curr_ord_pos = len(ord_df) - 1
+        extremum = ord_df.at[curr_ord_pos, const.extremum_col_name]
 
         if o_buy:
             if extremum == 0.0 or fast_value > extremum:
                 extremum = fast_value
+
 
             backward_koef = (extremum - fast_value) / (extremum - beg_value)
         else:
@@ -117,7 +118,7 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
             o_now = False
             extremum = 0.0
 
-        ord_df.at[x, const.extremum_col_name] = extremum
+        ord_df.at[curr_ord_pos, const.extremum_col_name] = extremum
 
     return o_now, o_buy, o_change
 
@@ -155,7 +156,7 @@ def fill_order_values(
         ord_df.at[pos, const.open_ord_id_col_name] = open_order_id
         ord_df.at[pos, const.open_dt_col_name] = beg_dt
         ord_df.at[pos, const.open_price_col_name] = beg_val
-
+        ord_df.at[pos, const.extremum_col_name] = 0.0
         ord_df.at[pos, const.close_ord_id_col_name] = ' '
         ord_df.at[pos, const.close_dt_col_name] = 0.0
         ord_df.at[pos, const.close_price_col_name] = 0.0
@@ -229,16 +230,14 @@ def check_for_order_open(ord_df):
             open_order_id = ord_df.at[pos, const.open_ord_id_col_name]
             beg_dt = ord_df.at[pos, const.open_dt_col_name]
             beg_val = ord_df.at[pos, const.open_price_col_name]
-            extremum = ord_df.at[pos, const.extremum_col_name]
         else:
             order_now = False
             order_buy = False
             open_order_id = ''
             beg_dt = 0.0
             beg_val = 0.0
-            extremum = 0.0
 
-    return order_now, order_buy, open_order_id, beg_dt, beg_val, extremum
+    return order_now, order_buy, open_order_id, beg_dt, beg_val
 
 
 def check_and_close_when_autoclosed(out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x):
@@ -278,7 +277,7 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
     # -------------------------------------------------------------------------------------
 
     ord_change = False
-    order_now, order_buy, open_order_id, beg_dt, beg_val, extremum = check_for_order_open(ord_df)
+    order_now, order_buy, open_order_id, beg_dt, beg_val = check_for_order_open(ord_df)
     # -------------------------------------------------------------------------------------
     # debug_log_write('check_for_order_open:')
     # debug_log_write('    order_now=' + str(order_now) + ' order_buy=' +str(order_buy) + ' open_order_id=' + str(open_order_id))
