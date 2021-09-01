@@ -46,10 +46,10 @@ const.avg24_wnd = 15
 const.avg32_wnd = 15
 const.avg48_wnd = 15
 const.avg64_wnd = 15
-const.avg96_wnd = 300
-const.avg128_wnd = 300
+const.avg96_wnd = 15
+const.avg128_wnd = 15
 
-const.avg_slow_wnd = 300
+const.avg_slow_wnd = 15
 
 # best 128, 300
 # 1200
@@ -79,6 +79,7 @@ const.type_col_name = 'type'
 const.open_ord_id_col_name = 'open_ord_id'
 const.open_dt_col_name = 'open_dt'
 const.open_price_col_name = 'open_price'
+const.extremum_col_name = 'extremum'
 const.close_ord_id_col_name = 'close_ord_id'
 const.close_dt_col_name = 'close_dt'
 const.close_price_col_name = 'close_price'
@@ -137,7 +138,7 @@ const.order_create_plus_koef_sell = 0.999
 # 0.0003
 # 0.000075
 # 0.00005
-const.min_fast_avg_delta = 0.0001
-const.min_slow_avg_delta = 0.0001
+const.min_fast_avg_delta = 0.0000
+const.min_slow_avg_delta = 0.0000
 
 const.max_backward_prc = 0.25
