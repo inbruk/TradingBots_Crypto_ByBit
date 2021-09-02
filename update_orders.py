@@ -75,12 +75,12 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
 
     if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
         if not o_now:
-            if delta_fast > 0 and delta_slow > 0:
+            if delta_fast > 0:  # and delta_slow > 0:
                 o_change = True
                 o_now = True
                 o_buy = True
 
-            if delta_fast < 0 and delta_slow < 0:
+            if delta_fast < 0:  # and delta_slow < 0:
                 o_change = True
                 o_now = True
                 o_buy = False
@@ -98,27 +98,41 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
     # else:
 
     if o_now:
+
         curr_ord_pos = len(ord_df) - 1
         extremum = ord_df.at[curr_ord_pos, const.extremum_col_name]
+        extr_beg = ord_df.at[curr_ord_pos, const.extr_beg_col_name]
 
-        if o_buy:
-            if extremum == 0.0 or fast_value > extremum:
-                extremum = fast_value
-
-
-            backward_koef = (extremum - fast_value) / (extremum - beg_value)
+        if extremum == 0.0:
+            extremum = fast_value
+            extr_beg = fast_value
         else:
-            if extremum == 0.0 or fast_value < extremum:
-                extremum = fast_value
 
-            backward_koef = (fast_value - extremum) / (beg_value - extremum)
+            if (o_buy and extr_beg > fast_value) or (not o_buy and extr_beg < fast_value):
+                o_change = True
+                o_now = False
+                return o_now, o_buy, o_change
 
-        if backward_koef > const.max_backward_prc:
-            o_change = True
-            o_now = False
-            extremum = 0.0
+            if extremum != extr_beg:
+                if o_buy:
+                    backward_koef = (extremum - fast_value) / abs(extremum - extr_beg)
+                else:
+                    backward_koef = (fast_value - extremum) / abs(extr_beg - extremum)
+
+                if backward_koef > const.max_backward_prc:
+                    o_change = True
+                    o_now = False
+                    return o_now, o_buy, o_change
+
+            if o_buy:
+                if fast_value > extremum:
+                    extremum = fast_value
+            else:
+                if fast_value < extremum:
+                    extremum = fast_value
 
         ord_df.at[curr_ord_pos, const.extremum_col_name] = extremum
+        ord_df.at[curr_ord_pos, const.extr_beg_col_name] = extr_beg
 
     return o_now, o_buy, o_change
 
@@ -157,6 +171,7 @@ def fill_order_values(
         ord_df.at[pos, const.open_dt_col_name] = beg_dt
         ord_df.at[pos, const.open_price_col_name] = beg_val
         ord_df.at[pos, const.extremum_col_name] = 0.0
+        ord_df.at[pos, const.extr_beg_col_name] = 0.0
         ord_df.at[pos, const.close_ord_id_col_name] = ' '
         ord_df.at[pos, const.close_dt_col_name] = 0.0
         ord_df.at[pos, const.close_price_col_name] = 0.0
@@ -358,7 +373,7 @@ def fill_orders_by_historical_data(symbol_str):
     else:
         ord_df = pd.DataFrame(columns=[const.type_col_name,
                                        const.open_ord_id_col_name, const.open_dt_col_name, const.open_price_col_name,
-                                       const.extremum_col_name,
+                                       const.extremum_col_name, const.extr_beg_col_name,
                                        const.close_ord_id_col_name, const.close_dt_col_name, const.close_price_col_name,
                                        const.qty_in_usd_col_name,
                                        const.delta_price_col_name, const.delta_price_prc_col_name,
