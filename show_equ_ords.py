@@ -52,8 +52,8 @@ def draw_one_symbol(symbol_str, start_dt):
 
     axes[1].plot(
                  df[const.dt_col_name], df[const.value_col_name],
-                 df[const.dt_col_name], df[const.avg8_col_name],
-                 df[const.dt_col_name], df[const.avg32_col_name]
+                 df[const.dt_col_name], df[const.avg128_col_name],
+                 df[const.dt_col_name], df[const.avg_slow_col_name]
                  )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 

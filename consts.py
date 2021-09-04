@@ -47,7 +47,7 @@ const.avg32_wnd = 31
 const.avg48_wnd = 31
 const.avg64_wnd = 31
 const.avg96_wnd = 31
-const.avg128_wnd = 31
+const.avg128_wnd = 7
 
 const.avg_slow_wnd = 31
 
