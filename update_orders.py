@@ -44,14 +44,14 @@ def check_for_extremum_in_wnd(out_df, index):
 
 def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
 
+    delta1 = out_df.at[x, const.avg1_col_name] - out_df.at[x - 1, const.avg1_col_name]
+    delta2 = out_df.at[x, const.avg2_col_name] - out_df.at[x - 1, const.avg2_col_name]
+    delta3 = out_df.at[x, const.avg3_col_name] - out_df.at[x - 1, const.avg3_col_name]
+    delta4 = out_df.at[x, const.avg4_col_name] - out_df.at[x - 1, const.avg4_col_name]
+    delta5 = out_df.at[x, const.avg5_col_name] - out_df.at[x - 1, const.avg5_col_name]
+    delta6 = out_df.at[x, const.avg6_col_name] - out_df.at[x - 1, const.avg6_col_name]
+    delta7 = out_df.at[x, const.avg7_col_name] - out_df.at[x - 1, const.avg7_col_name]
     delta8 = out_df.at[x, const.avg8_col_name] - out_df.at[x - 1, const.avg8_col_name]
-    delta16 = out_df.at[x, const.avg16_col_name] - out_df.at[x - 1, const.avg16_col_name]
-    delta24 = out_df.at[x, const.avg24_col_name] - out_df.at[x - 1, const.avg24_col_name]
-    delta32 = out_df.at[x, const.avg32_col_name] - out_df.at[x - 1, const.avg32_col_name]
-    delta48 = out_df.at[x, const.avg48_col_name] - out_df.at[x - 1, const.avg48_col_name]
-    delta64 = out_df.at[x, const.avg64_col_name] - out_df.at[x - 1, const.avg64_col_name]
-    delta96 = out_df.at[x, const.avg96_col_name] - out_df.at[x - 1, const.avg96_col_name]
-    delta128 = out_df.at[x, const.avg128_col_name] - out_df.at[x - 1, const.avg128_col_name]
 
     fast_value = out_df.at[x, const.avg_fast_col_name]
     delta_slow = out_df.at[x, const.avg_slow_col_name] - out_df.at[x - 1, const.avg_slow_col_name]
@@ -73,14 +73,19 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
     fast_koef = price * const.min_fast_avg_delta
     slow_koef = price * const.min_slow_avg_delta
 
-    if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
+    if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:  # and \
+        # abs(delta1) > slow_koef and abs(delta2) > slow_koef and \
+        #  abs(delta3) > slow_koef and abs(delta4) > slow_koef and \
+        #   abs(delta5) > slow_koef and abs(delta6) > slow_koef and \
+        #     abs(delta7) > slow_koef:
+
         if not o_now:
-            if delta_fast > 0:  # and delta_slow > 0:
+            if delta_fast > 0 and delta_slow > 0:
                 o_change = True
                 o_now = True
                 o_buy = True
 
-            if delta_fast < 0:  # and delta_slow < 0:
+            if delta_fast < 0 and delta_slow < 0:
                 o_change = True
                 o_now = True
                 o_buy = False

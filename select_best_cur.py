@@ -34,7 +34,7 @@ def calculate_delta_in_percents(eq_df):
 def calculate_MSE(eq_df):
 
     value_series = eq_df[const.value_col_name]
-    avg96_series = eq_df[const.avg96_col_name]
+    avg96_series = eq_df[const.avg7_col_name]
     df_len = eq_df[const.value_col_name].size
     start = 1  # df_len - const.select_best_wnd_size
 

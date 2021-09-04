@@ -40,19 +40,20 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg8_wnd = 7
-const.avg16_wnd = 7
-const.avg24_wnd = 7
-const.avg32_wnd = 31
-const.avg48_wnd = 31
-const.avg64_wnd = 31
-const.avg96_wnd = 31
-const.avg128_wnd = 7
+const.avg1_wnd = 3
+const.avg2_wnd = 3
+const.avg3_wnd = 3
+const.avg4_wnd = 3
+const.avg5_wnd = 3
+const.avg6_wnd = 3
+const.avg7_wnd = 3
 
-const.avg_slow_wnd = 31
+const.avg8_wnd = 600
+const.avg_slow_wnd = 600
 
 # best 128, 300
 # 1200
+# 7 31
 
 const.check_extremum_wnd = 32
 
@@ -63,14 +64,14 @@ const.dt_col_name = 'dt'
 const.value_col_name = 'value'
 const.delta1_col_name = 'delta1'
 const.delta2_col_name = 'delta2'
+const.avg1_col_name = 'avg1'
+const.avg2_col_name = 'avg2'
+const.avg3_col_name = 'avg3'
+const.avg4_col_name = 'avg4'
+const.avg5_col_name = 'avg5'
+const.avg6_col_name = 'avg6'
+const.avg7_col_name = 'avg7'
 const.avg8_col_name = 'avg8'
-const.avg16_col_name = 'avg16'
-const.avg24_col_name = 'avg24'
-const.avg32_col_name = 'avg32'
-const.avg48_col_name = 'avg48'
-const.avg64_col_name = 'avg64'
-const.avg96_col_name = 'avg96'
-const.avg128_col_name = 'avg128'
 const.avg_fast_col_name = 'avg_fast'
 const.avg_slow_col_name = 'avg_slow'
 const.order_col_name = 'order'
@@ -139,7 +140,7 @@ const.order_create_plus_koef_sell = 0.999
 # 0.0003
 # 0.000075
 # 0.00005
-const.min_fast_avg_delta = 0.0001
-const.min_slow_avg_delta = 0.0001
+const.min_fast_avg_delta = 0.000
+const.min_slow_avg_delta = 0.000
 
-const.max_backward_prc = 0.0  # 0.25
+const.max_backward_prc = 0.0
