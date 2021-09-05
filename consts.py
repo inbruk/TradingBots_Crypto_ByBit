@@ -46,13 +46,13 @@ const.avg3_wnd = 3
 const.avg4_wnd = 3
 const.avg5_wnd = 3
 const.avg6_wnd = 3
-const.avg7_wnd = 3
+const.avg7_wnd = 1200
 
-const.avg8_wnd = 600
-const.avg_slow_wnd = 600
+const.avg8_wnd = 300
+const.avg_slow_wnd = 300
 
 # best 128, 300
-# 1200
+# 900
 # 7 31
 
 const.check_extremum_wnd = 32
@@ -140,7 +140,7 @@ const.order_create_plus_koef_sell = 0.999
 # 0.0003
 # 0.000075
 # 0.00005
-const.min_fast_avg_delta = 0.000
-const.min_slow_avg_delta = 0.000
+const.min_fast_avg_delta = 0.0
+const.min_slow_avg_delta = 0.0
 
 const.max_backward_prc = 0.0

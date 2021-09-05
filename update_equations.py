@@ -152,6 +152,27 @@ def calc_avg_value2(out_df, index, hwnd_size, full_length, src_col_name):
     return sumv/divider
 
 
+def calc_avg_value3(out_df, index, hwnd_size, full_length, src_col_name):
+
+    start_idx = index - hwnd_size
+    if start_idx < 0:
+        start_idx = 0
+
+    end_idx = index + 1  # important place !!! error in wnd size broke all calcs !
+    if end_idx > full_length:
+        end_idx = full_length
+
+    sumv = 0.0
+    divider = 1
+    for x in range(start_idx, end_idx):
+        curr_add = end_idx - x
+        value = out_df.at[x, src_col_name] * curr_add
+        sumv += value
+        divider += curr_add
+
+    return sumv/divider
+
+
 def smooth_filter(out_df, index, hwnd_size, full_length, col_name):
     sumv = 0.0
 
@@ -430,28 +451,28 @@ def update_equations_by_symbol(symbol_str):
     print('..d2.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
-    print('..a8.', end='')
+    print('..a1.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
-    print('..a16.', end='')
+    print('..a2.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg3_wnd, const.avg3_col_name)
-    print('..a24.', end='')
+    print('..a3.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg4_wnd, const.avg4_col_name)
-    print('..a32.', end='')
+    print('..a4.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg5_wnd, const.avg5_col_name)
-    print('..a48.', end='')
+    print('..a5.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg6_wnd, const.avg6_col_name)
-    print('..a64.', end='')
+    print('..a6.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg7_wnd, const.avg7_col_name)
-    print('..a96.', end='')
+    print('..a7.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg7_col_name, const.avg8_wnd, const.avg8_col_name)
-    print('..a128.', end='')
+    print('..a8.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg7_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
     print('..avg_slow.', end='')
