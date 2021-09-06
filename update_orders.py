@@ -194,8 +194,8 @@ def fill_order_values(
             d_price = beg_val - end_val
 
         d_price_prc = (d_price / beg_val) * 100.0
-        p_prc = d_price_prc - 0.4
-        p = (p_prc / 100.0) * beg_val
+        p_prc = d_price_prc  # - 0.05  # - 2 * 0.025 % wrost case
+        p = (p_prc/100.0) * qty_in_usd
 
         ord_df.at[pos, const.delta_price_col_name] = d_price
         ord_df.at[pos, const.delta_price_prc_col_name] = d_price_prc
