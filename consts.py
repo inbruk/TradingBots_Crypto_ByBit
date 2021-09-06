@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1630800000
+const.START_UTC = 1630968324
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -141,6 +141,6 @@ const.order_create_plus_koef_sell = 0.999
 # 0.000075
 # 0.00005
 const.min_fast_avg_delta = 0.0
-const.min_slow_avg_delta = 0.00001
+const.min_slow_avg_delta = 0.0
 
 const.max_backward_prc = 0.0
