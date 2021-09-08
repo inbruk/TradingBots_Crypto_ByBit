@@ -48,8 +48,8 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 7
-const.avg_slow_wnd = 15
+const.avg8_wnd = 15
+const.avg_slow_wnd = 31
 
 # best 3, 7, 304%
 # 7, 15 => 182%
