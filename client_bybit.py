@@ -141,12 +141,12 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
             price = result['price']
             qty = result['qty']
             # ------------------------------------------------------------------------------------------------------------------------
-            debug_log_write('    ret_code == 0, time_now=' + time_now + ', order_id' + order_id + ', price=' + price + ', qty=' + qty)
+            debug_log_write('    ret_code == 0, time_now=' + str(time_now) + ', order_id' + str(order_id) + ', price=' + str(price) + ', qty=' + str(qty))
             # ------------------------------------------------------------------------------------------------------------------------
             return True, order_id, time_now, price, qty
         else:
             # ------------------------------------------------------------------------------------------------------------------------
-            debug_log_write('    ret_code=' + ret_code)
+            debug_log_write('    ret_code=' + str(ret_code))
             # ------------------------------------------------------------------------------------------------------------------------
     else:
         # ------------------------------------------------------------------------------------------------------------------------
