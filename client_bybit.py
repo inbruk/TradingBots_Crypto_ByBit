@@ -87,7 +87,7 @@ def current_time_ms():
 def client_order_create(side: str, symbol: str, qty: float, price: float, reduce_only: bool):
 
     # -------------------------------------------------------------------------------------
-    # debug_log_write('try to open / close order ' + side + symbol + ' ' + str(price))
+    debug_log_write('try to order ' + side + symbol + ' ' + str(price))
     # -------------------------------------------------------------------------------------
 
     order_type: str = const.order_type_limit
@@ -132,21 +132,26 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
     req = requests.post(const.PRIVATE_API_ORDER_CREATE, json=req_data)
 
     if req.ok:
-        # -------------------------------------------------------------------------------------
-        # debug_log_write('    req.ok')
-        # -------------------------------------------------------------------------------------
         json_data = json.loads(req.text)
         ret_code = json_data['ret_code']
         if ret_code == 0:
-            # -------------------------------------------------------------------------------------
-            # debug_log_write('    ret_code == 0')
-            # -------------------------------------------------------------------------------------
             time_now = json_data['time_now']
             result = json_data['result']
             order_id = result['order_id']
             price = result['price']
             qty = result['qty']
+            # ------------------------------------------------------------------------------------------------------------------------
+            debug_log_write('    ret_code == 0, time_now=' + time_now + ', order_id' + order_id + ', price=' + price + ', qty=' + qty)
+            # ------------------------------------------------------------------------------------------------------------------------
             return True, order_id, time_now, price, qty
+        else:
+            # ------------------------------------------------------------------------------------------------------------------------
+            debug_log_write('    ret_code=' + ret_code)
+            # ------------------------------------------------------------------------------------------------------------------------
+    else:
+        # ------------------------------------------------------------------------------------------------------------------------
+        debug_log_write('    req.ok == false')
+        # ------------------------------------------------------------------------------------------------------------------------
 
     return False, 0, 0, 0.0, 0.0
 
