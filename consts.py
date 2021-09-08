@@ -48,9 +48,10 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 2
-const.avg_slow_wnd = 5
+const.avg8_wnd = 7
+const.avg_slow_wnd = 15
 
+# 2 5
 # best 3, 7, 304%
 # 7, 15 => 182%
 # 15, 31 => 124%
@@ -124,8 +125,8 @@ const.select_best_count = 4
 
 const.one_curr_order_amount = 45.0
 
-const.order_stop_lost_koef_buy = 0.975
-const.order_stop_lost_koef_sell = 1.025
+const.order_stop_lost_koef_buy = 0.99
+const.order_stop_lost_koef_sell = 1.01
 
 const.order_take_profit_koef_buy = 1.1
 const.order_take_profit_koef_sell = 0.9
