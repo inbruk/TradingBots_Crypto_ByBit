@@ -325,16 +325,23 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
 
             success_open, open_order_id, beg_dt, qty, qty_in_usd, beg_val = \
                 client_position_open(order_buy_str, symbol, qty_in_usd, beg_val)
-            # -------------------------------------------------------------------------------------
-            # debug_log_write('client_position_open:')
-            # debug_log_write('    success_open=' + str(success_open) + ' open_order_id=' + str(open_order_id) + ' beg_dt=' + str(beg_dt))
-            # debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' beg_val=' + str(beg_val))
-            # -------------------------------------------------------------------------------------
 
             if success_open:
+                # -------------------------------------------------------------------------------------
+                debug_log_write('client_position_open:')
+                debug_log_write(
+                    '    success_open=' + str(success_open) + ' open_order_id=' + str(open_order_id) + ' beg_dt=' + str(
+                        beg_dt))
+                debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' beg_val=' + str(beg_val))
+                # -------------------------------------------------------------------------------------
+
                 ord_df = fill_order_values(
                     ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty_in_usd
                 )
+            else:
+                # -------------------------------------------------------------------------------------
+                debug_log_write('client_position_open: FAILS !!!')
+                # -------------------------------------------------------------------------------------
         else:
             if order_buy:
                 order_buy_str = const.order_side_buy
