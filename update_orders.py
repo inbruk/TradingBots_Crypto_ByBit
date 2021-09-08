@@ -194,7 +194,7 @@ def fill_order_values(
             d_price = beg_val - end_val
 
         d_price_prc = (d_price / beg_val) * 100.0
-        p_prc = d_price_prc  # - 0.05  # - 2 * 0.025 % wrost case
+        p_prc = d_price_prc
         p = (p_prc/100.0) * qty_in_usd
 
         ord_df.at[pos, const.delta_price_col_name] = d_price
@@ -267,7 +267,7 @@ def check_and_close_when_autoclosed(out_df, ord_df, symbol, order_buy, open_orde
 
         ord_df = fill_order_values(
             ord_df, False, order_buy, open_order_id, beg_dt, beg_val,
-            '1.1', end_dt, end_val, const.one_curr_order_amount
+            'autoclosed', end_dt, end_val, const.one_curr_order_amount
         )
         return True, ord_df
 

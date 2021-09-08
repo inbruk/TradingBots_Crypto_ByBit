@@ -32,7 +32,7 @@ def get_next_minute_utc():
 
 update_orders = True
 currencies = [
-    const.DOGEUSDT,
+    const.SUSHIUSDT,
     const.ETHUSDT,
     const.XRPUSDT,
     const.UNIUSDT
