@@ -48,8 +48,8 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 7
-const.avg_slow_wnd = 15
+const.avg8_wnd = 2
+const.avg_slow_wnd = 5
 
 # 2 5
 # best 3, 7, 304%
@@ -119,8 +119,8 @@ const.transit_max_pos = 11
 const.transit_step = 0.1
 
 const.select_best_wnd_size = 60
-const.select_best_min_delta_prc = 8
-const.select_best_max_mse_prc = 2.0  # 0.8
+const.select_best_min_delta_prc = 3
+const.select_best_max_mse_prc = 1.0  # 0.8
 const.select_best_count = 4
 
 const.one_curr_order_amount = 45.0
