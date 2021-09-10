@@ -49,7 +49,7 @@ const.avg6_wnd = 3
 const.avg7_wnd = 3
 
 const.avg8_wnd = 2
-const.avg_slow_wnd = 3
+const.avg_slow_wnd = 2
 
 # 2 3
 # best 3, 7, 304%
@@ -144,4 +144,4 @@ const.order_create_plus_koef_sell = 0.999
 const.min_fast_avg_delta = 0.0
 const.min_slow_avg_delta = 0.0
 
-const.max_backward_prc = 0.0
+const.max_backward_prc = 0.25
