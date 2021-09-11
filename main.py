@@ -32,7 +32,7 @@ def get_next_minute_utc():
 
 update_orders = False
 currencies = [
-    const.ETHUSDT,
+    # const.ETHUSDT,
     const.SUSHIUSDT,
     const.XRPUSDT,
     const.UNIUSDT
