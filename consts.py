@@ -123,7 +123,7 @@ const.select_best_min_delta_prc = 3
 const.select_best_max_mse_prc = 1.0  # 0.8
 const.select_best_count = 4
 
-const.one_curr_order_amount = 45.0
+const.one_curr_order_amount = 40.0
 
 const.order_stop_lost_koef_buy = 0.99
 const.order_stop_lost_koef_sell = 1.01
@@ -144,4 +144,4 @@ const.order_create_plus_koef_sell = 0.999
 const.min_fast_avg_delta = 0.0
 const.min_slow_avg_delta = 0.0
 
-const.max_backward_prc = 0.25
+const.max_backward_prc = 0.2
