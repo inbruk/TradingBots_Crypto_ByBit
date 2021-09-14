@@ -40,17 +40,18 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg1_wnd = 3
-const.avg2_wnd = 3
+const.avg1_wnd = 7
+const.avg2_wnd = 63
 const.avg3_wnd = 3
-const.avg4_wnd = 3
+const.avg4_wnd = 7
 const.avg5_wnd = 3
-const.avg6_wnd = 31
-const.avg7_wnd = 31
+const.avg6_wnd = 3
+const.avg7_wnd = 3
 
-const.avg8_wnd = 31
-const.avg_slow_wnd = 31
+const.avg8_wnd = 7
+const.avg_slow_wnd = 63
 
+# 15, 31
 # 2 5
 # best 3, 7, 304%
 # 7, 15 => 182%
@@ -131,8 +132,8 @@ const.order_stop_lost_koef_sell = 1.01
 const.order_take_profit_koef_buy = 1.1
 const.order_take_profit_koef_sell = 0.9
 
-const.order_create_plus_koef_buy = 1.001
-const.order_create_plus_koef_sell = 0.999
+const.order_create_plus_koef_buy = 1.0001
+const.order_create_plus_koef_sell = 0.9999
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute
@@ -144,4 +145,5 @@ const.order_create_plus_koef_sell = 0.999
 const.min_fast_avg_delta = 0.0
 const.min_slow_avg_delta = 0.0
 
-const.max_backward_prc = 0.2
+const.max_backward_prc = 0.0
+
