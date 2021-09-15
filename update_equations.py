@@ -287,20 +287,20 @@ def filter_p2(val, val_prev, val_pp, koef):
     if koef < 0:
         raise ValueError('In filter_p2() parameter koef must be > 0 !!!')
 
-    d1_1 = (val - val_prev) / val_prev
-    d1_2 = (val_prev - val_pp) / val_prev
-    d2 = d1_1 - d1_2
+    d1_1 = val - val_prev
+    d1_2 = val_prev - val_pp
+    d2 = (d1_1 - d1_2) / val_prev
 
     d2abs = abs(d2)
 
     sign = 1.0
-    if d2abs < 0.0:
+    if d2 < 0.0:
         sign = -1.0
 
     if d2abs > koef:
         d2 = sign * koef
-        d1_1 = d1_2 + d2
-        val = val_prev + d1_1 * val_prev
+        d1_1 = d1_2 + d2 * val_prev
+        val = val_prev + d1_1
 
     return val
 
