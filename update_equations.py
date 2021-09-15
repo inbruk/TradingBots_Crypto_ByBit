@@ -227,11 +227,104 @@ def combine_eq_avg(old_df, out_df, src_col1_name, src_col2_name, koef, dst_col_n
     out_len = out_df[const.dt_col_name].size
     old_len = old_df[const.dt_col_name].size
 
-    for x in range(0, old_len):
+    out_df.at[0, dst_col_name] = out_df.at[0, src_col1_name]
+
+    for x in range(1, old_len):
         out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    if old_len < 1:
+        old_len = 1
 
     for x in range(old_len, out_len):
         out_df.at[x, dst_col_name] = combine_2_values(out_df, x, src_col1_name, src_col2_name, koef)
+
+    return out_df
+
+
+def filter_p1(val, val_prev, koef):
+
+    if koef < 0:
+        raise ValueError('In filter_p1() parameter koef must be > 0 !!!')
+
+    delta = (val - val_prev)/val
+    dabs = abs(delta)
+
+    sign = 1.0
+    if delta < 0.0:
+        sign = -1.0
+
+    if dabs > koef:
+        delta = sign * koef
+        val = val_prev + delta
+
+    return val
+
+
+def filter_p1_eq_avg(old_df, out_df, src_col_name, koef, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+
+    out_df.at[0, dst_col_name] = out_df.at[0, src_col_name]
+
+    for x in range(1, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    if old_len < 1:
+        old_len = 1
+
+    for x in range(old_len, out_len):
+        val = out_df.at[x, src_col_name]
+        val_prev = out_df.at[x-1, src_col_name]
+        val = filter_p1(val, val_prev, koef)
+        out_df.at[x, dst_col_name] = val
+
+    return out_df
+
+
+def filter_p2(val, val_prev, val_pp, koef):
+
+    if koef < 0:
+        raise ValueError('In filter_p2() parameter koef must be > 0 !!!')
+
+    d1_1 = (val - val_prev) / val
+    d1_2 = (val_prev - val_pp) / val
+    d2 = d1_1 - d1_2
+
+    d2abs = abs(d2)
+
+    sign = 1.0
+    if d2abs < 0.0:
+        sign = -1.0
+
+    if d2abs > koef:
+        d2 = sign * koef
+        d1_1 = d1_2 + d2
+        val = val_prev + d1_1
+
+    return val
+
+
+def filter_p2_eq_avg(old_df, out_df, src_col_name, koef, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+
+    out_df.at[0, dst_col_name] = out_df.at[0, src_col_name]
+    out_df.at[1, dst_col_name] = out_df.at[1, src_col_name]
+
+    for x in range(2, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    if old_len < 2:
+        old_len = 2
+
+    for x in range(old_len, out_len):
+        val = out_df.at[x, src_col_name]
+        val_prev = out_df.at[x-1, src_col_name]
+        val_pp = out_df.at[x-2, src_col_name]
+        val = filter_p2(val, val_prev, val_pp, koef)
+        out_df.at[x, dst_col_name] = val
 
     return out_df
 
@@ -468,28 +561,28 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
     print('..a1.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
+    out_df = filter_p2_eq_avg(old_df, out_df, const.avg1_col_name, 0.0001, const.avg2_col_name)
     print('..a2.', end='')
 
-    out_df = combine_eq_avg(old_df, out_df, const.avg1_col_name, const.avg2_col_name, 3.0, const.avg3_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg3_wnd, const.avg3_col_name)
     print('..a3.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg3_col_name, const.avg4_wnd, const.avg4_col_name)
+    out_df = filter_p2_eq_avg(old_df, out_df, const.avg3_col_name, 0.0001, const.avg4_col_name)
     print('..a4.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg4_col_name, const.avg5_wnd, const.avg5_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg5_wnd, const.avg5_col_name)
     print('..a5.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg6_wnd, const.avg6_col_name)
+    out_df = filter_p2_eq_avg(old_df, out_df, const.avg5_col_name, 0.0001, const.avg6_col_name)
     print('..a6.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg6_col_name, const.avg7_wnd, const.avg7_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg7_wnd, const.avg7_col_name)
     print('..a7.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg3_col_name, const.avg8_wnd, const.avg8_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg8_wnd, const.avg8_col_name)
     print('..a8.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg6_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
     print('..avg_slow.', end='')
 
     out_df = update_avg_fast_col(old_df, out_df)

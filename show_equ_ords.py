@@ -53,10 +53,8 @@ def draw_one_symbol(symbol_str, start_dt):
 
     axes[1].plot(
                  df[const.dt_col_name], df[const.value_col_name],
-                 df[const.dt_col_name], df[const.avg1_col_name],
-                 df[const.dt_col_name], df[const.avg2_col_name],
-                 df[const.dt_col_name], df[const.avg3_col_name],
-                 df[const.dt_col_name], df[const.avg4_col_name]
+                 df[const.dt_col_name], df[const.avg5_col_name],
+                 df[const.dt_col_name], df[const.avg6_col_name]
                 )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 

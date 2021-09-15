@@ -44,14 +44,14 @@ def check_for_extremum_in_wnd(out_df, index):
 
 def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
 
-    delta1 = out_df.at[x, const.avg1_col_name] - out_df.at[x - 1, const.avg1_col_name]
-    delta2 = out_df.at[x, const.avg2_col_name] - out_df.at[x - 1, const.avg2_col_name]
-    delta3 = out_df.at[x, const.avg3_col_name] - out_df.at[x - 1, const.avg3_col_name]
-    delta4 = out_df.at[x, const.avg4_col_name] - out_df.at[x - 1, const.avg4_col_name]
-    delta5 = out_df.at[x, const.avg5_col_name] - out_df.at[x - 1, const.avg5_col_name]
-    delta6 = out_df.at[x, const.avg6_col_name] - out_df.at[x - 1, const.avg6_col_name]
-    delta7 = out_df.at[x, const.avg7_col_name] - out_df.at[x - 1, const.avg7_col_name]
-    delta8 = out_df.at[x, const.avg8_col_name] - out_df.at[x - 1, const.avg8_col_name]
+    # delta1 = out_df.at[x, const.avg1_col_name] - out_df.at[x - 1, const.avg1_col_name]
+    # delta2 = out_df.at[x, const.avg2_col_name] - out_df.at[x - 1, const.avg2_col_name]
+    # delta3 = out_df.at[x, const.avg3_col_name] - out_df.at[x - 1, const.avg3_col_name]
+    # delta4 = out_df.at[x, const.avg4_col_name] - out_df.at[x - 1, const.avg4_col_name]
+    # delta5 = out_df.at[x, const.avg5_col_name] - out_df.at[x - 1, const.avg5_col_name]
+    # delta6 = out_df.at[x, const.avg6_col_name] - out_df.at[x - 1, const.avg6_col_name]
+    # delta7 = out_df.at[x, const.avg7_col_name] - out_df.at[x - 1, const.avg7_col_name]
+    # delta8 = out_df.at[x, const.avg8_col_name] - out_df.at[x - 1, const.avg8_col_name]
 
     # dt = round(out_df.at[x, const.dt_col_name])
     price = out_df.at[x, const.value_col_name]

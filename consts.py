@@ -40,12 +40,12 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg1_wnd = 7
-const.avg2_wnd = 63
-const.avg3_wnd = 3
+const.avg1_wnd = 3
+const.avg2_wnd = 3
+const.avg3_wnd = 7
 const.avg4_wnd = 7
-const.avg5_wnd = 3
-const.avg6_wnd = 3
+const.avg5_wnd = 15
+const.avg6_wnd = 15
 const.avg7_wnd = 3
 
 const.avg8_wnd = 7
@@ -144,6 +144,7 @@ const.order_create_plus_koef_sell = 0.9999
 # 0.00005
 const.min_fast_avg_delta = 0.0
 const.min_slow_avg_delta = 0.0
-
 const.max_backward_prc = 0.0
+
+
 
