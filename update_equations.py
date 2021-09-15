@@ -246,7 +246,7 @@ def filter_p1(val, val_prev, koef):
     if koef < 0:
         raise ValueError('In filter_p1() parameter koef must be > 0 !!!')
 
-    delta = (val - val_prev)/val
+    delta = (val - val_prev) / val_prev
     dabs = abs(delta)
 
     sign = 1.0
@@ -255,9 +255,9 @@ def filter_p1(val, val_prev, koef):
 
     if dabs > koef:
         delta = sign * koef
-        val = val_prev + delta
+        res = val_prev + delta * val
 
-    return val
+    return res
 
 
 def filter_p1_eq_avg(old_df, out_df, src_col_name, koef, dst_col_name):
@@ -275,7 +275,7 @@ def filter_p1_eq_avg(old_df, out_df, src_col_name, koef, dst_col_name):
 
     for x in range(old_len, out_len):
         val = out_df.at[x, src_col_name]
-        val_prev = out_df.at[x-1, src_col_name]
+        val_prev = out_df.at[x-1, dst_col_name]
         val = filter_p1(val, val_prev, koef)
         out_df.at[x, dst_col_name] = val
 
@@ -287,8 +287,8 @@ def filter_p2(val, val_prev, val_pp, koef):
     if koef < 0:
         raise ValueError('In filter_p2() parameter koef must be > 0 !!!')
 
-    d1_1 = (val - val_prev) / val
-    d1_2 = (val_prev - val_pp) / val
+    d1_1 = (val - val_prev) / val_prev
+    d1_2 = (val_prev - val_pp) / val_prev
     d2 = d1_1 - d1_2
 
     d2abs = abs(d2)
@@ -300,7 +300,7 @@ def filter_p2(val, val_prev, val_pp, koef):
     if d2abs > koef:
         d2 = sign * koef
         d1_1 = d1_2 + d2
-        val = val_prev + d1_1
+        val = val_prev + d1_1 * val_prev
 
     return val
 
@@ -321,8 +321,8 @@ def filter_p2_eq_avg(old_df, out_df, src_col_name, koef, dst_col_name):
 
     for x in range(old_len, out_len):
         val = out_df.at[x, src_col_name]
-        val_prev = out_df.at[x-1, src_col_name]
-        val_pp = out_df.at[x-2, src_col_name]
+        val_prev = out_df.at[x-1, dst_col_name]
+        val_pp = out_df.at[x-2, dst_col_name]
         val = filter_p2(val, val_prev, val_pp, koef)
         out_df.at[x, dst_col_name] = val
 
