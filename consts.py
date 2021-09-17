@@ -5,34 +5,54 @@ const.START_UTC = 1631083962
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
-const.BTCUSDT    = 'BTCUSDT'
 const.AAVEUSDT   = 'AAVEUSDT'
 const.ADAUSDT    = 'ADAUSDT'
+const.AVAXUSDT   = 'AVAXUSDT'
+const.AXSUSDT    = 'AXSUSDT'
 const.BCHUSDT    = 'BCHUSDT'
+const.BNBUSDT    = 'BNBUSDT'
+const.BTCUSDT    = 'BTCUSDT'
+const.COMPUSDT   = 'COMPUSDT'
 const.DOGEUSDT   = 'DOGEUSDT'
 const.DOTUSDT    = 'DOTUSDT'
+const.ETCUSDT    = 'ETCUSDT'
 const.ETHUSDT    = 'ETHUSDT'
+const.ICPUSDT    = 'ICPUSDT'
 const.LINKUSDT   = 'LINKUSDT'
 const.LTCUSDT    = 'LTCUSDT'
+const.MATICUSDT  = 'MATICUSDT'
 const.SUSHIUSDT  = 'SUSHIUSDT'
+const.SOLUSDT    = 'SOLUSDT'
+const.TRXUSDT    = 'TRXUSDT'
 const.XRPUSDT    = 'XRPUSDT'
 const.XEMUSDT    = 'XEMUSDT'
+const.XLMUSDT    = 'XLMUSDT'
 const.XTZUSDT    = 'XTZUSDT'
 const.UNIUSDT    = 'UNIUSDT'
 
 const.CURRENCIES = [
-    const.BTCUSDT,
     const.AAVEUSDT,
     const.ADAUSDT,
+    const.AVAXUSDT,
+    const.AXSUSDT,
     const.BCHUSDT,
+    const.BNBUSDT,
+    const.BTCUSDT,
+    const.COMPUSDT,
     const.DOGEUSDT,
     const.DOTUSDT,
+    const.ETCUSDT,
     const.ETHUSDT,
+    const.ICPUSDT,
     const.LINKUSDT,
     const.LTCUSDT,
+    const.MATICUSDT,
     const.SUSHIUSDT,
+    const.SOLUSDT,
+    const.TRXUSDT,
     const.XRPUSDT,
     const.XEMUSDT,
+    const.XLMUSDT,
     const.XTZUSDT,
     const.UNIUSDT
 ]
@@ -40,18 +60,18 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg1_wnd = 3
-const.avg2_wnd = 3
-const.avg3_wnd = 7
-const.avg4_wnd = 7
-const.avg5_wnd = 15
-const.avg6_wnd = 15
+const.avg1_wnd = 300
+const.avg2_wnd = 300
+const.avg3_wnd = 3
+const.avg4_wnd = 3
+const.avg5_wnd = 3
+const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 7
-const.avg_slow_wnd = 63
+const.avg8_wnd = 300
+const.avg_slow_wnd = 300
 
-# 15, 31
+# 63 300
 # 2 5
 # best 3, 7, 304%
 # 7, 15 => 182%
@@ -126,11 +146,11 @@ const.select_best_count = 4
 
 const.one_curr_order_amount = 40.0
 
-const.order_stop_lost_koef_buy = 0.99
-const.order_stop_lost_koef_sell = 1.01
+const.order_stop_lost_koef_buy = 0.9
+const.order_stop_lost_koef_sell = 1.1
 
-const.order_take_profit_koef_buy = 1.1
-const.order_take_profit_koef_sell = 0.9
+const.order_take_profit_koef_buy = 1.5
+const.order_take_profit_koef_sell = 0.5
 
 const.order_create_plus_koef_buy = 1.0001
 const.order_create_plus_koef_sell = 0.9999
@@ -144,7 +164,7 @@ const.order_create_plus_koef_sell = 0.9999
 # 0.00005
 const.min_fast_avg_delta = 0.0
 const.min_slow_avg_delta = 0.0
-const.max_backward_prc = 0.0
+const.max_backward_prc = 0.1
 
 
 
