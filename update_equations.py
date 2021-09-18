@@ -586,10 +586,10 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg6_col_name, const.avg7_wnd, const.avg7_col_name)
     print('..a7.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg8_wnd, const.avg8_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg8_wnd, const.avg8_col_name)
     print('..a8.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
     print('..avg_slow.', end='')
 
     out_df = update_avg_fast_col(old_df, out_df)

@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1631679037
+const.START_UTC = 1631084050
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -60,8 +60,8 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg1_wnd = 300
-const.avg2_wnd = 300
+const.avg1_wnd = 127
+const.avg2_wnd = 3
 const.avg3_wnd = 3
 const.avg4_wnd = 3
 const.avg5_wnd = 3

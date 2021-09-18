@@ -105,9 +105,9 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
             if (o_buy and extr_beg > avg_slow_value) or \
                (not o_buy and extr_beg < avg_slow_value) or \
                (o_buy and avg_fast_value < avg_slow_value) or \
-               (not o_buy and avg_fast_value > avg_slow_value) or \
-               (o_buy and delta_fast < 0) or \
-               (not o_buy and delta_fast > 0):
+               (not o_buy and avg_fast_value > avg_slow_value):
+                # (o_buy and delta_fast < 0) or \
+                # (not o_buy and delta_fast > 0):
                 # (o_buy and price < avg_fast_value) or \
                 # (not o_buy and price > avg_fast_value):
                 o_change = True
