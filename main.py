@@ -35,7 +35,7 @@ update_orders = False
 currencies = [
     const.AAVEUSDT,
     const.TRXUSDT,
-    const.LTCUSDTT,
+    const.LTCUSDT,
     const.SUSHIUSDT
 ]
 
