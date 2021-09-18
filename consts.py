@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1631083962
+const.START_UTC = 1631679037
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -50,11 +50,11 @@ const.CURRENCIES = [
     const.SUSHIUSDT,
     const.SOLUSDT,
     const.TRXUSDT,
+    const.UNIUSDT,
     const.XRPUSDT,
     const.XEMUSDT,
     const.XLMUSDT,
-    const.XTZUSDT,
-    const.UNIUSDT
+    const.XTZUSDT
 ]
 
 const.SUFFIX = 'equations'
@@ -146,8 +146,8 @@ const.select_best_count = 4
 
 const.one_curr_order_amount = 40.0
 
-const.order_stop_lost_koef_buy = 0.9
-const.order_stop_lost_koef_sell = 1.1
+const.order_stop_lost_koef_buy = 0.75
+const.order_stop_lost_koef_sell = 1.25
 
 const.order_take_profit_koef_buy = 1.5
 const.order_take_profit_koef_sell = 0.5
