@@ -1,27 +1,27 @@
 
-            128->300    64->128
+            128->300    64->128     300->600        3->900      3->1400
 
-AAVEUSDT     27.5799
+AAVEUSDT     27.5799                9.5994          17.0498
 ADAUSDT       6.8953
-AVAXUSDT     22.6932
-AXSUSDT     -22.7635
-BCHUSDT		- 0.1458
+AVAXUSDT     22.6932    4.0412      8.4434          4.4568
+AXSUSDT
+BCHUSDT
 BNBUSDT		  3.5837
-BTCUSDT     - 7.8564
-COMPUSDT      0.2527
-DOGEUSDT    - 5.5581
-DOTUSDT     - 6.7174
-ETCUSDT     - 2.0655
-ETHUSDT       8.6902
-ICPUSDT     - 1.2792
-LINKUSDT    - 7.1166
-LTCUSDT     -24.7208
-MATICUSDT   - 0.6109
-SOLUSDT     - 0.0517
-SUSHIUSDT    40.3946
-TRXUSDT      34.1111
-UNIUSDT     - 4.1314
+BTCUSDT
+COMPUSDT      0.2527                0.4947          7.9853
+DOGEUSDT                            3.7576
+DOTUSDT                                             1.9660
+ETCUSDT
+ETHUSDT       8.6902                                2.3584
+ICPUSDT                             4.9121          3.0887
+LINKUSDT
+LTCUSDT                             9.0981
+MATICUSDT
+SOLUSDT                 7.4015      1.8897          14.4867
+SUSHIUSDT    40.3946                17.5202         30.2258
+TRXUSDT      34.1111                11.3546         8.1499
+UNIUSDT                             19.5573         11.3149
 XEMUSDT      11.7607
-XLMUSDT     - 7.6462
-XRPUSDT     -25.8594
-XTZUSDT     -30.0834
+XLMUSDT
+XRPUSDT
+XTZUSDT                             29.4158         31.6073
