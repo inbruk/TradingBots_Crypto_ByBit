@@ -66,32 +66,19 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
     fast_koef = price * const.min_fast_avg_delta
     slow_koef = price * const.min_slow_avg_delta
 
-    if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
+    if not o_now:
 
-        if not o_now:
+        if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
             if delta_fast > 0 and delta_slow > 0 and avg_fast_value >= avg_slow_value:  # and price > avg_fast_value
                 o_change = True
                 o_now = True
                 o_buy = True
-
             if delta_fast < 0 and delta_slow < 0 and avg_fast_value <= avg_slow_value:  # and price < avg_fast_value:
                 o_change = True
                 o_now = True
                 o_buy = False
 
-            return o_now, o_buy, o_change
-    #     else:
-    #         if o_buy:
-    #             if delta_fast < 0:
-    #                 o_change = True
-    #                 o_now = False
-    #         else:
-    #             if delta_fast > 0:
-    #                 o_change = True
-    #                 o_now = False
-    # else:
-
-    if o_now:
+    else:
 
         curr_ord_pos = len(ord_df) - 1
         extremum = ord_df.at[curr_ord_pos, const.extremum_col_name]
