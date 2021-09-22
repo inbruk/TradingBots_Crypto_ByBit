@@ -60,7 +60,7 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg1_wnd = 3
+const.avg1_wnd = 128
 const.avg2_wnd = 3
 const.avg3_wnd = 3
 const.avg4_wnd = 3
@@ -68,8 +68,8 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 1400
-const.avg_slow_wnd = 1400
+const.avg8_wnd = 300
+const.avg_slow_wnd = 300
 
 # 63 300
 # 2 5
