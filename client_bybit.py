@@ -198,14 +198,15 @@ def client_position_oc(side: str, symbol: str, qty_in_usd: float, price: float, 
     if not success_create:
         return False, '', time_now, qty, qty_in_usd, price
 
-    # for t in range(0, 3):
-    #     success_status, order_status = client_order_get_status(order_id, symbol)
-    #     if success_status and order_status == const.order_status_filled:
-    #         break
-    #     time.sleep(0.5)
-    #
-    # if (not success_status) or (order_status != const.order_status_filled):
-    #     return False, '', time_now, qty, qty_in_usd, price
+    for t in range(0, 5):
+        success_status, order_status = client_order_get_status(order_id, symbol)
+        if success_status and order_status == const.order_status_filled:
+            break
+        time.sleep(1)
+        print('.', end='')
+
+    if (not success_status) or (order_status != const.order_status_filled):
+        return False, '', time_now, qty, qty_in_usd, price
 
     return True, order_id, time_now, qty, qty_in_usd, price
 
