@@ -152,8 +152,8 @@ const.order_stop_lost_koef_sell = 1.25
 const.order_take_profit_koef_buy = 1.5
 const.order_take_profit_koef_sell = 0.5
 
-const.order_create_plus_koef_buy = 1.005
-const.order_create_plus_koef_sell = 0.995
+const.order_create_plus_koef_buy = 0.998
+const.order_create_plus_koef_sell = 1.002
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute
