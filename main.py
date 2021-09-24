@@ -36,7 +36,7 @@ update_orders = True
 currencies = [
     const.AAVEUSDT,
     const.TRXUSDT,
-    const.AVAXUSDT,
+    const.UNIUSDT,
     const.SUSHIUSDT
 ]
 
