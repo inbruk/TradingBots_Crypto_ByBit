@@ -248,7 +248,7 @@ def client_position_check(side: str, symbol: str):
             result = json_data['result']
             result_len = len(result)
             if result_len < 1:
-                return False
+                return False   # autoclosed !!!
 
             for x in range(0, result_len):
                 position_data = result[x]
@@ -258,6 +258,6 @@ def client_position_check(side: str, symbol: str):
 
             side_val = position_data['side']
             if (side_val == side) and (size > 0):
-                return True
+                return True  # not autoclosed !!!
 
-    return False
+    return True  # not False  !!!! because used only when check for autoclosing
