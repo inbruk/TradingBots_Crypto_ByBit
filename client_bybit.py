@@ -253,11 +253,8 @@ def client_position_check(side: str, symbol: str):
             for x in range(0, result_len):
                 position_data = result[x]
                 size = position_data['size']
-                if size > 0.0:
-                    break
+                side_val = position_data['side']
+                if (side_val == side) and (size > 0):
+                    return True  # not autoclosed !!!
 
-            side_val = position_data['side']
-            if (side_val == side) and (size > 0):
-                return True  # not autoclosed !!!
-
-    return True  # not False  !!!! because used only when check for autoclosing
+    return False  # autoclosed !!!
