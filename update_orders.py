@@ -287,75 +287,75 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
     # debug_log_write('    beg_dt=' + str(beg_dt) + ' beg_val=' + str(beg_val))
     # -------------------------------------------------------------------------------------
 
-    order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy, beg_val, ord_df)
-    # -------------------------------------------------------------------------------------
-    # debug_log_write('check_order_open_close:')
-    # debug_log_write('    order_now=' + str(order_now) + ' order_buy=' + str(order_buy) + ' ord_change=' + str(ord_change))
-    # -------------------------------------------------------------------------------------
+    if order_now:
 
-
-    if ord_change and not order_now:  # not close if closed
         auto_closed, ord_df = check_and_close_when_autoclosed(
             out_df, ord_df, symbol, order_buy, open_order_id, beg_dt, beg_val, x)
         # -------------------------------------------------------------------------------------
         # debug_log_write('check_and_close_when_autoclosed: auto_closed=' + str(auto_closed))
         # -------------------------------------------------------------------------------------
-        ord_change = not auto_closed
+    else:
 
-    if ord_change:
-        if order_now:
-            if order_buy:
-                order_buy_str = const.order_side_buy
+        order_now, order_buy, ord_change = check_order_open_close(out_df, x, order_now, order_buy, beg_val, ord_df)
+        # -------------------------------------------------------------------------------------
+        # debug_log_write('check_order_open_close:')
+        # debug_log_write('    order_now=' + str(order_now) + ' order_buy=' + str(order_buy) + ' ord_change=' + str(ord_change))
+        # -------------------------------------------------------------------------------------
+
+        if ord_change:
+            if order_now:
+                if order_buy:
+                    order_buy_str = const.order_side_buy
+                else:
+                    order_buy_str = const.order_side_sell
+
+                beg_val = out_df.at[x, const.value_col_name]
+
+                success_open, open_order_id, beg_dt, qty, qty_in_usd, beg_val = \
+                    client_position_open(order_buy_str, symbol, qty_in_usd, beg_val)
+
+                if success_open:
+                    # -------------------------------------------------------------------------------------
+                    debug_log_write('client_position_open:')
+                    debug_log_write(
+                        '    success_open=' + str(success_open) + ' open_order_id=' + str(open_order_id) + ' beg_dt=' + str(
+                            beg_dt))
+                    debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' beg_val=' + str(beg_val))
+                    # -------------------------------------------------------------------------------------
+
+                    ord_df = fill_order_values(
+                        ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty_in_usd
+                    )
+                else:
+                    # -------------------------------------------------------------------------------------
+                    debug_log_write('client_position_open: FAILS !!!')
+                    # -------------------------------------------------------------------------------------
             else:
-                order_buy_str = const.order_side_sell
+                if order_buy:
+                    order_buy_str = const.order_side_buy
+                else:
+                    order_buy_str = const.order_side_sell
 
-            beg_val = out_df.at[x, const.value_col_name]
+                end_val = out_df.at[x, const.value_col_name]
 
-            success_open, open_order_id, beg_dt, qty, qty_in_usd, beg_val = \
-                client_position_open(order_buy_str, symbol, qty_in_usd, beg_val)
+                success_close, close_order_id, end_dt, qty, qty_in_usd, end_val = \
+                    client_position_close(order_buy_str, symbol, qty_in_usd, end_val)
 
-            if success_open:
-                # -------------------------------------------------------------------------------------
-                debug_log_write('client_position_open:')
-                debug_log_write(
-                    '    success_open=' + str(success_open) + ' open_order_id=' + str(open_order_id) + ' beg_dt=' + str(
-                        beg_dt))
-                debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' beg_val=' + str(beg_val))
-                # -------------------------------------------------------------------------------------
+                if success_close:
+                    # -------------------------------------------------------------------------------------
+                    debug_log_write('client_position_close:')
+                    debug_log_write('    success_open=' + str(success_close) + ' open_order_id=' + str(open_order_id) + ' end_dt=' + str(end_dt))
+                    debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' end_val=' + str(end_val))
+                    # -------------------------------------------------------------------------------------
 
-                ord_df = fill_order_values(
-                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val, ' ', 0.0, 0.0, qty_in_usd
-                )
-            else:
-                # -------------------------------------------------------------------------------------
-                debug_log_write('client_position_open: FAILS !!!')
-                # -------------------------------------------------------------------------------------
-        else:
-            if order_buy:
-                order_buy_str = const.order_side_buy
-            else:
-                order_buy_str = const.order_side_sell
-
-            end_val = out_df.at[x, const.value_col_name]
-
-            success_close, close_order_id, end_dt, qty, qty_in_usd, end_val = \
-                client_position_close(order_buy_str, symbol, qty_in_usd, end_val)
-
-            if success_close:
-                # -------------------------------------------------------------------------------------
-                debug_log_write('client_position_close:')
-                debug_log_write('    success_open=' + str(success_close) + ' open_order_id=' + str(open_order_id) + ' end_dt=' + str(end_dt))
-                debug_log_write('    qty=' + str(qty) + ' qty_in_usd=' + str(qty_in_usd) + ' end_val=' + str(end_val))
-                # -------------------------------------------------------------------------------------
-
-                ord_df = fill_order_values(
-                    ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
-                    close_order_id, end_dt, end_val, qty_in_usd
-                )
-            else:
-                # -------------------------------------------------------------------------------------
-                debug_log_write('client_position_close: FAILS !!!')
-                # -------------------------------------------------------------------------------------
+                    ord_df = fill_order_values(
+                        ord_df, order_now, order_buy, open_order_id, beg_dt, beg_val,
+                        close_order_id, end_dt, end_val, qty_in_usd
+                    )
+                else:
+                    # -------------------------------------------------------------------------------------
+                    debug_log_write('client_position_close: FAILS !!!')
+                    # -------------------------------------------------------------------------------------
 
     return out_df, ord_df
 

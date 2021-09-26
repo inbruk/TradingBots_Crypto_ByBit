@@ -198,14 +198,15 @@ def client_position_oc(side: str, symbol: str, qty_in_usd: float, price: float, 
     if not success_create:
         return False, '', time_now, qty, qty_in_usd, price
 
-    for t in range(0, 3):
-        success_status, order_status = client_order_get_status(order_id, symbol)
-        if success_status and order_status == const.order_status_filled:
-            break
-        time.sleep(0.5)
-
-    if (not success_status) or (order_status != const.order_status_filled):
-        return False, '', time_now, qty, qty_in_usd, price
+    # for t in range(0, 5):
+    #     success_status, order_status = client_order_get_status(order_id, symbol)
+    #     if success_status and order_status == const.order_status_filled:
+    #         break
+    #     time.sleep(1)
+    #     print('.', end='')
+    #
+    # if (not success_status) or (order_status != const.order_status_filled):
+    #     return False, '', time_now, qty, qty_in_usd, price
 
     return True, order_id, time_now, qty, qty_in_usd, price
 
@@ -247,16 +248,13 @@ def client_position_check(side: str, symbol: str):
             result = json_data['result']
             result_len = len(result)
             if result_len < 1:
-                return False
+                return False   # autoclosed !!!
 
             for x in range(0, result_len):
                 position_data = result[x]
                 size = position_data['size']
-                if size > 0.0:
-                    break
+                side_val = position_data['side']
+                if (side_val == side) and (size > 0):
+                    return True  # not autoclosed !!!
 
-            side_val = position_data['side']
-            if (side_val == side) and (size > 0):
-                return True
-
-    return False
+    return False  # autoclosed !!!
