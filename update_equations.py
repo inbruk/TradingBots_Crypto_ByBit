@@ -211,6 +211,22 @@ def update_eq_avg(old_df, out_df, src_col_name, hwnd_size, dst_col_name):
     return out_df
 
 
+def update_eq_sub(old_df, out_df, src1_col_name, src2_col_name, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    if old_len < 1:
+        old_len = 0
+
+    for x in range(0, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    for x in range(old_len, out_len):
+        out_df.at[x, dst_col_name] = out_df.at[x, src1_col_name] - out_df.at[x, src2_col_name]
+
+    return out_df
+
+
 def combine_2_values(out_df, x, src_col1_name, src_col2_name, koef):
     da1 = abs(out_df.at[x, src_col1_name] - out_df.at[x-1, src_col1_name])
     da2 = abs(out_df.at[x, src_col2_name] - out_df.at[x-1, src_col2_name])
@@ -571,19 +587,19 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg2_wnd, const.avg2_col_name)
     print('..a2.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg3_wnd, const.avg3_col_name)
+    out_df = update_eq_sub(old_df, out_df, const.value_col_name, const.avg2_col_name, const.avg3_col_name)
     print('..a3.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg4_wnd, const.avg4_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg3_col_name, const.avg4_wnd, const.avg4_col_name)
     print('..a4.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg5_wnd, const.avg5_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg4_col_name, const.avg5_wnd, const.avg5_col_name)
     print('..a5.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg6_wnd, const.avg6_col_name)
     print('..a6.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg6_col_name, const.avg7_wnd, const.avg7_col_name)
+    out_df = update_eq_sub(old_df, out_df, const.avg3_col_name, const.avg5_col_name, const.avg7_col_name)
     print('..a7.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg8_wnd, const.avg8_col_name)

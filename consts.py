@@ -31,9 +31,9 @@ const.XTZUSDT    = 'XTZUSDT'
 const.UNIUSDT    = 'UNIUSDT'
 
 const.CURRENCIES = [
-    const.AAVEUSDT,
+    const.AAVEUSDT,   # 128->300        27.5799
     const.ADAUSDT,
-    const.AVAXUSDT,
+    const.AVAXUSDT,   # 128->300        22.6932
     const.AXSUSDT,
     const.BCHUSDT,
     const.BNBUSDT,
@@ -47,29 +47,29 @@ const.CURRENCIES = [
     const.LINKUSDT,
     const.LTCUSDT,
     const.MATICUSDT,
-    const.SUSHIUSDT,
-    const.SOLUSDT,
-    const.TRXUSDT,
-    const.UNIUSDT,
+    const.SUSHIUSDT,  # 128->300        40.3946
+    const.SOLUSDT,    # 3->900          14.4867
+    const.TRXUSDT,    # 128->300        34.1111
+    const.UNIUSDT,    # 300->600        19.5573
     const.XRPUSDT,
-    const.XEMUSDT,
+    const.XEMUSDT,    # 128->300        11.7607
     const.XLMUSDT,
-    const.XTZUSDT
+    const.XTZUSDT     # 3->1400         42.1678
 ]
 
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg1_wnd = 128
-const.avg2_wnd = 3
+const.avg1_wnd = 255
+const.avg2_wnd = 1023
 const.avg3_wnd = 3
-const.avg4_wnd = 3
-const.avg5_wnd = 3
+const.avg4_wnd = 63
+const.avg5_wnd = 63
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 300
-const.avg_slow_wnd = 300
+const.avg8_wnd = 3
+const.avg_slow_wnd = 3
 
 # 63 300
 # 2 5
