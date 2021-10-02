@@ -60,19 +60,20 @@ const.CURRENCIES = [
 const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
-const.avg1_wnd = 255
-const.avg2_wnd = 1023
-const.avg3_wnd = 3
-const.avg4_wnd = 63
-const.avg5_wnd = 63
+const.avg1_wnd = 15
+const.avg2_wnd = 31
+const.avg3_wnd = 127
+const.avg4_wnd = 511
+const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
 const.avg8_wnd = 3
 const.avg_slow_wnd = 3
 
+# 31->63,127->511
+# 63 1023
 # 63 300
-# 2 5
 # best 3, 7, 304%
 # 7, 15 => 182%
 # 15, 31 => 124%
@@ -146,8 +147,8 @@ const.select_best_count = 4
 
 const.one_curr_order_amount = 125.0
 
-const.order_stop_lost_koef_buy = 0.85
-const.order_stop_lost_koef_sell = 1.15
+const.order_stop_lost_koef_buy = 0.9
+const.order_stop_lost_koef_sell = 1.1
 
 const.order_take_profit_koef_buy = 1.5
 const.order_take_profit_koef_sell = 0.5

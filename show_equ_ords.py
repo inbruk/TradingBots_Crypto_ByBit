@@ -44,19 +44,18 @@ def draw_one_symbol(symbol_str, start_dt):
     fig, axes = plt.subplots(2, 1)
 
     axes[0].plot(df[const.dt_col_name], df[const.value_col_name],
-                 df[const.dt_col_name], df[const.avg2_col_name],
+                 df[const.dt_col_name], df[const.avg_slow_col_name],
                  df[const.dt_col_name], df[const.order_col_name]
-                # df[const.dt_col_name], df[const.avg_slow_col_name],
                 # df[const.dt_col_name], df[const.avg_fast_col_name],
                 # df[const.dt_col_name], df[const.avg2_col_name]
                  )
     axes[0].set_title('Price')
 
     axes[1].plot(
-                 df[const.dt_col_name], df[const.avg3_col_name],
-                 df[const.dt_col_name], df[const.avg5_col_name],
-                 df[const.dt_col_name], df[const.avg7_col_name]
-                )
+                 df[const.dt_col_name], df[const.value_col_name],
+                 df[const.dt_col_name], df[const.avg_fast_col_name],
+                 df[const.dt_col_name], df[const.avg_slow_col_name]
+    )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 
     plt.show()
