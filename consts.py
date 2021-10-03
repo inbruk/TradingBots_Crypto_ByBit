@@ -61,8 +61,8 @@ const.SUFFIX = 'equations'
 const.ORDERS = 'orders'
 
 const.avg1_wnd = 15
-const.avg2_wnd = 31
-const.avg3_wnd = 127
+const.avg2_wnd = 128
+const.avg3_wnd = 31
 const.avg4_wnd = 511
 const.avg5_wnd = 3
 const.avg6_wnd = 3
