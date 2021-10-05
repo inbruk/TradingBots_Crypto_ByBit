@@ -232,20 +232,17 @@ def calc_ER(out_df, src_col_name, x, wnd_size):
     if start_x < 0:
         return 1.0
     else:
-        direction = out_df.at[x, src_col_name] - out_df.at[start_x, src_col_name]
+        direction = abs(out_df.at[x, src_col_name] - out_df.at[start_x, src_col_name])
 
         volatility = 0.0
         for i in range(start_x+1, x):
-            volatility += out_df.at[i, src_col_name] - out_df.at[i-1, src_col_name]
+            volatility += abs(out_df.at[i, src_col_name] - out_df.at[i-1, src_col_name])
 
-        if volatility == 0.0:
-            return 1.0
-        else:
-            koef = abs(direction/volatility)
-            return koef
+        koef = direction/volatility
+        return koef
 
 
-def combine_2eq_by_ER(old_df, out_df, src_fast_col_name, src_slow_col_name, wnd_size, dst_col_name):
+def combine_2eq_by_ER(old_df, out_df, src_fast_col_name, src_slow_col_name, dst_col_name):
 
     out_len = out_df[const.dt_col_name].size
     old_len = old_df[const.dt_col_name].size
@@ -256,10 +253,14 @@ def combine_2eq_by_ER(old_df, out_df, src_fast_col_name, src_slow_col_name, wnd_
         out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
 
     for x in range(old_len, out_len):
-        koef_fast = calc_ER(out_df, src_fast_col_name, x, wnd_size)
-        koef_slow = 1.0 - koef_fast
-        out_df.at[x, dst_col_name] = \
-            out_df.at[x, src_fast_col_name] * koef_fast + out_df.at[x, src_slow_col_name] * koef_slow
+        ref_err = abs(out_df.at[x, src_slow_col_name] - out_df.at[x, const.value_col_name]) / out_df.at[x, const.value_col_name]
+        if ref_err < const.max_ref_err_slow:
+            out_df.at[x, dst_col_name] = out_df.at[x, src_slow_col_name]
+        else:
+            koef_fast = calc_ER(out_df, src_fast_col_name, x, const.AMA_ER_wnd_size)
+            koef_slow = 1.0 - koef_fast
+            out_df.at[x, dst_col_name] = \
+                out_df.at[x, src_fast_col_name] * koef_fast + out_df.at[x, src_slow_col_name] * koef_slow
 
     return out_df
 
@@ -651,7 +652,7 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg4_wnd, const.avg4_col_name)
     print('..V4=MA(S,V4_WND).', end='')
 
-    out_df = combine_2eq_by_ER(old_df, out_df, const.avg3_col_name, const.avg4_col_name, 256, const.avg5_col_name)
+    out_df = combine_2eq_by_ER(old_df, out_df, const.avg3_col_name, const.avg4_col_name, const.avg5_col_name)
     print('..V5=COMB_2ER(V3,V4,64).', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg6_wnd, const.avg6_col_name)
