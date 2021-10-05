@@ -65,13 +65,13 @@ const.avg2_wnd = 128
 const.avg3_wnd = 63
 const.avg4_wnd = 511
 const.avg5_wnd = 3
-const.avg6_wnd = 3
+const.avg6_wnd = 511
 const.avg7_wnd = 3
 
 const.avg8_wnd = 3
 const.avg_slow_wnd = 3
 
-const.max_ref_err_slow = 0.005
+const.max_ref_err_slow = 0.01
 const.AMA_ER_wnd_size = 255
 
 # 31->63,127->511

@@ -286,6 +286,26 @@ def filter_eq_by_min(old_df, out_df, src_col_name, abs_min_part, dst_col_name):
     return out_df
 
 
+def filter_eq_by_min2(old_df, out_df, src_col_name, min_ref_koef, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    if old_len < 1:
+        old_len = 0
+
+    for x in range(0, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    for x in range(old_len, out_len):
+        ref_value = out_df.at[x, src_col_name] / out_df.at[x, const.value_col_name]
+        if abs(ref_value) < min_ref_koef:
+            out_df.at[x, dst_col_name] = 0.0
+        else:
+            out_df.at[x, dst_col_name] = out_df.at[x, src_col_name]
+
+    return out_df
+
+
 def combine_2_values(out_df, x, src_col1_name, src_col2_name, koef):
     da1 = abs(out_df.at[x, src_col1_name] - out_df.at[x-1, src_col1_name])
     da2 = abs(out_df.at[x, src_col2_name] - out_df.at[x-1, src_col2_name])
@@ -652,14 +672,14 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg4_wnd, const.avg4_col_name)
     print('..V4=MA(S,V4_WND).', end='')
 
-    out_df = combine_2eq_by_ER(old_df, out_df, const.avg3_col_name, const.avg4_col_name, const.avg5_col_name)
-    print('..V5=COMB_2ER(V3,V4,64).', end='')
+    out_df = update_eq_sub(old_df, out_df, const.avg3_col_name, const.avg4_col_name, const.avg5_col_name)
+    print('..V5=SUB(V3,V4).', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg6_wnd, const.avg6_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg6_wnd, const.avg6_col_name)
     print('..V6=MA(S,V6_WND).', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg7_wnd, const.avg7_col_name)
-    print('..V6=MA(S,V7_WND).', end='')
+    out_df = filter_eq_by_min2(old_df, out_df, const.avg6_col_name, 0.01, const.avg7_col_name)
+    print('..V6=FLT_MIN(S,V7,0.01).', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg8_wnd, const.avg8_col_name)
     print('..М8=MA(V5,3).', end='')
