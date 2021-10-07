@@ -227,6 +227,22 @@ def update_eq_sub(old_df, out_df, src1_col_name, src2_col_name, dst_col_name):
     return out_df
 
 
+def update_eq_add(old_df, out_df, src1_col_name, src2_col_name, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    if old_len < 1:
+        old_len = 0
+
+    for x in range(0, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    for x in range(old_len, out_len):
+        out_df.at[x, dst_col_name] = out_df.at[x, src1_col_name] + out_df.at[x, src2_col_name]
+
+    return out_df
+
+
 def calc_ER(out_df, src_col_name, x, wnd_size):
     start_x = x - wnd_size
     if start_x < 0:
@@ -673,19 +689,19 @@ def update_equations_by_symbol(symbol_str):
     print('..V4=MA(S,V4_WND).', end='')
 
     out_df = update_eq_sub(old_df, out_df, const.avg3_col_name, const.avg4_col_name, const.avg5_col_name)
-    print('..V5=SUB(V3,V4).', end='')
+    print('..V5=V3-V4.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg6_wnd, const.avg6_col_name)
-    print('..V6=MA(S,V6_WND).', end='')
+    out_df = filter_eq_by_min2(old_df, out_df, const.avg5_col_name, const.filter_min_ref_koef, const.avg6_col_name)
+    print('..V6=FLT_MIN(V5,0.01).', end='')
 
-    out_df = filter_eq_by_min2(old_df, out_df, const.avg6_col_name, 0.01, const.avg7_col_name)
-    print('..V6=FLT_MIN(S,V7,0.01).', end='')
+    out_df = update_eq_add(old_df, out_df, const.avg4_col_name, const.avg6_col_name, const.avg7_col_name)
+    print('..V7=V4+V6.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg8_wnd, const.avg8_col_name)
-    print('..М8=MA(V5,3).', end='')
+    out_df = update_eq_avg(old_df, out_df, const.avg7_col_name, const.avg8_wnd, const.avg8_col_name)
+    print('..V8=MA(V7,63).', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
-    print('..AVG_SL=MA(V5,3).', end='')
+    out_df = update_eq_avg(old_df, out_df, const.avg7_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
+    print('..AVG_SL=MA(V7,63).', end='')
 
     out_df = update_avg_fast_col(old_df, out_df)
     percents_str = avg_fast_percents_str()
