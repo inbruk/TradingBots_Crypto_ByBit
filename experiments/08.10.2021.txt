@@ -1,0 +1,29 @@
+
+            128->300     128->300,
+                          15->63
+                           AMA1
+
+AAVEUSDT     19.63
+ADAUSDT      11.52
+AVAXUSDT    -24.78
+AXSUSDT      63.46
+BCHUSDT      23.38
+BNBUSDT      21.36
+BTCUSDT      34.33
+COMPUSDT     51.58
+DOGEUSDT      1.18
+DOTUSDT      26.24
+ETCUSDT       7.09
+ETHUSDT      37.80
+ICPUSDT       1.57
+LINKUSDT     22.75
+LTCUSDT       9.81
+MATICUSDT    16.62
+SOLUSDT      31.75
+SUSHIUSDT    10.68
+TRXUSDT      42.43
+UNIUSDT       2.29
+XEMUSDT      57.05
+XLMUSDT      60.27
+XRPUSDT       4.67
+XTZUSDT      44.02

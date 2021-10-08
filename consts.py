@@ -63,13 +63,13 @@ const.ORDERS = 'orders'
 const.avg1_wnd = 15
 const.avg2_wnd = 127
 const.avg3_wnd = 63
-const.avg4_wnd = 1023
+const.avg4_wnd = 300
 const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 3
-const.avg_slow_wnd = 3
+const.avg8_wnd = 31
+const.avg_slow_wnd = 31
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.05
