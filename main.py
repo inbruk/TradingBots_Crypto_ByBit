@@ -36,12 +36,12 @@ currencies = [
     const.ADAUSDT,
     const.AXSUSDT,
     const.BNBUSDT,
-    const.BTCUSDT,
+#    const.BTCUSDT,
     const.DOTUSDT,
-    const.ETHUSDT,
+#    const.ETHUSDT,
+#    const.SOLUSDT,
     const.XRPUSDT,
     const.XTZUSDT,
-    const.SOLUSDT
 ]
 
 while 1 == 1:
