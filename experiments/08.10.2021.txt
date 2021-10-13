@@ -1,9 +1,9 @@
 
-            128->300     128->300,
+            128->300     128->255,
                           15->63
                            AMA1
 
-AAVEUSDT     19.63
+AAVEUSDT     19.63        53.07
 ADAUSDT      11.52
 AVAXUSDT    -24.78
 AXSUSDT      63.46

@@ -211,6 +211,35 @@ def update_eq_avg(old_df, out_df, src_col_name, hwnd_size, dst_col_name):
     return out_df
 
 
+def quantize_y(curr_value, nominal_value, koef):
+    step_value = nominal_value * koef
+    int_count_of_steps = round(curr_value / step_value)
+    result = int_count_of_steps * step_value
+    return result
+
+
+def quantize_eq(old_df, out_df, src_col_name, koef, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    full_wnd_size = 0  #(2*hwnd_size+1)
+    if old_len < full_wnd_size:
+        old_len = 0
+    else:
+        old_len -= full_wnd_size
+
+    for x in range(0, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    nominal_value = out_df.at[old_len, src_col_name]
+    for x in range(old_len, out_len):
+        float_value = out_df.at[x, src_col_name]
+        quantized_value = quantize_y(float_value, nominal_value, koef)
+        out_df.at[x, dst_col_name] = quantized_value
+
+    return out_df
+
+
 def update_eq_sub(old_df, out_df, src1_col_name, src2_col_name, dst_col_name):
 
     out_len = out_df[const.dt_col_name].size
@@ -239,6 +268,29 @@ def update_eq_add(old_df, out_df, src1_col_name, src2_col_name, dst_col_name):
 
     for x in range(old_len, out_len):
         out_df.at[x, dst_col_name] = out_df.at[x, src1_col_name] + out_df.at[x, src2_col_name]
+
+    return out_df
+
+
+def average_several_eqs(old_df, out_df, src_col_names, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    if old_len < 1:
+        old_len = 0
+
+    for x in range(0, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    for x in range(old_len, out_len):
+        value = 0.0
+        count = 0.0
+
+        for curr_src_col_name in src_col_names:
+            value += out_df.at[x, curr_src_col_name]
+            count += 1.0
+
+        out_df.at[x, dst_col_name] = value / count
 
     return out_df
 
@@ -676,32 +728,62 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_delta2(old_df, out_df)
     print('..d2.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
-    print('..V1=MA(S,V1_WND).', end='')
+    # out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
+    # print('..V1=MA(S,V1_WND).', end='')
+    #
+    # out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
+    # print('..V2=MA(S,V2_WND).', end='')
+    #
+    # out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg3_wnd, const.avg3_col_name)
+    # print('..V3=MA(S,V3_WND).', end='')
+    #
+    # out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg4_wnd, const.avg4_col_name)
+    # print('..V4=MA(S,V4_WND).', end='')
+    #
+    # out_df = update_eq_sub(old_df, out_df, const.avg3_col_name, const.avg4_col_name, const.avg5_col_name)
+    # print('..V5=V3-V4.', end='')
+    #
+    # out_df = filter_eq_by_min2(old_df, out_df, const.avg5_col_name, const.filter_min_ref_koef, const.avg6_col_name)
+    # print('..V6=FLT_MIN(V5,0.01).', end='')
+    #
+    # out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg7_wnd, const.avg7_col_name)
+    # print('..V7=MA(S,V7_WND).', end='')
+    #
+    # out_df = update_eq_add(old_df, out_df, const.avg4_col_name, const.avg6_col_name, const.avg8_col_name)
+    # print('..V8=V4+V6.', end='')
+    #
+    # out_df = update_eq_add(old_df, out_df, const.avg4_col_name, const.avg6_col_name, const.avg_slow_col_name)
+    # print('..AVG_SL=V4+V6.', end='')
+
+    out_df = quantize_eq(old_df, out_df, const.value_col_name, 0.03, const.avg1_col_name)
+    print('..V1.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
-    print('..V2=MA(S,V2_WND).', end='')
+    print('..V2.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg3_wnd, const.avg3_col_name)
-    print('..V3=MA(S,V3_WND).', end='')
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg3_wnd, const.avg3_col_name)
+    print('..V3.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg4_wnd, const.avg4_col_name)
-    print('..V4=MA(S,V4_WND).', end='')
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg4_wnd, const.avg4_col_name)
+    print('..V4.', end='')
 
-    out_df = update_eq_sub(old_df, out_df, const.avg3_col_name, const.avg4_col_name, const.avg5_col_name)
-    print('..V5=V3-V4.', end='')
+    out_df = average_several_eqs(old_df, out_df,
+                                 [const.avg1_col_name, const.avg2_col_name, const.avg3_col_name, const.avg4_col_name],
+                                 const.avg5_col_name)
+    print('..V5.', end='')
 
-    out_df = filter_eq_by_min2(old_df, out_df, const.avg5_col_name, const.filter_min_ref_koef, const.avg6_col_name)
-    print('..V6=FLT_MIN(V5,0.01).', end='')
+    out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg6_wnd, const.avg6_col_name)
+    print('..V6.', end='')
 
-    out_df = update_eq_add(old_df, out_df, const.avg4_col_name, const.avg6_col_name, const.avg7_col_name)
-    print('..V7=V4+V6.', end='')
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg7_wnd, const.avg7_col_name)
+    print('..V7.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg7_col_name, const.avg8_wnd, const.avg8_col_name)
-    print('..V8=MA(V7,63).', end='')
+    out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg8_wnd, const.avg8_col_name)
+    print('..V8.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg7_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
-    print('..AVG_SL=MA(V7,63).', end='')
+    out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg_slow_wnd, const.avg_slow_col_name)
+    print('..AVG_SL.', end='')
+
 
     out_df = update_avg_fast_col(old_df, out_df)
     percents_str = avg_fast_percents_str()
