@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1629978501  # 1632261503
+const.START_UTC = 1633896529  # 1629978501  # 1632261503
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -31,9 +31,9 @@ const.XTZUSDT    = 'XTZUSDT'
 const.UNIUSDT    = 'UNIUSDT'
 
 const.CURRENCIES = [
-    const.AAVEUSDT,   # 128->300        27.5799
+    const.AAVEUSDT,
     const.ADAUSDT,
-    const.AVAXUSDT,   # 128->300        22.6932
+    const.AVAXUSDT,
     const.AXSUSDT,
     const.BCHUSDT,
     const.BNBUSDT,
@@ -47,14 +47,14 @@ const.CURRENCIES = [
     const.LINKUSDT,
     const.LTCUSDT,
     const.MATICUSDT,
-    const.SUSHIUSDT,  # 128->300        40.3946
-    const.SOLUSDT,    # 3->900          14.4867
-    const.TRXUSDT,    # 128->300        34.1111
-    const.UNIUSDT,    # 300->600        19.5573
+    const.SUSHIUSDT,
+    const.SOLUSDT,
+    const.TRXUSDT,
+    const.UNIUSDT,
     const.XRPUSDT,
-    const.XEMUSDT,    # 128->300        11.7607
+    const.XEMUSDT,
     const.XLMUSDT,
-    const.XTZUSDT     # 3->1400         42.1678
+    const.XTZUSDT
 ]
 
 const.SUFFIX = 'equations'
