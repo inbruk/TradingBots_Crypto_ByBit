@@ -32,12 +32,12 @@ const.UNIUSDT    = 'UNIUSDT'
 
 const.CURRENCIES = [
     const.AAVEUSDT,
-    const.ADAUSDT,
-    const.AVAXUSDT,
+    const.ADAUSDT,   # error 10001
+    const.AVAXUSDT,  # error 10001
     const.AXSUSDT,
     const.BCHUSDT,
     const.BNBUSDT,
-    const.BTCUSDT,
+    const.BTCUSDT,   # error 35015 - low profit
     const.COMPUSDT,
     const.DOGEUSDT,
     const.DOTUSDT,
@@ -51,7 +51,7 @@ const.CURRENCIES = [
     const.SOLUSDT,
     const.TRXUSDT,
     const.UNIUSDT,
-    const.XRPUSDT,
+    const.XRPUSDT,   # error 10001
     const.XEMUSDT,
     const.XLMUSDT,
     const.XTZUSDT

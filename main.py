@@ -33,21 +33,23 @@ def get_next_minute_utc():
 update_orders = False
 
 currencies = [
-    const.ADAUSDT,
-    const.AXSUSDT,
+    const.AAVEUSDT,
     const.BNBUSDT,
-    const.BTCUSDT,
     const.DOTUSDT,
     const.ETHUSDT,
-    const.XRPUSDT,
-    const.XTZUSDT,
-    const.SOLUSDT
+    const.LINKUSDT,
+    const.MATICUSDT,
+    const.SOLUSDT,
+    const.SUSHIUSDT,
+    const.TRXUSDT,
+    const.XEMUSDT,
+    const.XTZUSDT
 ]
 
 while 1 == 1:
     next_utc = get_next_minute_utc()
 
-    for symbol in currencies:  # const.CURRENCIES:
+    for symbol in const.CURRENCIES:  # currencies:
         get_values_and_update_cache(symbol)
         update_equations_by_symbol(symbol)
         if update_orders:

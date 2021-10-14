@@ -1,29 +1,29 @@
 
             128->300     128->255,          __
                           15->63         __|
-                           AMA1         0.03/15         15
+                           AMA1         0.03/15          15
 
-AAVEUSDT     19.63        53.07
+AAVEUSDT     19.63        53.07                        270.27
 ADAUSDT      11.52                        123          309.77
-AVAXUSDT    -24.78
+AVAXUSDT    -24.78                                     222.07
 AXSUSDT      63.46                        66           352.47
-BCHUSDT      23.38
+BCHUSDT      23.38                                     252.32
 BNBUSDT      21.36                       49.37         274.34
 BTCUSDT      34.33                       17.92         160.80
-COMPUSDT     51.58
-DOGEUSDT      1.18
+COMPUSDT     51.58                                     244.20
+DOGEUSDT      1.18                                     270.87
 DOTUSDT      26.24                       84.43         374.35
-ETCUSDT       7.09
+ETCUSDT       7.09                                     267.21
 ETHUSDT      37.80                        3.51         248.19
-ICPUSDT       1.57
-LINKUSDT     22.75
-LTCUSDT       9.81
-MATICUSDT    16.62
+ICPUSDT       1.57                                     230.37
+LINKUSDT     22.75                                     340.99
+LTCUSDT       9.81                                     254.00
+MATICUSDT    16.62                                     325.52
 SOLUSDT      31.75                      188.65         435.52
-SUSHIUSDT    10.68
-TRXUSDT      42.43
-UNIUSDT       2.29
-XEMUSDT      57.05
-XLMUSDT      60.27
+SUSHIUSDT    10.68                                     395.41
+TRXUSDT      42.43                                     284.25
+UNIUSDT       2.29                                     274.96
+XEMUSDT      57.05                                     307.27
+XLMUSDT      60.27                                     267.13
 XRPUSDT       4.67                       72.70         268.93
 XTZUSDT      44.02                      235.98         559.38
