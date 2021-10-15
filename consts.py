@@ -46,7 +46,7 @@ const.CURRENCIES = [
     const.ICPUSDT,
     const.LINKUSDT,
     const.LTCUSDT,
-    const.MATICUSDT,
+    const.MATICUSDT, # error 10001
     const.SUSHIUSDT,
     const.SOLUSDT,
     const.TRXUSDT,
@@ -157,7 +157,7 @@ const.select_best_min_delta_prc = 3
 const.select_best_max_mse_prc = 1.0  # 0.8
 const.select_best_count = 4
 
-const.one_curr_order_amount = 70.0
+const.one_curr_order_amount = 50.0
 
 const.order_stop_lost_koef_buy = 0.9
 const.order_stop_lost_koef_sell = 1.1
@@ -165,8 +165,8 @@ const.order_stop_lost_koef_sell = 1.1
 const.order_take_profit_koef_buy = 1.5
 const.order_take_profit_koef_sell = 0.5
 
-const.order_create_plus_koef_buy = 0.998
-const.order_create_plus_koef_sell = 1.002
+const.order_create_plus_koef_buy = 0.9999
+const.order_create_plus_koef_sell = 1.0001
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute

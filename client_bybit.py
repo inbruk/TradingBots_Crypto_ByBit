@@ -212,10 +212,16 @@ def client_position_oc(side: str, symbol: str, qty_in_usd: float, price: float, 
 
 
 def client_position_open(side: str, symbol: str, qty_in_usd: float, price: float):
+    # -------------------------------------------------------------------------------------
+    debug_log_write('client_position_open( ' + side + ' ' + symbol + ', qty=' + str(qty_in_usd) + ', price=' + str(price) + ' )')
+    # -------------------------------------------------------------------------------------
     return client_position_oc(side, symbol, qty_in_usd, price, False)
 
 
 def client_position_close(side: str, symbol: str, qty_in_usd: float, price: float):
+    # -------------------------------------------------------------------------------------
+    debug_log_write('client_position_close( ' + side + ' ' + symbol + ', qty=' + str(qty_in_usd) + ', price=' + str(price) + ' )')
+    # -------------------------------------------------------------------------------------
 
     if side == const.order_side_buy:
         side = const.order_side_sell
