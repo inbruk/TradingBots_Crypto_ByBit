@@ -37,8 +37,8 @@ currencies = [
     # const.BNBUSDT,
     # const.DOTUSDT,
     # const.ETHUSDT,
-    const.LINKUSDT,
-    # const.SOLUSDT,
+    # const.LINKUSDT,
+    const.SOLUSDT,
     # const.SUSHIUSDT,
     # const.TRXUSDT,
     # const.XTZUSDT

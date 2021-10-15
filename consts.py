@@ -76,8 +76,8 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 3
-const.avg_slow_wnd = 3
+const.avg8_wnd = 15
+const.avg_slow_wnd = 15
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.03
@@ -166,8 +166,8 @@ const.order_stop_lost_koef_sell = 1.1
 const.order_take_profit_koef_buy = 1.5
 const.order_take_profit_koef_sell = 0.5
 
-const.order_create_plus_koef_buy = 0.9999
-const.order_create_plus_koef_sell = 1.0001
+const.order_create_plus_koef_buy = 0.999
+const.order_create_plus_koef_sell = 1.001
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute

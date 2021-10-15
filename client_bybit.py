@@ -18,7 +18,7 @@ const.PUBLIC_API_ORDER_KLINE = const.PUBLIC_API_ORDER + 'kline'
 
 const.PRIVATE_API_ORDER = const.COMMON_API_URL + 'private/linear/order/'
 const.PRIVATE_API_ORDER_CREATE = const.PRIVATE_API_ORDER + 'create'
-const.PRIVATE_API_ORDER_LIST = const.PRIVATE_API_ORDER + 'list'
+const.PRIVATE_API_ORDER_SEARCH = const.PRIVATE_API_ORDER + 'search'
 
 const.PRIVATE_API_POSITION = const.COMMON_API_URL + 'private/linear/position/'
 const.PRIVATE_API_POSITION_LIST = const.PRIVATE_API_POSITION + 'list'
@@ -85,7 +85,6 @@ def current_time_ms():
 
 
 def client_order_create(side: str, symbol: str, qty: float, price: float, reduce_only: bool):
-
     # -------------------------------------------------------------------------------------
     debug_log_write('try to order ' + side + symbol + ' ' + str(price))
     # -------------------------------------------------------------------------------------
@@ -101,7 +100,6 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
         stop_loss: float = round(price * const.order_stop_lost_koef_sell, 4)
         take_profit: float = round(price * const.order_take_profit_koef_sell, 4)
         order_price = price
-
 
     stop_loss_str = str(stop_loss)
     take_profit_str = str(take_profit)
@@ -119,12 +117,14 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
         'order_type': order_type,
         'qty': qty_str,
         'price': order_price,
-        'stop_loss': stop_loss_str,
         'reduce_only': reduce_only,
         'close_on_trigger': close_on_trigger,
-        'take_profit': take_profit_str,
         'time_in_force': time_in_force
     }
+
+    if not reduce_only:
+        req_data['stop_loss'] = stop_loss_str
+        req_data['take_profit'] = take_profit_str
 
     sign = client_calculate_sign(req_data)
     req_data['sign'] = sign
@@ -133,6 +133,9 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
 
     if req.ok:
         json_data = json.loads(req.text)
+        # ------------------------------------------------------------------------------------------------------------------------
+        debug_log_write('    req.text=' + req.text)
+        # ------------------------------------------------------------------------------------------------------------------------
         ret_code = json_data['ret_code']
         if ret_code == 0:
             time_now = json_data['time_now']
@@ -141,7 +144,9 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
             price = result['price']
             qty = result['qty']
             # ------------------------------------------------------------------------------------------------------------------------
-            debug_log_write('    ret_code == 0, time_now=' + str(time_now) + ', order_id' + str(order_id) + ', price=' + str(price) + ', qty=' + str(qty))
+            debug_log_write(
+                '    ret_code == 0, time_now=' + str(time_now) + ', order_id' + str(order_id) + ', price=' + str(
+                    price) + ', qty=' + str(qty))
             # ------------------------------------------------------------------------------------------------------------------------
             return True, order_id, time_now, price, qty
         else:
@@ -169,21 +174,19 @@ def client_order_get_status(order_id: str, symbol: str):
     sign = client_calculate_sign(req_data)
     req_data['sign'] = sign
 
-    req = requests.get(const.PRIVATE_API_ORDER_LIST, params=req_data)
+    req = requests.get(const.PRIVATE_API_ORDER_SEARCH, params=req_data)
 
     if req.ok:
         json_data = json.loads(req.text)
+        # ------------------------------------------------------------------------------------------------------------------------
+        debug_log_write('    req.text=' + req.text)
+        # ------------------------------------------------------------------------------------------------------------------------
         ret_code = json_data['ret_code']
         if ret_code == 0:
             result = json_data['result']
-            res_data = result['data']
             try:
-                if len(res_data) > 0:
-                    order_data = res_data[0]
-                    order_status = order_data['order_status']
-                    return True, order_status
-                else:
-                    return False, const.order_status_new
+                order_status = result['order_status']
+                return True, order_status
             except:
                 return False, const.order_status_new
 
@@ -198,29 +201,29 @@ def client_position_oc(side: str, symbol: str, qty_in_usd: float, price: float, 
     if not success_create:
         return False, '', time_now, qty, qty_in_usd, price
 
-    # for t in range(0, 5):
-    #     success_status, order_status = client_order_get_status(order_id, symbol)
-    #     if success_status and order_status == const.order_status_filled:
-    #         break
-    #     time.sleep(1)
-    #     print('.', end='')
-    #
-    # if (not success_status) or (order_status != const.order_status_filled):
-    #     return False, '', time_now, qty, qty_in_usd, price
+    for t in range(0, 3):
+        success_status, order_status = client_order_get_status(order_id, symbol)
+        if success_status and order_status != const.order_status_created and order_status != const.order_status_new:
+            break
+        print('.', end='')
+        time.sleep(1)
+
+    if (not success_status) or (order_status != const.order_status_filled):
+        return False, '', time_now, qty, qty_in_usd, price
 
     return True, order_id, time_now, qty, qty_in_usd, price
 
 
 def client_position_open(side: str, symbol: str, qty_in_usd: float, price: float):
     # -------------------------------------------------------------------------------------
-    debug_log_write('client_position_open( ' + side + ' ' + symbol + ', qty=' + str(qty_in_usd) + ', price=' + str(price) + ' )-----------------------------------')
+    debug_log_write('client_position_open( ' + side + ' ' + symbol + ', qty=' + str(qty_in_usd) + ', price=' + str(
+        price) + ' )-----------------------------------')
     # -------------------------------------------------------------------------------------
 
     return client_position_oc(side, symbol, qty_in_usd, price, False)
 
 
 def client_position_close(side: str, symbol: str, qty_in_usd: float, price: float):
-
     if side == const.order_side_buy:
         side = const.order_side_sell
         order_price = round(price * const.order_create_plus_koef_buy, 4)
@@ -229,7 +232,8 @@ def client_position_close(side: str, symbol: str, qty_in_usd: float, price: floa
         order_price = round(price * const.order_create_plus_koef_sell, 4)
 
     # -------------------------------------------------------------------------------------
-    debug_log_write('client_position_close( ' + side + ' ' + symbol + ', qty=' + str(qty_in_usd) + ', price=' + str(price) + ' )----------------------------------')
+    debug_log_write('client_position_close( ' + side + ' ' + symbol + ', qty=' + str(qty_in_usd) + ', price=' + str(
+        price) + ' )----------------------------------')
     # -------------------------------------------------------------------------------------
 
     return client_position_oc(side, symbol, qty_in_usd, order_price, True)
@@ -256,7 +260,7 @@ def client_position_check(side: str, symbol: str):
             result = json_data['result']
             result_len = len(result)
             if result_len < 1:
-                return False   # autoclosed !!!
+                return False  # autoclosed !!!
 
             for x in range(0, result_len):
                 position_data = result[x]
