@@ -655,23 +655,23 @@ def get_avg_fast_value(out_df, x):
 
 def avg_fast_percents_str():
 
-    sum = count_use_avg128 + count_use_avg96 + count_use_avg64 + \
-          count_use_avg48 + count_use_avg32 + count_use_avg24 + count_use_avg16 + count_use_avg8
+    # sum = count_use_avg128 + count_use_avg96 + count_use_avg64 + \
+    #       count_use_avg48 + count_use_avg32 + count_use_avg24 + count_use_avg16 + count_use_avg8
+    #
+    # percents_use_avg128 = round(100.0*count_use_avg128/sum, 0)
+    # percents_use_avg96 = round(100.0*count_use_avg96/sum, 0)
+    # percents_use_avg64 = round(100.0*count_use_avg64/sum, 0)
+    # percents_use_avg48 = round(100.0*count_use_avg48/sum, 0)
+    # percents_use_avg32 = round(100.0*count_use_avg32/sum, 0)
+    # percents_use_avg24 = round(100.0 * count_use_avg24 / sum, 0)
+    # percents_use_avg16 = round(100.0 * count_use_avg16 / sum, 0)
+    # percents_use_avg8 = round(100.0 * count_use_avg8 / sum, 0)
+    #
+    # result = '(' + str(percents_use_avg128) + ' ' + str(percents_use_avg96) + ' ' + str(percents_use_avg64) + ' ' + \
+    #          str(percents_use_avg48) + ' ' + str(percents_use_avg32) + ' ' + str(percents_use_avg24) + ' ' + \
+    #          str(percents_use_avg16) + ' ' + str(percents_use_avg8) + ')'
 
-    percents_use_avg128 = round(100.0*count_use_avg128/sum, 0)
-    percents_use_avg96 = round(100.0*count_use_avg96/sum, 0)
-    percents_use_avg64 = round(100.0*count_use_avg64/sum, 0)
-    percents_use_avg48 = round(100.0*count_use_avg48/sum, 0)
-    percents_use_avg32 = round(100.0*count_use_avg32/sum, 0)
-    percents_use_avg24 = round(100.0 * count_use_avg24 / sum, 0)
-    percents_use_avg16 = round(100.0 * count_use_avg16 / sum, 0)
-    percents_use_avg8 = round(100.0 * count_use_avg8 / sum, 0)
-
-    result = '(' + str(percents_use_avg128) + ' ' + str(percents_use_avg96) + ' ' + str(percents_use_avg64) + ' ' + \
-             str(percents_use_avg48) + ' ' + str(percents_use_avg32) + ' ' + str(percents_use_avg24) + ' ' + \
-             str(percents_use_avg16) + ' ' + str(percents_use_avg8) + ')'
-
-    return result
+    return ' '  # result
 
 
 def update_avg_fast_col(old_df, out_df):
@@ -755,7 +755,7 @@ def update_equations_by_symbol(symbol_str):
     # out_df = update_eq_add(old_df, out_df, const.avg4_col_name, const.avg6_col_name, const.avg_slow_col_name)
     # print('..AVG_SL=V4+V6.', end='')
 
-    out_df = quantize_eq(old_df, out_df, const.value_col_name, 0.03, const.avg1_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
     print('..V1.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
