@@ -54,10 +54,10 @@ def draw_one_symbol(symbol_str, start_dt):
     axes[1].plot(
                  df[const.dt_col_name], df[const.value_col_name],
                  df[const.dt_col_name], df[const.avg1_col_name],
-                 # df[const.dt_col_name], df[const.avg2_col_name],
-                 # df[const.dt_col_name], df[const.avg3_col_name],
+                 df[const.dt_col_name], df[const.avg2_col_name],
+                 df[const.dt_col_name], df[const.avg3_col_name],
                  # df[const.dt_col_name], df[const.avg4_col_name],
-                 df[const.dt_col_name], df[const.avg8_col_name],
+                 # df[const.dt_col_name], df[const.avg8_col_name],
                  # df[const.dt_col_name], df[const.avg6_col_name],
                  # df[const.dt_col_name], df[const.avg7_col_name]
     )
@@ -77,9 +77,9 @@ def draw_one_symbol(symbol_str, start_dt):
 # curr_symbol = const.DOGEUSDT
 # curr_symbol = const.DOTUSDT
 # curr_symbol = const.ETHUSDT
-# curr_symbol = const.LINKUSDT
+curr_symbol = const.LINKUSDT
 # curr_symbol = const.LTCUSDT
-curr_symbol = const.SOLUSDT
+# curr_symbol = const.SOLUSDT
 # curr_symbol = const.SUSHIUSDT
 # curr_symbol = const.TRXUSDT
 # curr_symbol = const.XRPUSDT

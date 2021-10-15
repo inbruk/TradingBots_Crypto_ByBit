@@ -76,8 +76,8 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 15
-const.avg_slow_wnd = 15
+const.avg8_wnd = 3
+const.avg_slow_wnd = 3
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.03
@@ -142,10 +142,11 @@ const.order_type_market = 'Market'
 const.order_side_buy = 'Buy'
 const.order_side_sell = 'Sell'
 
-const.order_time_in_force_good_till_cancel = 'GoodTillCancel'
-const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
 const.order_time_in_force_fill_or_kill = 'FillOrKill'
-const.order_time_in_force_post_only = 'PostOnly'
+# OTHER VALUES NOT WORKS WITH SCALPING !!!
+# const.order_time_in_force_good_till_cancel = 'GoodTillCancel'
+# const.order_time_in_force_immediate_or_cancel = 'ImmediateOrCancel'
+# const.order_time_in_force_post_only = 'PostOnly'
 
 const.max_avg_err_wnd_size = 4
 const.max_avg_error = 0.02

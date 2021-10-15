@@ -91,7 +91,7 @@ def client_order_create(side: str, symbol: str, qty: float, price: float, reduce
     # -------------------------------------------------------------------------------------
 
     order_type: str = const.order_type_limit
-    time_in_force: str = const.order_time_in_force_good_till_cancel
+    time_in_force: str = const.order_time_in_force_fill_or_kill
 
     if side == const.order_side_buy:
         stop_loss: float = round(price * const.order_stop_lost_koef_buy, 4)
