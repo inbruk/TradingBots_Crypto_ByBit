@@ -220,7 +220,13 @@ def client_position_open(side: str, symbol: str, qty_in_usd: float, price: float
         price) + ' )-----------------------------------')
     # -------------------------------------------------------------------------------------
 
-    return client_position_oc(side, symbol, qty_in_usd, price, False)
+    for t in range(0, 5):
+        success, order_id, time_now, qty, qty_in_usd, price = client_position_oc(side, symbol, qty_in_usd, price, False)
+        time.sleep(1)
+        if success:
+            break
+
+    return success, order_id, time_now, qty, qty_in_usd, price
 
 
 def client_position_close(side: str, symbol: str, qty_in_usd: float, price: float):
@@ -236,7 +242,13 @@ def client_position_close(side: str, symbol: str, qty_in_usd: float, price: floa
         price) + ' )----------------------------------')
     # -------------------------------------------------------------------------------------
 
-    return client_position_oc(side, symbol, qty_in_usd, order_price, True)
+    for t in range(0, 5):
+        success, order_id, time_now, qty, qty_in_usd, order_price = client_position_oc(side, symbol, qty_in_usd, order_price, True)
+        time.sleep(1)
+        if success:
+            break
+
+    return success, order_id, time_now, qty, qty_in_usd, order_price
 
 
 def client_position_check(side: str, symbol: str):

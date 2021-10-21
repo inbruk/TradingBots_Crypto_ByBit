@@ -44,9 +44,11 @@ def draw_one_symbol(symbol_str, start_dt):
     fig, axes = plt.subplots(2, 1)
 
     axes[0].plot(df[const.dt_col_name], df[const.value_col_name],
-                 df[const.dt_col_name], df[const.avg8_col_name],
-                 # df[const.dt_col_name], df[const.avg_fast_col_name],
-                 # df[const.dt_col_name], df[const.avg_slow_col_name],
+                 # df[const.dt_col_name], df[const.avg6_col_name],
+                 # df[const.dt_col_name], df[const.avg1_col_name],
+                 # df[const.dt_col_name], df[const.avg8_col_name],
+                 df[const.dt_col_name], df[const.avg_fast_col_name],
+                 df[const.dt_col_name], df[const.avg_slow_col_name],
                  df[const.dt_col_name], df[const.order_col_name],
                  )
     axes[0].set_title('Price')
@@ -54,12 +56,13 @@ def draw_one_symbol(symbol_str, start_dt):
     axes[1].plot(
                  df[const.dt_col_name], df[const.value_col_name],
                  # df[const.dt_col_name], df[const.avg1_col_name],
-                 # df[const.dt_col_name], df[const.avg2_col_name],
-                 # df[const.dt_col_name], df[const.avg3_col_name],
+                 df[const.dt_col_name], df[const.avg2_col_name],
+                 df[const.dt_col_name], df[const.avg3_col_name],
                  # df[const.dt_col_name], df[const.avg4_col_name],
-                 df[const.dt_col_name], df[const.avg8_col_name],
+                 # df[const.dt_col_name], df[const.avg5_col_name],
                  # df[const.dt_col_name], df[const.avg6_col_name],
-                 # df[const.dt_col_name], df[const.avg7_col_name]
+                 # df[const.dt_col_name], df[const.avg7_col_name],
+                 # df[const.dt_col_name], df[const.avg8_col_name],
     )
     axes[1].set_title('avg1441, avg181p, avg31p, avg7p')
 
@@ -75,8 +78,8 @@ def draw_one_symbol(symbol_str, start_dt):
 # curr_symbol = const.BNBUSDT
 # curr_symbol = const.BTCUSDT
 # curr_symbol = const.DOGEUSDT
-curr_symbol = const.DOTUSDT
-# curr_symbol = const.ETHUSDT
+# curr_symbol = const.DOTUSDT
+curr_symbol = const.ETHUSDT
 # curr_symbol = const.LINKUSDT
 # curr_symbol = const.LTCUSDT
 # curr_symbol = const.SOLUSDT

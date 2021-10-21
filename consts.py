@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1634340240  # 1629978501  # 1632261503
+const.START_UTC = 1631836800  # 1629978501  # 1632261503
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -69,7 +69,7 @@ const.ORDERS = 'orders'
 # const.avg7_wnd = 3
 
 const.avg1_wnd = 3  # 0.03 / 15 -> +8.0
-const.avg2_wnd = 3
+const.avg2_wnd = 3  # (12+10+7+3)/4
 const.avg3_wnd = 3
 const.avg4_wnd = 3
 const.avg5_wnd = 3
@@ -77,10 +77,10 @@ const.avg6_wnd = 3
 const.avg7_wnd = 3
 
 const.avg8_wnd = 3
-const.avg_slow_wnd = 3
+const.avg_slow_wnd = 25
 
 const.max_ref_err_slow = 0.01
-const.filter_min_ref_koef = 0.03
+const.filter_min_ref_koef = 0.003
 const.AMA_ER_wnd_size = 255
 
 # 31->63,127->511
@@ -160,14 +160,14 @@ const.select_best_count = 4
 
 const.one_curr_order_amount = 50.0
 
-const.order_stop_lost_koef_buy = 0.9
-const.order_stop_lost_koef_sell = 1.1
+const.order_stop_lost_koef_buy = 0.975
+const.order_stop_lost_koef_sell = 1.025
 
 const.order_take_profit_koef_buy = 1.5
 const.order_take_profit_koef_sell = 0.5
 
-const.order_create_plus_koef_buy = 0.99999
-const.order_create_plus_koef_sell = 1.00001
+const.order_create_plus_koef_buy = 0.999
+const.order_create_plus_koef_sell = 1.001
 
 # |d3+d4| must be > (1% of price per 1 hour) = (1/60)*(price/100) = price * (1/6000))
 # delta calulates per minute
@@ -179,6 +179,6 @@ const.order_create_plus_koef_sell = 1.00001
 const.min_fast_avg_delta = 0.0
 const.min_slow_avg_delta = 0.0
 const.max_backward_prc = 0.0
-
+const.chain_fast_ref_profit = 0.01
 
 

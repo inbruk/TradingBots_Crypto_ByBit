@@ -758,7 +758,7 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
     print('..V1.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg1_col_name, const.avg2_wnd, const.avg2_col_name)
     print('..V2.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg3_wnd, const.avg3_col_name)
@@ -768,15 +768,30 @@ def update_equations_by_symbol(symbol_str):
     print('..V4.', end='')
 
     out_df = average_several_eqs(old_df, out_df,
-                                 [const.avg1_col_name, const.avg2_col_name, const.avg3_col_name, const.avg4_col_name],
+                                 [const.avg1_col_name,
+                                  const.avg2_col_name,
+                                  const.avg3_col_name,
+                                  const.avg4_col_name],
                                  const.avg5_col_name)
     print('..V5.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg5_col_name, const.avg6_wnd, const.avg6_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg6_wnd, const.avg6_col_name)
     print('..V6.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg7_wnd, const.avg7_col_name)
     print('..V7.', end='')
+
+    # out_df = update_eq_sub(old_df, out_df, const.avg5_col_name, const.avg7_col_name, const.avg1_col_name)
+    # print('..V1=V5-V7.', end='')
+    #
+    # out_df = filter_eq_by_min2(old_df, out_df, const.avg1_col_name, const.filter_min_ref_koef, const.avg2_col_name)
+    # print('..V2=FLT_MIN(V1,0.01).', end='')
+    #
+    # # out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg7_wnd, const.avg7_col_name)
+    # # print('..V7=MA(S,V7_WND).', end='')
+    #
+    # out_df = update_eq_add(old_df, out_df, const.avg7_col_name, const.avg2_col_name, const.avg3_col_name)
+    # print('..V3=V7+V2.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg8_wnd, const.avg8_col_name)
     print('..V8.', end='')
