@@ -68,16 +68,16 @@ const.ORDERS = 'orders'
 # const.avg6_wnd = 3
 # const.avg7_wnd = 3
 
-const.avg1_wnd = 3  # 0.03 / 15 -> +8.0
-const.avg2_wnd = 25  # (12+10+7+3)/4
-const.avg3_wnd = 3
-const.avg4_wnd = 3
+const.avg1_wnd = 25  # 0.03 / 15 -> +8.0
+const.avg2_wnd = 30  # (12+10+7+3)/4
+const.avg3_wnd = 35
+const.avg4_wnd = 40
 const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
 const.avg8_wnd = 3
-const.avg_slow_wnd = 25
+const.avg_slow_wnd = 3  # 20v 25 30 35 40
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.003
@@ -178,7 +178,7 @@ const.order_create_plus_koef_sell = 0.9999
 # 0.00005
 const.min_fast_avg_delta = 0.0
 const.min_slow_avg_delta = 0.0
-const.max_backward_prc = 0.9
+const.max_backward_prc = 0.0
 const.chain_fast_ref_profit = 0.025
 
 

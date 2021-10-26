@@ -109,9 +109,9 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
 
                 ref_profit = abs(avg_fast_value - extr_beg) / price
 
-                if backward_koef > const.max_backward_prc or \
-                   (o_buy and delta_fast < 0 and ref_profit > const.chain_fast_ref_profit) or \
-                   (not o_buy and delta_fast > 0 and ref_profit > const.chain_fast_ref_profit):
+                if backward_koef > const.max_backward_prc:  # or \
+                   # (o_buy and delta_fast < 0 and ref_profit > const.chain_fast_ref_profit) or \
+                   # (not o_buy and delta_fast > 0 and ref_profit > const.chain_fast_ref_profit):
                     o_change = True
                     o_now = False
                     return o_now, o_buy, o_change
