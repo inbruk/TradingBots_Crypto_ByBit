@@ -255,7 +255,8 @@ def client_position_close(side: str, symbol: str, qty_in_usd: float, price: floa
         # -------------------------------------------------------------------------------------
         debug_log_write('    try number ' + str(t))
         # -------------------------------------------------------------------------------------
-        success, order_id, time_now, qty, qty_in_usd, order_price = client_position_oc(side, symbol, qty_in_usd, order_price, True)
+        success, order_id, time_now, qty, qty_in_usd, order_price = \
+            client_position_oc(side, symbol, qty_in_usd, order_price, True)
         time.sleep(1)
         if success:
             break
