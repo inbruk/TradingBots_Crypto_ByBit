@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1635120000  # 1629978501  # 1632261503
+const.START_UTC = 1632835669  # 1635120000
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -46,7 +46,7 @@ const.CURRENCIES = [
     const.ICPUSDT,
     const.LINKUSDT,
     const.LTCUSDT,
-    const.MATICUSDT, # error 10001
+    const.MATICUSDT,  # error 10001
     const.SUSHIUSDT,
     const.SOLUSDT,
     const.TRXUSDT,
@@ -54,7 +54,7 @@ const.CURRENCIES = [
     const.XRPUSDT,   # error 10001
     const.XEMUSDT,
     const.XLMUSDT,
-    const.XTZUSDT
+    const.XTZUSDT    # error 130125 orderQty will be truncated to zero
 ]
 
 const.SUFFIX = 'equations'
@@ -68,16 +68,18 @@ const.ORDERS = 'orders'
 # const.avg6_wnd = 3
 # const.avg7_wnd = 3
 
-const.avg1_wnd = 25  # 0.03 / 15 -> +8.0
-const.avg2_wnd = 30  # (12+10+7+3)/4
-const.avg3_wnd = 15
-const.avg4_wnd = 40
+# must be >= 31 ?  if wnd==15 => bad answers from bybit
+
+const.avg1_wnd = 31
+const.avg2_wnd = 127
+const.avg3_wnd = 63
+const.avg4_wnd = 255
 const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 15
-const.avg_slow_wnd = 15  # 20v 25 30 35 40
+const.avg8_wnd = 255
+const.avg_slow_wnd = 255  # 20v 25 30 35 40
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.003
@@ -158,7 +160,7 @@ const.select_best_min_delta_prc = 3
 const.select_best_max_mse_prc = 1.0  # 0.8
 const.select_best_count = 4
 
-const.one_curr_order_amount = 100.0
+const.one_curr_order_amount = 50.0
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
