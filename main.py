@@ -35,8 +35,8 @@ update_orders = False
 currencies = [
     const.AAVEUSDT,   #
     const.ETHUSDT,    #
+    const.LINKUSDT,
     const.SOLUSDT,    #
-    const.SUSHIUSDT,  #
 ]
 
 while 1 == 1:

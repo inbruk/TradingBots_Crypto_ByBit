@@ -90,7 +90,7 @@ def draw_one_symbol(symbol_str, start_dt):
                  # df[const.dt_col_name], df[const.avg6_col_name],
                  # df[const.dt_col_name], df[const.avg1_col_name],
                  # df[const.dt_col_name], df[const.avg8_col_name],
-                 # df[const.dt_col_name], df[const.avg_fast_col_name],
+                 df[const.dt_col_name], df[const.avg_fast_col_name],
                  df[const.dt_col_name], df[const.avg_slow_col_name],
                  df[const.dt_col_name], df[const.order_col_name],
                  )
