@@ -95,8 +95,8 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
                # (not o_buy and delta_slow > 0):  # or \
                # (o_buy and avg_fast_value < avg_slow_value) or \
                # (not o_buy and avg_fast_value > avg_slow_value):
-                # (o_buy and price < avg_fast_value) or \
-                # (not o_buy and price > avg_fast_value):
+               # (o_buy and price < avg_fast_value) or \
+               # (not o_buy and price > avg_fast_value):
                 o_change = True
                 o_now = False
                 return o_now, o_buy, o_change
@@ -368,6 +368,52 @@ def update_eq_order(out_df, ord_df, symbol, qty_in_usd):
     return out_df, ord_df
 
 
+def fill_eq_by_order(out_df, ord_df):
+
+    out_len = out_df[const.dt_col_name].size
+
+    mean_value = out_df[const.value_col_name].mean()
+    min_value = out_df[const.value_col_name].min()
+    max_value = out_df[const.value_col_name].max()
+    min_value_2 = (mean_value + min_value)/2
+    max_value_2 = (mean_value + max_value)/2
+
+    for x in range(0, out_len):
+        out_df.at[x, const.order_col_name] = mean_value
+        out_df.at[x, const.order_profit_col_name] = mean_value
+
+    ord_len = ord_df[const.type_col_name].size
+    last_x = 0
+    for pos in range(0, ord_len):
+        if ord_df.at[pos, const.close_dt_col_name] != 0.0:
+            side = ord_df.at[pos, const.type_col_name]
+            profit = ord_df.at[pos, const.profit_col_name]
+            beg_dt = ord_df.at[pos, const.open_dt_col_name]
+            #  beg_val = ord_df.at[pos, const.open_price_col_name]
+            end_dt = ord_df.at[pos, const.close_dt_col_name]
+            #  end_val = ord_df.at[pos, const.close_price_col_name]
+
+            temp_x = last_x
+            for x in range(last_x, out_len):
+                curr_dt = out_df.at[x, const.dt_col_name]
+                if beg_dt <= curr_dt <= end_dt:
+                    if side == const.order_side_buy:
+                        out_df.at[x, const.order_col_name] = max_value
+                    else:
+                        out_df.at[x, const.order_col_name] = min_value
+
+                    if profit >= 0.0:
+                        out_df.at[x, const.order_profit_col_name] = max_value_2
+                    else:
+                        out_df.at[x, const.order_profit_col_name] = min_value_2
+
+                    temp_x = x
+
+            last_x = temp_x
+
+    return out_df
+
+
 def fill_orders_by_historical_data(symbol_str):
     print('Fill historical orders ' + symbol_str + ' ', end='')
 
@@ -452,6 +498,9 @@ def fill_orders_by_historical_data(symbol_str):
 
     print('..fill historical orders.', end='')
 
+    eq_df = fill_eq_by_order(eq_df, ord_df)
+    print('..fill eq with orders.', end='')
+
     ord_df.to_csv(ord_file_name, index=False, header=True)
     print('..save ord.', end='')
 
@@ -475,6 +524,7 @@ def update_orders_by_symbol(symbol_str, qty_in_usd):
         ord_df = pd.DataFrame(columns=[const.type_col_name,
                                        const.open_ord_id_col_name, const.open_dt_col_name, const.open_price_col_name,
                                        const.close_ord_id_col_name, const.close_dt_col_name, const.close_price_col_name,
+                                       const.extremum_col_name, const.extr_beg_col_name,
                                        const.qty_in_usd_col_name,
                                        const.delta_price_col_name, const.delta_price_prc_col_name,
                                        const.profit_col_name, const.profit_prc_col_name,
@@ -483,6 +533,9 @@ def update_orders_by_symbol(symbol_str, qty_in_usd):
 
     eq_df, ord_df = update_eq_order(eq_df, ord_df, symbol_str, qty_in_usd)
     print('..update ord.', end='')
+
+#    eq_df = fill_eq_by_order(eq_df, ord_df)
+#    print('..fill eq with orders.', end='')
 
     ord_df.to_csv(ord_file_name, index=False, header=True)
     print('..save ord.', end='')

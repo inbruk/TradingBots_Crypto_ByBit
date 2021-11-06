@@ -70,7 +70,7 @@ const.ORDERS = 'orders'
 
 # must be >= 31 ?  if wnd==15 => bad answers from bybit
 
-const.avg1_wnd = 3
+const.avg1_wnd = 127
 const.avg2_wnd = 3
 const.avg3_wnd = 3
 const.avg4_wnd = 3
@@ -78,12 +78,12 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 127
+const.avg8_wnd = 127  # 127
 const.avg_slow_wnd = 127  # 20v 25 30 35 40
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.003
-const.AMA_ER_wnd_size = 255
+const.ER_wnd_size = 127
 
 # 31->63,127->511
 # 63 1023
@@ -112,6 +112,7 @@ const.avg8_col_name = 'avg8'
 const.avg_fast_col_name = 'avg_fast'
 const.avg_slow_col_name = 'avg_slow'
 const.order_col_name = 'order'
+const.order_profit_col_name = 'order_profit'
 
 const.type_col_name = 'type'
 const.open_ord_id_col_name = 'open_ord_id'
@@ -179,7 +180,7 @@ const.order_create_plus_koef_sell = 0.9999
 # 0.000075
 # 0.00005
 const.min_fast_avg_delta = 0.0
-const.min_slow_avg_delta = 0.00005
+const.min_slow_avg_delta = 0.0  # 0.00005
 const.max_backward_prc = 0.1
 const.chain_fast_ref_profit = 0.025
 

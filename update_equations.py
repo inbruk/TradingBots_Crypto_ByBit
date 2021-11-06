@@ -25,7 +25,7 @@ def update_eq_value(in_df, old_df):
                                    const.delta2_col_name, const.avg2_col_name, const.avg3_col_name,
                                    const.avg4_col_name, const.avg5_col_name, const.avg6_col_name,
                                    const.avg7_col_name, const.avg8_col_name, const.avg_slow_col_name,
-                                   const.avg_fast_col_name, const.order_col_name])
+                                   const.avg_fast_col_name, const.order_col_name, const.order_profit_col_name])
 
     for index, item in in_df.iterrows():
         dt = round(item[const.dt_col_name])
@@ -42,7 +42,8 @@ def update_eq_value(in_df, old_df):
         out_df.at[index,const.avg8_col_name] = 0.0,
         out_df.at[index,const.avg_slow_col_name] = 0.0,
         out_df.at[index,const.avg_fast_col_name] = 0.0,
-        out_df.at[index,const.order_col_name] = 0.0
+        out_df.at[index,const.order_col_name] = 0.0,
+        out_df.at[index,const.order_profit_col_name] = 0.0
 
     in_len = in_df[const.dt_col_name].size
     old_len = old_df[const.dt_col_name].size
@@ -310,6 +311,22 @@ def calc_ER(out_df, src_col_name, x, wnd_size):
         return koef
 
 
+def calc_ER_eq(old_df, out_df, src_col_name, dst_col_name):
+
+    out_len = out_df[const.dt_col_name].size
+    old_len = old_df[const.dt_col_name].size
+    if old_len < 1:
+        old_len = 0
+
+    for x in range(0, old_len):
+        out_df.at[x, dst_col_name] = old_df.at[x, dst_col_name]
+
+    for x in range(old_len, out_len):
+        out_df.at[x, dst_col_name] = calc_ER(out_df, src_col_name, x, const.ER_wnd_size)
+
+    return out_df
+
+
 def combine_2eq_by_ER(old_df, out_df, src_fast_col_name, src_slow_col_name, dst_col_name):
 
     out_len = out_df[const.dt_col_name].size
@@ -325,7 +342,7 @@ def combine_2eq_by_ER(old_df, out_df, src_fast_col_name, src_slow_col_name, dst_
         if ref_err < const.max_ref_err_slow:
             out_df.at[x, dst_col_name] = out_df.at[x, src_slow_col_name]
         else:
-            koef_fast = calc_ER(out_df, src_fast_col_name, x, const.AMA_ER_wnd_size)
+            koef_fast = calc_ER(out_df, src_fast_col_name, x, const.ER_wnd_size)
             koef_slow = 1.0 - koef_fast
             out_df.at[x, dst_col_name] = \
                 out_df.at[x, src_fast_col_name] * koef_fast + out_df.at[x, src_slow_col_name] * koef_slow
@@ -716,7 +733,7 @@ def update_equations_by_symbol(symbol_str):
                                        const.delta2_col_name, const.avg2_col_name, const.avg3_col_name,
                                        const.avg4_col_name, const.avg5_col_name, const.avg6_col_name,
                                        const.avg7_col_name, const.avg8_col_name, const.avg_slow_col_name,
-                                       const.avg_fast_col_name, const.order_col_name])
+                                       const.avg_fast_col_name, const.order_col_name, const.order_profit_col_name])
     print('..c.', end='')
 
     out_df = update_eq_value(in_df, old_df)
@@ -758,10 +775,10 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
     print('..V1.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
-    print('..V2.', end='')
+    out_df = calc_ER_eq(old_df, out_df, const.avg1_col_name, const.avg2_col_name)
+    print('..V2=ER(V1).', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg3_wnd, const.avg3_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg3_wnd, const.avg3_col_name)
     print('..V3.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg4_wnd, const.avg4_col_name)
@@ -798,7 +815,6 @@ def update_equations_by_symbol(symbol_str):
     #                               const.avg4_col_name],
     #                              const.avg_slow_col_name)
     print('..AVG_SL.', end='')
-
 
     out_df = update_avg_fast_col(old_df, out_df)
     percents_str = avg_fast_percents_str()
