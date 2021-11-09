@@ -44,7 +44,7 @@ def check_for_extremum_in_wnd(out_df, index):
 
 def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
 
-    # delta1 = out_df.at[x, const.avg1_col_name] - out_df.at[x - 1, const.avg1_col_name]
+    delta1 = out_df.at[x, const.avg1_col_name] - out_df.at[x - 1, const.avg1_col_name]
     # delta2 = out_df.at[x, const.avg2_col_name] - out_df.at[x - 1, const.avg2_col_name]
     # delta3 = out_df.at[x, const.avg3_col_name] - out_df.at[x - 1, const.avg3_col_name]
     # delta4 = out_df.at[x, const.avg4_col_name] - out_df.at[x - 1, const.avg4_col_name]
@@ -69,11 +69,11 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
     if not o_now:
 
         if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
-            if delta_fast > 0 and delta_slow > 0:  # and avg_fast_value >= avg_slow_value:  # and price > avg_fast_value
+            if delta_fast > 0 and delta_slow > 0 and delta1 > 0:  # and avg_fast_value >= avg_slow_value:  # and price > avg_fast_value
                 o_change = True
                 o_now = True
                 o_buy = True
-            if delta_fast < 0 and delta_slow < 0:  # and avg_fast_value <= avg_slow_value:  # and price < avg_fast_value
+            if delta_fast < 0 and delta_slow < 0 and delta1 < 0:  # and avg_fast_value <= avg_slow_value:  # and price < avg_fast_value
                 o_change = True
                 o_now = True
                 o_buy = False
@@ -90,9 +90,9 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
         else:
 
             if (o_buy and extr_beg > avg_fast_value) or \
-               (not o_buy and extr_beg < avg_fast_value):  # or \
-               # (o_buy and delta_slow < 0) or \
-               # (not o_buy and delta_slow > 0):  # or \
+               (not o_buy and extr_beg < avg_fast_value) or \
+               (o_buy and delta_slow < 0) or \
+               (not o_buy and delta_slow > 0):  # or \
                # (o_buy and avg_fast_value < avg_slow_value) or \
                # (not o_buy and avg_fast_value > avg_slow_value):
                # (o_buy and price < avg_fast_value) or \

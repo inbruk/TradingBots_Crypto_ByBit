@@ -1,7 +1,7 @@
 import os
 from pconst import const
 
-const.START_UTC = 1632835669  # 1635120000
+const.START_UTC = 1636244620  # 1635120000
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -13,8 +13,11 @@ const.BCHUSDT    = 'BCHUSDT'
 const.BNBUSDT    = 'BNBUSDT'
 const.BTCUSDT    = 'BTCUSDT'
 const.COMPUSDT   = 'COMPUSDT'
+const.CRVUSDT    = 'CRVUSDT'
+const.DASHUSDT   = 'DASHUSDT'
 const.DOGEUSDT   = 'DOGEUSDT'
 const.DOTUSDT    = 'DOTUSDT'
+const.EOSUSDT    = 'EOSUSDT'
 const.ETCUSDT    = 'ETCUSDT'
 const.ETHUSDT    = 'ETHUSDT'
 const.ICPUSDT    = 'ICPUSDT'
@@ -23,11 +26,13 @@ const.LTCUSDT    = 'LTCUSDT'
 const.MATICUSDT  = 'MATICUSDT'
 const.SUSHIUSDT  = 'SUSHIUSDT'
 const.SOLUSDT    = 'SOLUSDT'
+const.THETAUSDT  = 'THETAUSDT'
 const.TRXUSDT    = 'TRXUSDT'
 const.XRPUSDT    = 'XRPUSDT'
 const.XEMUSDT    = 'XEMUSDT'
 const.XLMUSDT    = 'XLMUSDT'
 const.XTZUSDT    = 'XTZUSDT'
+const.VETUSDT    = 'VETUSDT'
 const.UNIUSDT    = 'UNIUSDT'
 
 const.CURRENCIES = [
@@ -39,8 +44,11 @@ const.CURRENCIES = [
     const.BNBUSDT,
     const.BTCUSDT,   # error 35015 - low profit
     const.COMPUSDT,
+    const.CRVUSDT,
+    const.DASHUSDT,  # error 10001
     const.DOGEUSDT,
     const.DOTUSDT,
+    const.EOSUSDT,
     const.ETCUSDT,
     const.ETHUSDT,
     const.ICPUSDT,
@@ -49,12 +57,15 @@ const.CURRENCIES = [
     const.MATICUSDT,  # error 10001
     const.SUSHIUSDT,
     const.SOLUSDT,
+    const.THETAUSDT,
     const.TRXUSDT,
     const.UNIUSDT,
     const.XRPUSDT,   # error 10001
     const.XEMUSDT,
     const.XLMUSDT,
-    const.XTZUSDT    # error 130125 orderQty will be truncated to zero
+    const.XTZUSDT,   # error 130125 orderQty will be truncated to zero
+    const.XTZUSDT,   # error 130125 orderQty will be truncated to zero
+    const.VETUSDT
 ]
 
 const.SUFFIX = 'equations'
@@ -70,7 +81,7 @@ const.ORDERS = 'orders'
 
 # must be >= 31 ?  if wnd==15 => bad answers from bybit
 
-const.avg1_wnd = 127
+const.avg1_wnd = 7
 const.avg2_wnd = 3
 const.avg3_wnd = 3
 const.avg4_wnd = 3
@@ -78,12 +89,12 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 127  # 127
+const.avg8_wnd = 31  # 127
 const.avg_slow_wnd = 127  # 20v 25 30 35 40
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.003
-const.ER_wnd_size = 127
+const.ER_wnd_size = 511
 
 # 31->63,127->511
 # 63 1023
@@ -161,7 +172,7 @@ const.select_best_min_delta_prc = 3
 const.select_best_max_mse_prc = 1.0  # 0.8
 const.select_best_count = 4
 
-const.one_curr_order_amount = 50.0
+const.one_curr_order_amount = 40.0
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
@@ -179,9 +190,9 @@ const.order_create_plus_koef_sell = 0.9999
 # 0.0003
 # 0.000075
 # 0.00005
-const.min_fast_avg_delta = 0.0
-const.min_slow_avg_delta = 0.0  # 0.00005
-const.max_backward_prc = 0.1
+const.min_fast_avg_delta = 0.0001  # 0.0003
+const.min_slow_avg_delta = 0.00001
+const.max_backward_prc = 0.0  # 0.1
 const.chain_fast_ref_profit = 0.025
 
 

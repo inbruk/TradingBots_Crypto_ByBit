@@ -34,9 +34,14 @@ update_orders = False
 
 currencies = [
     # const.AAVEUSDT,   #
-    const.ETHUSDT,    #
+    # const.ETHUSDT,    #
     # const.LINKUSDT,   #
     # const.SOLUSDT,    #
+    # -------------------
+    const.LTCUSDT,
+    const.ETCUSDT,
+    const.ADAUSDT,
+    const.BCHUSDT,
 ]
 
 while 1 == 1:

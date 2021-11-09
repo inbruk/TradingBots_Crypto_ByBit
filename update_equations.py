@@ -775,10 +775,11 @@ def update_equations_by_symbol(symbol_str):
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg1_wnd, const.avg1_col_name)
     print('..V1.', end='')
 
-    out_df = calc_ER_eq(old_df, out_df, const.avg1_col_name, const.avg2_col_name)
-    print('..V2=ER(V1).', end='')
+    # out_df = calc_ER_eq(old_df, out_df, const.value_col_name, const.avg2_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg2_wnd, const.avg2_col_name)
+    print('..V2.', end='')
 
-    out_df = update_eq_avg(old_df, out_df, const.avg2_col_name, const.avg3_wnd, const.avg3_col_name)
+    out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg3_wnd, const.avg3_col_name)
     print('..V3.', end='')
 
     out_df = update_eq_avg(old_df, out_df, const.value_col_name, const.avg4_wnd, const.avg4_col_name)
