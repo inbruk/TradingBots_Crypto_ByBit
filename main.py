@@ -30,18 +30,15 @@ def get_next_minute_utc():
     return n_utc
 
 
-update_orders = False
+update_orders = True
 
 currencies = [
-    # const.AAVEUSDT,   #
-    # const.ETHUSDT,    #
-    # const.LINKUSDT,   #
-    # const.SOLUSDT,    #
-    # -------------------
     const.LTCUSDT,
-    const.ETCUSDT,
-    const.ADAUSDT,
+    const.FTMUSDT,
     const.BCHUSDT,
+    const.ETCUSDT,
+    const.AVAXUSDT,
+    const.EOSUSDT,
 ]
 
 while 1 == 1:

@@ -20,10 +20,13 @@ const.DOTUSDT    = 'DOTUSDT'
 const.EOSUSDT    = 'EOSUSDT'
 const.ETCUSDT    = 'ETCUSDT'
 const.ETHUSDT    = 'ETHUSDT'
+const.FILUSDT    = 'FILUSDT'
+const.FTMUSDT    = 'FTMUSDT'
 const.ICPUSDT    = 'ICPUSDT'
 const.LINKUSDT   = 'LINKUSDT'
 const.LTCUSDT    = 'LTCUSDT'
 const.MATICUSDT  = 'MATICUSDT'
+const.NEARUSDT   = 'NEARUSDT'
 const.SUSHIUSDT  = 'SUSHIUSDT'
 const.SOLUSDT    = 'SOLUSDT'
 const.THETAUSDT  = 'THETAUSDT'
@@ -51,10 +54,13 @@ const.CURRENCIES = [
     const.EOSUSDT,
     const.ETCUSDT,
     const.ETHUSDT,
+    const.FILUSDT,   # low profit on std params
+    const.FTMUSDT,
     const.ICPUSDT,
     const.LINKUSDT,
     const.LTCUSDT,
     const.MATICUSDT,  # error 10001
+    const.NEARUSDT,   # low profit on std params
     const.SUSHIUSDT,
     const.SOLUSDT,
     const.THETAUSDT,
@@ -172,7 +178,7 @@ const.select_best_min_delta_prc = 3
 const.select_best_max_mse_prc = 1.0  # 0.8
 const.select_best_count = 4
 
-const.one_curr_order_amount = 40.0
+const.one_curr_order_amount = 50.0
 
 const.order_stop_lost_koef_buy = 0.975
 const.order_stop_lost_koef_sell = 1.025
