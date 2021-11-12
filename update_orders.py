@@ -69,11 +69,11 @@ def check_order_open_close(out_df, x, o_now, o_buy, beg_value, ord_df):
     if not o_now:
 
         if abs(delta_slow) > slow_koef and abs(delta_fast) > fast_koef:
-            if delta_fast > 0 and delta_slow > 0 and delta1 > 0:  # and avg_fast_value >= avg_slow_value:  # and price > avg_fast_value
+            if delta_fast > 0 and delta_slow > 0:  # and avg_fast_value >= avg_slow_value:  # and price > avg_fast_value
                 o_change = True
                 o_now = True
                 o_buy = True
-            if delta_fast < 0 and delta_slow < 0 and delta1 < 0:  # and avg_fast_value <= avg_slow_value:  # and price < avg_fast_value
+            if delta_fast < 0 and delta_slow < 0:  # and avg_fast_value <= avg_slow_value:  # and price < avg_fast_value
                 o_change = True
                 o_now = True
                 o_buy = False

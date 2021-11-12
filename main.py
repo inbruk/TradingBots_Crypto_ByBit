@@ -33,12 +33,12 @@ def get_next_minute_utc():
 update_orders = True
 
 currencies = [
+    const.ETHUSDT,
+    const.SHIB1000USDT,
     const.LTCUSDT,
-    const.FTMUSDT,
-    const.BCHUSDT,
-    const.ETCUSDT,
-    const.AVAXUSDT,
-    const.EOSUSDT,
+    const.BITUSDT,
+    const.LINKUSDT,
+    const.DOTUSDT,
 ]
 
 while 1 == 1:
