@@ -34,11 +34,10 @@ update_orders = True
 
 currencies = [
     const.ETHUSDT,
-    const.SHIB1000USDT,
-    const.LTCUSDT,
-    const.BITUSDT,
-    const.LINKUSDT,
-    const.DOTUSDT,
+    # const.SHIB1000USDT,
+    # const.LTCUSDT,
+    # const.LINKUSDT,
+    # const.DOTUSDT,
 ]
 
 while 1 == 1:
