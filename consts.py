@@ -1,7 +1,8 @@
 import os
 from pconst import const
 
-const.START_UTC = 1636532012
+const.START_UTC = 1670278054
+# 1636532012
 
 const.TIME_FORMAT = '%Y-%m-%d %H:%M:%S'
 
@@ -108,8 +109,8 @@ const.avg5_wnd = 3
 const.avg6_wnd = 3
 const.avg7_wnd = 3
 
-const.avg8_wnd = 127
-const.avg_slow_wnd = 127  # 20v 25 30 35 40
+const.avg8_wnd = 240
+const.avg_slow_wnd = 960  # 20v 25 30 35 40
 
 const.max_ref_err_slow = 0.01
 const.filter_min_ref_koef = 0.003
