@@ -33,9 +33,9 @@ def get_prev_minute_utc():
     return curr_utc
 
 
-def get_values_and_update_cache(symbol_str):
+def get_values_and_update_cache_by_min(symbol_str):
 
-    print('Loaded to cache ' + symbol_str + ' ...', end='')
+    print('Loaded to cache by minutes ' + symbol_str + ' ...', end='')
 
     df = load_values_from_cache(symbol_str)
     if len(df) > 0:
@@ -60,6 +60,30 @@ def get_values_and_update_cache(symbol_str):
     print(' Complete!')
 
 
+def get_values_and_update_cache_by_day(symbol_str):
 
+    print('Loaded to cache by days ' + symbol_str + ' ...', end='')
+
+    df = load_values_from_cache(symbol_str)
+    if len(df) > 0:
+        current_start_utc = round(df['dt'].max())
+    else:
+       current_start_utc = const.START_UTC
+
+    curr_utc = get_prev_minute_utc()
+    while 1 == 1:
+        new_df = client_load_month_prices(symbol_str, current_start_utc)
+        df = df.append(new_df, ignore_index=True)
+        df.drop_duplicates(subset='dt', keep='first', inplace=True)
+        current_end_utc = round(df['dt'].max())
+        if current_end_utc >= curr_utc:
+            break
+        else:
+            current_start_utc = round(current_end_utc)
+
+    filename = get_cache_filename(symbol_str)
+    df.to_csv(filename, index=False, header=True)
+
+    print(' Complete!')
 
 

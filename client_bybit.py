@@ -60,6 +60,36 @@ def client_load_hour_prices(symbol_str, begin_utc):
     return df
 
 
+def client_load_month_prices(symbol_str, begin_utc):
+    begin_utc_int = round(begin_utc)
+
+    req = requests.get(
+        const.PUBLIC_API_ORDER_KLINE,
+        {
+            'symbol': symbol_str,
+            'interval': 'D',
+            'from': begin_utc_int,
+            'limit': 30
+        }
+    )
+
+    if req.ok:
+        df = pd.DataFrame(columns=['dt', 'open', 'high', 'low', 'close', 'volume', 'turnover'])
+        json_data = json.loads(req.text)
+        json_rows = json_data['result']
+
+        # remove last day value, because it is not completed
+        json_rows = json_rows[:-1]
+
+        for item in json_rows:
+            dt = round(item['open_time'])
+            new_row = {'dt': dt, 'open': item['open'], 'high': item['high'], 'low': item['low'],
+                       'close': item['close'], 'volume': item['volume'], 'turnover': item['turnover']}
+            df = df.append(new_row, ignore_index=True)
+
+    return df
+
+
 def client_calculate_sign(params):
     params_str = ''
     for key in sorted(params.keys()):
