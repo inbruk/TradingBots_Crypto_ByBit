@@ -32,6 +32,12 @@ def get_prev_minute_utc():
     curr_utc = curr_datetime.timestamp()
     return curr_utc
 
+def get_prev_day_utc():
+    curr_datetime = datetime.datetime.now()
+    curr_datetime = datetime.datetime(curr_datetime.year, curr_datetime.month, curr_datetime.day, 0, 0, 0)
+    curr_datetime = curr_datetime - datetime.timedelta(days=1)
+    curr_utc = curr_datetime.timestamp()
+    return curr_utc
 
 def get_values_and_update_cache_by_min(symbol_str):
 
@@ -70,7 +76,7 @@ def get_values_and_update_cache_by_day(symbol_str):
     else:
        current_start_utc = const.START_UTC
 
-    curr_utc = get_prev_minute_utc()
+    curr_utc = get_prev_day_utc()
     while 1 == 1:
         new_df = client_load_month_prices(symbol_str, current_start_utc)
         df = df.append(new_df, ignore_index=True)
